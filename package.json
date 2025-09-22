@@ -12,7 +12,6 @@
     "buffer": "^6.0.3",
     "next": "15.5.3",
     "pdf-tables-parser": "^1.0.6",
-    "pdfjs-dist": "^5.4.149",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
