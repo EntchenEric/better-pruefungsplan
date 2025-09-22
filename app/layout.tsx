@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Better Prüfungsplan",
-  description: "A better exam schedule viewer with enhanced functionality",
+  description: "Besser lesbarer Prüfungsplan für Informatik an der W-HS",
 };
 
 export default function RootLayout({
