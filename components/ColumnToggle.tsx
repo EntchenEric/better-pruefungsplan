@@ -38,7 +38,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
               />
               <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${
                 hiddenCols[key]
-                  ? "border-secondary-400 bg-theme"
+                  ? "border-secondary-400"
                   : "border-primary bg-primary"
               }`}>
                 {!hiddenCols[key] && (

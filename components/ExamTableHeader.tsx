@@ -86,7 +86,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                   aria-label={`Filter für ${label}`}
                   spellCheck={false}
                   autoComplete="off"
-                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-secondary-400 rounded-md bg-theme shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-secondary-500"
+                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-secondary-400 rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-secondary-500"
                 />
                 {columnFilters[key] && (
                   <button
