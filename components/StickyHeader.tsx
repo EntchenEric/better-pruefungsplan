@@ -24,7 +24,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="text-center mb-4">
           <h1 className="text-3xl font-bold text-theme-inverse mb-2 tracking-wide">
-            📅 Better Prüfungsplan
+            📅 Better Prüfungsplan - Stand September/Oktober 2025
           </h1>
           <div className="h-1 w-32 bg-gradient-to-r from-primary-300 to-primary-200 mx-auto rounded-full"></div>
         </div>

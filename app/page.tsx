@@ -3,6 +3,7 @@ import ExamScheduleViewer from "@/components/ExamScheduleViewer";
 
 export default function Home() {
   return (
+
     <div className="font-sans min-h-screen">
       <Suspense fallback={<div className="flex justify-center items-center min-h-screen"><div className="text-lg">Loading...</div></div>}>
         <ExamScheduleViewer />
