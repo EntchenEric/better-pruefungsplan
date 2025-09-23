@@ -23,7 +23,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     <header className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary-600 to-primary shadow-lg border-b-2 border-primary-700">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="text-center mb-4">
-          <h1 className="text-3xl font-bold text-black-inverse mb-2 tracking-wide">
+          <h1 className="text-3xl font-bold text-white mb-2 tracking-wide">
             📅 Better Prüfungsplan - Stand September/Oktober 2025
           </h1>
           <div className="h-1 w-32 bg-gradient-to-r from-primary-300 to-primary-200 mx-auto rounded-full"></div>
@@ -31,7 +31,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
           <div className="backdrop-blur-sm rounded-lg p-3 border border-theme/20">
-            <h3 className="text-sm font-semibold text-black-inverse mb-2 flex items-center">
+            <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
               <span className="mr-2">👁️</span>
               Spalten verwalten
             </h3>
@@ -42,7 +42,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
           </div>
 
           <div className="backdrop-blur-sm rounded-lg p-3 border border-theme/20">
-            <h3 className="text-sm font-semibold text-black-inverse mb-2 flex items-center">
+            <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
               <span className="mr-2">🔍</span>
               Globale Suche
             </h3>

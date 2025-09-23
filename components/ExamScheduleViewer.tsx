@@ -69,7 +69,7 @@ const ExamScheduleViewer = () => {
       </div>
       
       <div className="p-4 max-w-6xl mx-auto font-sans box-border mt-4">
-        <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-400 max-h-[480px] overflow-y-auto">
+        <div className="overflow-x-auto rounded-lg shadow-md border border-theme max-h-[480px] overflow-y-auto bg-theme">
         <table
           className="w-full min-w-[900px] border-collapse table-fixed user-select-none"
           role="grid"
@@ -90,7 +90,7 @@ const ExamScheduleViewer = () => {
         </table>
         </div>
 
-        <div className="mt-5 text-center text-black-secondary italic text-base select-none">
+        <div className="mt-5 text-center text-theme-secondary italic text-base select-none">
           Gefundene Einträge: {filteredEntries.length} / {entries.length}
         </div>
       </div>
