@@ -22,7 +22,7 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
               TABLE_HEADERS.length -
               Object.values(hiddenCols).filter(Boolean).length
             }
-            className="p-7 text-center italic text-theme-muted text-base"
+            className="p-7 text-center italic text-black-muted text-base"
             role="row"
           >
             Keine Einträge gefunden.
@@ -47,7 +47,7 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
               <td
                 key={`${idx}-${key}`}
                 data-label={key}
-                className="p-2 text-sm text-theme-primary whitespace-nowrap overflow-hidden text-ellipsis"
+                className="p-2 text-sm text-black-primary whitespace-nowrap overflow-hidden text-ellipsis"
                 style={{
                   width: colWidths[key],
                   minWidth: MIN_COLUMN_WIDTH,

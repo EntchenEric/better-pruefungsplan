@@ -90,7 +90,7 @@ const ExamScheduleViewer = () => {
         </table>
         </div>
 
-        <div className="mt-5 text-center text-theme-secondary italic text-base select-none">
+        <div className="mt-5 text-center text-black-secondary italic text-base select-none">
           Gefundene Einträge: {filteredEntries.length} / {entries.length}
         </div>
       </div>

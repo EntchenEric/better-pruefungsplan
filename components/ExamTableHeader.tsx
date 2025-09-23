@@ -19,7 +19,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 }) => {
   return (
     <thead>
-      <tr className="bg-primary text-theme-inverse text-sm select-none sticky top-0 
+      <tr className="bg-primary text-black-inverse text-sm select-none sticky top-0 
                z-10 shadow-sm border-b border-accent-light/20">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
@@ -44,7 +44,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
             >
               <div className="relative flex items-center h-full">
                 <span className="flex-grow pointer-events-none select-none truncate
-                          text-theme-inverse/90 group-hover:text-theme-inverse
+                          text-black-inverse/90 group-hover:text-black-inverse
                           font-medium tracking-wider
                           transition-colors duration-200">
                   {label}
@@ -91,7 +91,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 {columnFilters[key] && (
                   <button
                     onClick={() => onColumnFilterChange(key, "")}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-theme-muted hover:text-error transition-colors"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-black-muted hover:text-error transition-colors"
                     aria-label={`Clear filter for ${label}`}
                   >
                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
