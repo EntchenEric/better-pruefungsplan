@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 
@@ -24,7 +24,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   const startX = useRef<number>(0);
   const startWidth = useRef<number>(0);
 
-  const onMouseMove = (e: MouseEvent) => {
+  const onMouseMove = useCallback((e: MouseEvent) => {
     if (!resizingCol.current) return;
 
     e.preventDefault();
@@ -35,15 +35,24 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
     if (newWidth < MIN_COLUMN_WIDTH) newWidth = MIN_COLUMN_WIDTH;
 
     setColWidths(resizingCol.current, newWidth);
-  };
+  }, [setColWidths]);
 
-  const onMouseUp = () => {
+  const onMouseUp = useCallback(() => {
     resizingCol.current = null;
     window.removeEventListener("mousemove", onMouseMove);
     window.removeEventListener("mouseup", onMouseUp);
     document.body.style.cursor = "";
     document.body.style.userSelect = "";
-  };
+  }, [onMouseMove]);
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
+  }, [onMouseMove, onMouseUp])
 
   const onMouseDownResizer =
     (key: string) =>
@@ -109,14 +118,10 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 <div
                   role="separator"
                   aria-orientation="vertical"
-                  tabIndex={0}
                   className="absolute top-0 right-0 w-[6px] h-full cursor-col-resize z-30 touch-none"
                   onMouseDown={onMouseDownResizer(key)}
                 />
 
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white
-                         transform scale-x-0 group-hover:scale-x-100
-                         transition-transform duration-300 ease-out" />
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white
                          transform scale-x-0 group-hover:scale-x-100
                          transition-transform duration-300 ease-out" />

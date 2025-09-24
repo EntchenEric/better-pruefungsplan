@@ -1,5 +1,5 @@
 import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
-import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
+import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 
 export const encodeColumnFilters = (filters: ColumnFilters): string => {
   const activeFilters = Object.entries(filters).filter(([_, value]) => value.trim() !== "");
@@ -72,7 +72,19 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
 
   try {
     const decoded = JSON.parse(atob(encodedWidths));
-    return { ...DEFAULT_COLUMN_WIDTHS, ...decoded };
+    const merged = { ...DEFAULT_COLUMN_WIDTHS, ...decoded };
+    const allowed = new Set(TABLE_HEADERS.map(h => h.key));
+    const sanitized = Object.fromEntries(
+      Object.entries(merged)
+        //@ts-ignore
+        .filter(([k]) => allowed.has(k as string))
+        .map(([k, v]) => {
+          const n = Math.floor(Number(v));
+          const clamped = Math.max(MIN_COLUMN_WIDTH, n);
+          return [k, Number.isFinite(clamped) ? clamped : DEFAULT_COLUMN_WIDTHS[k]];
+        })
+    ) as ColumnWidths;
+    return sanitized;
   } catch (error) {
     console.warn("Failed to decode column widths from URL:", error);
     return DEFAULT_COLUMN_WIDTHS
