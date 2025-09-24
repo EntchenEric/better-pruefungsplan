@@ -7,7 +7,7 @@ import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 interface ExamTableHeaderProps {
   hiddenCols: ColumnVisibility;
   colWidths: ColumnWidths;
-  setColWidths: React.Dispatch<React.SetStateAction<ColumnWidths>>,
+  setColWidths: (key: string, value: number) => void,
   columnFilters: ColumnFilters;
   onColumnFilterChange: (key: string, value: string) => void;
 }
@@ -34,10 +34,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
     if (newWidth < MIN_COLUMN_WIDTH) newWidth = MIN_COLUMN_WIDTH;
 
-    setColWidths(prev => ({
-      ...prev,
-      [resizingCol.current!]: newWidth,
-    }));
+    setColWidths(resizingCol.current, newWidth);
   };
 
   const onMouseUp = () => {

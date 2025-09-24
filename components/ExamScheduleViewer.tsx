@@ -17,9 +17,11 @@ const ExamScheduleViewer = () => {
     globalSearch,
     columnFilters,
     hiddenCols,
+    colWidths,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
+    handleColumnWidthChange
   } = useUrlSync();
 
 
@@ -37,9 +39,6 @@ const ExamScheduleViewer = () => {
   }, []);
 
   const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters);
-
-  const [columnWidths, setColumnWidths] = useState(DEFAULT_COLUMN_WIDTHS)
-
 
   return (
     <>
@@ -61,15 +60,15 @@ const ExamScheduleViewer = () => {
         >
           <ExamTableHeader
             hiddenCols={hiddenCols}
-            colWidths={columnWidths}
-            setColWidths={setColumnWidths}
+            colWidths={colWidths}
+            setColWidths={handleColumnWidthChange}
             columnFilters={columnFilters}
             onColumnFilterChange={handleColumnFilterChange}
           />
           <ExamTableBody
             entries={filteredEntries}
             hiddenCols={hiddenCols}
-            colWidths={columnWidths}
+            colWidths={colWidths}
           />
         </table>
         </div>
