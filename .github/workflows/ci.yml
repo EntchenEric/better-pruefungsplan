@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run dev server and check if it starts successfully
+        # Start npm run dev in background and wait 10 seconds to see if it crashes immediately.
+        # If the command exits with error immediately, this step will fail.
+        # Then kill the process after waiting.
+        shell: bash
+        run: |
+          npm run dev &
+          DEV_PID=$!
+          echo "Dev server PID is $DEV_PID"
+          sleep 10
+
+          # Check if process is still running (exit code 0 means it's running)
+          if ps -p $DEV_PID > /dev/null; then
+            echo "Dev server started successfully."
+            kill $DEV_PID
+            wait $DEV_PID || true
+          else
+            echo "Dev server crashed or exited prematurely."
+            exit 1
+          fi        
