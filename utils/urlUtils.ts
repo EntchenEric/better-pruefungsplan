@@ -76,7 +76,7 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
     const allowed = new Set(TABLE_HEADERS.map(h => h.key));
     const sanitized = Object.fromEntries(
       Object.entries(merged)
-        //@ts-ignore
+        //@ts-expect-error Would be too much of a Workaround to type this correctly. For cleaner Code just expect ts error.
         .filter(([k]) => allowed.has(k as string))
         .map(([k, v]) => {
           const n = Math.floor(Number(v));
