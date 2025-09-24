@@ -13,7 +13,7 @@ export const TABLE_HEADERS: TableHeader[] = [
   { key: "pruefer", label: "Prüfer" },
 ];
 
-export const MIN_COLUMN_WIDTH = 60;
+export const MIN_COLUMN_WIDTH = 20;
 export const DEFAULT_COLUMN_WIDTH = 140;
 
 export const DEFAULT_COLUMN_WIDTHS: ColumnWidths = {
