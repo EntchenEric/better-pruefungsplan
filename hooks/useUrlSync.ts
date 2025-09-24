@@ -2,11 +2,12 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { ColumnFilters, ColumnVisibility } from "@/types/exam";
+import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
 import {
   decodeColumnFilters,
   decodeColumnVisibility,
   createSearchParams,
+  decodeColumnWidths,
 } from "@/utils/urlUtils";
 
 export const useUrlSync = () => {
@@ -28,16 +29,23 @@ export const useUrlSync = () => {
     return decodeColumnVisibility(encodedVisibility || "");
   });
 
+  const [colWidths, setColWidths] = useState<ColumnWidths>(() => {
+    const encodedWidths = searchParams.get("widths");
+    return decodeColumnWidths(encodedWidths || "");
+  })
+
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,
       newColumnFilters: ColumnFilters,
-      newHiddenCols: ColumnVisibility
+      newHiddenCols: ColumnVisibility,
+      newColumnWidths: ColumnWidths,
     ) => {
       const params = createSearchParams(
         newGlobalSearch,
         newColumnFilters,
-        newHiddenCols
+        newHiddenCols,
+        newColumnWidths,
       );
 
       const newUrl = params.toString()
@@ -51,11 +59,11 @@ export const useUrlSync = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      updateUrl(globalSearch, columnFilters, hiddenCols);
+      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths);
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [globalSearch, columnFilters, hiddenCols, updateUrl]);
+  }, [globalSearch, columnFilters, hiddenCols, colWidths, updateUrl]);
 
   const handleGlobalSearchChange = useCallback((value: string) => {
     setGlobalSearch(value);
@@ -72,12 +80,18 @@ export const useUrlSync = () => {
     }));
   }, []);
 
+  const handleColumnWidthChange = useCallback((key: string, value: number) => {
+    setColWidths((prev) => ({ ...prev, [key]: value }));
+  }, [])
+
   return {
     globalSearch,
     columnFilters,
     hiddenCols,
+    colWidths,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
+    handleColumnWidthChange,
   };
 };

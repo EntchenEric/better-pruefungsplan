@@ -1,10 +1,13 @@
-import React from "react";
+"use client"
+
+import React, { useCallback, useEffect, useRef } from "react";
 import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 
 interface ExamTableHeaderProps {
   hiddenCols: ColumnVisibility;
   colWidths: ColumnWidths;
+  setColWidths: (key: string, value: number) => void,
   columnFilters: ColumnFilters;
   onColumnFilterChange: (key: string, value: string) => void;
 }
@@ -12,9 +15,74 @@ interface ExamTableHeaderProps {
 export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   hiddenCols,
   colWidths,
+  setColWidths,
   columnFilters,
   onColumnFilterChange,
 }) => {
+
+  const resizingCol = useRef<string | null>(null);
+  const startX = useRef<number>(0);
+  const startWidth = useRef<number>(0);
+
+  const onMouseMove = useCallback((e: MouseEvent) => {
+    if (!resizingCol.current) return;
+
+    e.preventDefault();
+
+    const deltaX = e.clientX - startX.current;
+    let newWidth = startWidth.current + deltaX;
+
+    if (newWidth < MIN_COLUMN_WIDTH) newWidth = MIN_COLUMN_WIDTH;
+
+    setColWidths(resizingCol.current, newWidth);
+  }, [setColWidths]);
+
+  const onMouseUp = useCallback(() => {
+    resizingCol.current = null;
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("mouseup", onMouseUp);
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  }, [onMouseMove]);
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
+  }, [onMouseMove, onMouseUp])
+
+  const onMouseDownResizer =
+    (key: string) =>
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        resizingCol.current = key;
+        startX.current = e.clientX;
+
+        let currentWidthPx: number;
+        if (typeof colWidths[key] === "number") {
+          currentWidthPx = colWidths[key];
+        } else if (
+          typeof colWidths[key] === "string" &&
+          typeof (colWidths[key] as string).endsWith === "function" &&
+          (colWidths[key] as string).endsWith("px")
+        ) {
+          currentWidthPx = parseInt(colWidths[key] as string);
+        } else {
+          currentWidthPx = MIN_COLUMN_WIDTH;
+        }
+
+        startWidth.current = currentWidthPx;
+
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+
+        document.body.style.cursor = "col-resize";
+        document.body.style.userSelect = "none";
+      };
+
   return (
     <thead>
       <tr className="bg-primary text-primary-text text-sm select-none sticky top-0
@@ -29,23 +97,30 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                    bg-primary
                    border-r border-border-light last:border-r-0
                    font-semibold text-left whitespace-nowrap overflow-hidden
-                   h-12 px-4 py-3
+                   h-12
                    transition-all duration-200 ease-in-out hover:shadow-lg
                    text-sm tracking-wide uppercase letter-spacing-wide"
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
-                maxWidth: 500,
                 boxSizing: "border-box",
               }}
             >
               <div className="relative flex items-center h-full">
                 <span className="flex-grow pointer-events-none select-none truncate
+                px-4 py-3
                           text-primary-text opacity-90 group-hover:opacity-100
                           font-medium tracking-wider
                           transition-colors duration-200">
                   {label}
                 </span>
+
+                <div
+                  role="separator"
+                  aria-orientation="vertical"
+                  className="absolute top-0 right-0 w-[6px] h-full cursor-col-resize z-30 touch-none"
+                  onMouseDown={onMouseDownResizer(key)}
+                />
 
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white
                          transform scale-x-0 group-hover:scale-x-100
@@ -65,7 +140,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
-                maxWidth: 500,
                 boxSizing: "border-box",
               }}
             >
