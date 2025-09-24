@@ -1,7 +1,8 @@
 name: Feature Request
 description: Schlage eine neue Funktion oder Verbesserung vor.
 title: "[Feature] "
-labels: 'enhancement'
+labels: 
+  - enhancement
 body:
   - type: textarea
     id: summary
@@ -19,7 +20,6 @@ body:
       description: Falls es bereits ein passendes Issue/Pull Request gibt, beteilige dich bitte dort anstatt ein neues zu erstellen.
       options:
         - label: Ja, ich habe gesucht und kein passendes Issue/Pull Request gefunden.
-    validations:
       required: true
 
   - type: textarea
@@ -105,7 +105,7 @@ body:
     attributes:
       label: Mockups/Skizzen (optional)
       description: Füge Bilder/Skizzen hinzu, um die Idee zu verdeutlichen.
-      placeholder: Klicke auf das Feld und nutze die Option "Paste, drop or click to add files".
+      placeholder: Klicke hier und füge Dateien per Einfügen, Drag & Drop oder Klick hinzu.
     validations:
       required: false
 

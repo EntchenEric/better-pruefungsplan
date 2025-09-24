@@ -8,6 +8,7 @@ body:
     attributes:
       value: |
         Danke fürs Melden! Bitte fülle die folgenden Felder so vollständig wie möglich aus.
+        Hinweis: Poste keine sensiblen Daten (Passwörter, Tokens, personenbezogene Daten) in Issues oder Logs.
 
   - type: textarea
     id: description
@@ -91,6 +92,13 @@ body:
         Browser: Chrome 127 / Firefox 128
         Weitere Details:
 
+  - type: input
+    id: version
+    attributes:
+      label: Version/Commit (falls bekannt)
+      description: z. B. Version 1.2.3, Git-Commit (Kurz-SHA) oder Build-Nummer
+      placeholder: "z. B. v1.2.3 oder 1a2b3c4"
+
   - type: textarea
     id: logs
     attributes:
@@ -105,7 +113,7 @@ body:
     attributes:
       label: Screenshots oder Aufnahmen (optional)
       description: Füge Screenshots oder kurze Screen-Recordings hinzu.
-      placeholder: Klicke hier und nutze "Paste, drop or click to add files".
+      placeholder: placeholder: Klicke hier und füge Dateien per Einfügen, Drag & Drop oder Klick hinzu.
 
   - type: textarea
     id: workaround
