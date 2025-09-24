@@ -8,6 +8,7 @@ import path from "node:path";
 type Item = { text: string; x: number; y: number };
 
 async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mod: any = await import("pdfreader"); // CJS module
     const { PdfReader } = mod.PdfReader ?? mod.default?.PdfReader;
     if (!PdfReader) {
@@ -16,6 +17,7 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
     return new Promise((resolve, reject) => {
         const pages: Item[][] = [];
         let curr: Item[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
             if (err) return reject(err);
             if (!item) {
@@ -103,7 +105,7 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
     const headers: string[] = [];
 
     for (const xPos of headerXPositions) {
-        let combinedTextParts: string[] = [];
+        const combinedTextParts: string[] = [];
 
         for (const row of headerRows) {
             const textsAtX = row.filter(i => Math.abs(i.x - xPos) < 0.7).map(i => i.text.trim());
@@ -119,7 +121,7 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
 
     const lastHeaderY = headerRows[headerRows.length - 1]?.[0]?.y ?? -Infinity;
 
-    let dataLines: Item[][] = [];
+    const dataLines: Item[][] = [];
 
     for (const page of pages) {
         const pageDataItems = page.filter(i => i.y > lastHeaderY + 0.01);
@@ -139,7 +141,8 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
         line.sort((a, b) => a.x - b.x);
 
         const occupiedSlots = new Set<number>();
-        let entry: any = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const entry: any = {};
         headers.forEach(h => (entry[h] = ""));
 
         const colWidths: number[] = [];
