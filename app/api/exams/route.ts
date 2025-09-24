@@ -229,7 +229,6 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
         entries.push(entry as ExamEntry);
     }
 
-    console.log(entries)
     return entries;
 }
 
