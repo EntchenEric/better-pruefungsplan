@@ -1,0 +1,133 @@
+name: Bug Report
+description: Melde einen Bug, den du gefunden hast.
+title: "[Bug]: Kurze, prägnante Zusammenfassung"
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Melden! Bitte fülle die folgenden Felder so vollständig wie möglich aus.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung des Bugs
+      description: Eine klare, kurze Beschreibung des Bugs.
+      placeholder: Kurze Zusammenfassung, was nicht funktioniert.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: Duplikate geprüft?
+      description: Bitte prüfe, ob es bereits ein bestehendes Issue oder einen PR zu diesem Bug gibt.
+      options:
+        - label: Ich habe nach Duplikaten gesucht und nichts Passendes gefunden.
+          required: true
+
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Schritte zum Reproduzieren
+      description: Liste die Schritte auf, um den Bug auszulösen.
+      value: |
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Erwartetes Verhalten
+      description: Was hast du erwartet, was passieren sollte?
+      placeholder: Beschreibe das erwartete Ergebnis.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Tatsächliches Verhalten
+      description: Was ist stattdessen passiert?
+      placeholder: Beschreibe das tatsächliche Ergebnis inkl. Fehlermeldungen.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: Reproduzierbarkeit
+      description: Wie häufig tritt der Bug auf?
+      options:
+        - Immer
+        - Häufig
+        - Gelegentlich
+        - Selten
+        - Einmalig
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Auswirkung
+      description: Wie stark beeinträchtigt der Bug die Nutzung?
+      options:
+        - Kritisch (Crash/Datenverlust)
+        - Hoch (Blocker ohne Workaround)
+        - Mittel (funktionale Einschränkung)
+        - Niedrig (kosmetisch/klein)
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Umgebung
+      description: Betriebssystem, Browser/Runtime, Architektur, Versionsangaben etc.
+      placeholder: |
+        OS: Windows 11 / macOS 14.5 / Ubuntu 22.04
+        Browser: Chrome 127 / Firefox 128
+        Weitere Details:
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevante Logs/Stacktraces (optional)
+      description: Füge relevante Logausgaben oder Fehlermeldungen ein, falls du welche hast.
+      render: shell
+      placeholder: |
+        Füge Logs hier ein oder lade sie als Datei hoch.
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots oder Aufnahmen (optional)
+      description: Füge Screenshots oder kurze Screen-Recordings hinzu.
+      placeholder: Klicke hier und nutze "Paste, drop or click to add files".
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Bekannter Workaround
+      description: Gibt es einen temporären Workaround?
+      placeholder: Beschreibe einen vorläufigen Fix, falls vorhanden.
+
+  - type: input
+    id: related
+    attributes:
+      label: Verwandte Issues/PRs
+      description: Verlinke ggf. verwandte Issues oder Pull Requests.
+      placeholder: z. B. #123, #456
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Weitere Hinweise
+      description: Alles weitere, das beim Debuggen helfen könnte.
+
+  - type: markdown
+    attributes:
+      value: |
+        Tipp: Achte auf einen prägnanten Titel, der diesen Bug gut zusammenfasst.
