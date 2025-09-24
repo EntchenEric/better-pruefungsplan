@@ -55,7 +55,7 @@ const ExamScheduleViewer = () => {
       <div className="p-4 max-w-6xl mx-auto font-sans box-border mt-4">
         <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-text max-h-[480px] overflow-y-auto">
         <table
-          className="w-full border-collapse table-fixed user-select-none"
+          className="w-full border-collapse table-fixed user-select-none select-none"
           role="grid"
           aria-label="Prüfungsplan Tabelle"
         >
