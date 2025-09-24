@@ -7,10 +7,12 @@ import path from "node:path";
 
 type Item = { text: string; x: number; y: number };
 
+const HEADERS = 28
+
 async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mod: any = await import("pdfreader"); // CJS module
-    const { PdfReader } = mod.PdfReader ?? mod.default?.PdfReader;
+    const { PdfReader } = mod;
     if (!PdfReader) {
         throw new Error('Failed to load PdfReader from "pdfreader" (CJS interop)');
     }
@@ -62,6 +64,9 @@ const isNumberInSet = (s: string, set: number[]) =>
     !isNaN(Number(s)) && set.includes(Number(s));
 const isTwoCharsOrSprachenzentrum = (s: string) =>
     s.length === 2 || s === "Sprachenzentrum";
+const isSemester = (s: string) => {
+    return ["1", "2", "3", "4", "5", "6", "7", "8", "WP", "WP-IN", "WP-L", "WP-LE"].includes(s);
+}
 
 function validateField(fieldName: string, value: string): boolean {
     switch (fieldName) {
@@ -85,15 +90,41 @@ function validateField(fieldName: string, value: string): boolean {
             return value.length > 3 && isNaN(Number(value));
         case "pruefer":
             return isTwoCharsOrSprachenzentrum(value) && isNaN(Number(value));
+        case "pruefer_name":
+            return value.indexOf(" ") > -1 && value.length >= 5;
+        case "zweitpruefer":
+            return isTwoCharsOrSprachenzentrum(value) && isNaN(Number(value));
+        case "b_m":
+            return value === "B" || value === "M";
+        case "raeume":
+            return value.length >= 4 && value.indexOf(".") > -1 && isNaN(Number(value))
+        case "beisitzer":
+            return value.length > 3 && isNaN(Number(value))
+        case "pi_ba":
+        case "ti_ba":
+        case "mi_ba":
+        case "wi_ba":
+        case "pi_ba_dual":
+        case "ti_ba_dual":
+        case "mi_ba_dual":
+        case "wi_ba_dual":
+        case "pi_ma":
+        case "ti_ma":
+        case "mi_ma":
+        case "wi_ma":
+        case "is_ma":
+            return isSemester(value)
         default:
             return true;
     }
 }
 
+const centerAlignedFields = new Set(["lp", "pruefungsdauer"]);
+
 const parsePdf = (pages: Item[][]): ExamEntry[] => {
     const entries: ExamEntry[] = []
 
-    const headerRows = groupByY(pages[0].slice(0, 10));
+    const headerRows = groupByY(pages[0].slice(0, HEADERS));
     const headerXPositionsSet = new Set<number>();
     for (const row of headerRows) {
         for (const item of row) {
@@ -118,15 +149,16 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
         headers.push(combinedTextParts.join(" ").trim());
     }
 
-
     const lastHeaderY = headerRows[headerRows.length - 1]?.[0]?.y ?? -Infinity;
 
     const dataLines: Item[][] = [];
 
     for (const page of pages) {
         const pageDataItems = page.filter(i => i.y > lastHeaderY + 0.01);
-        dataLines.push(...groupByY(pageDataItems, 0.5));
+        dataLines.push(...groupByY(pageDataItems, 0.02));
     }
+
+
 
     const colWidths: number[] = [];
     for (let i = 0; i < headerXPositions.length; i++) {
@@ -160,13 +192,18 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
         }));
 
         for (const item of line) {
+
             const allColsSortedByDistance = headers
                 .map((_, i) => i)
-                .sort(
-                    (a, b) =>
-                        Math.abs(item.x - (boundaries[a].left + colWidths[a] / 2)) -
-                        Math.abs(item.x - (boundaries[b].left + colWidths[b] / 2))
-                );
+                .sort((a, b) => {
+                    const fieldA = headers[a];
+                    const fieldB = headers[b];
+
+                    const refXA = boundaries[a].left + (centerAlignedFields.has(fieldA) ? colWidths[a] / 2 : 0);
+                    const refXB = boundaries[b].left + (centerAlignedFields.has(fieldB) ? colWidths[b] / 2 : 0);
+
+                    return Math.abs(item.x - refXA) - Math.abs(item.x - refXB);
+                });
 
             let assignedIndex: number | null = null;
             const triedFields: string[] = [];
@@ -195,9 +232,58 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
     return entries;
 }
 
+const mergePages = (pages: Item[][]): Item[][] => {
+    if (pages.length <= 5) {
+        // No merging needed
+        return pages;
+    }
+
+    const MAX_Y_DIFF = 0.01;
+
+    const half = Math.floor(pages.length / 2);
+    const firstHalf = pages.slice(0, half);
+
+    const secondHalf = pages.slice(half).map(page =>
+        page.map(item => ({
+            ...item,
+            x: item.x + 100,
+        }))
+    );
+
+    const mergedPages: Item[][] = [];
+
+    const maxPairs = Math.min(firstHalf.length, secondHalf.length);
+
+    for (let i = 0; i < maxPairs; i++) {
+        const mergedItems: Item[] = [];
+        const combinedItems = [...firstHalf[i], ...secondHalf[i]].sort((a, b) => a.y - b.y);
+
+        let currentGroupY = combinedItems[0]?.y ?? 0;
+        let currentGroup: Item[] = [];
+
+        for (const item of combinedItems) {
+            if (Math.abs(item.y - currentGroupY) <= MAX_Y_DIFF) {
+                currentGroup.push(item);
+            } else {
+                mergedItems.push(...currentGroup);
+
+                currentGroupY = item.y;
+                currentGroup = [item];
+            }
+        }
+
+        mergedItems.push(...currentGroup);
+        mergedPages.push(mergedItems);
+    }
+
+    return mergedPages;
+};
+
 export async function GET() {
     const buffer = await fs.readFile(path.join(process.cwd(), "public", "pruefungsplan.pdf"));
     const pages = await readPdfItems(buffer);
-    const parsed = parsePdf(pages.splice(0, 3));
+    const mergedPages = mergePages(pages);
+    console.log(mergedPages)
+    const parsed = parsePdf(mergedPages);
     return NextResponse.json({ entries: parsed });
 }
