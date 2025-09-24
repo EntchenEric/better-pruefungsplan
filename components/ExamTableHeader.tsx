@@ -94,7 +94,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
-                maxWidth: 500,
                 boxSizing: "border-box",
               }}
             >
@@ -136,7 +135,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
-                maxWidth: 500,
                 boxSizing: "border-box",
               }}
             >

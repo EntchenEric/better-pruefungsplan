@@ -51,7 +51,6 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
                 style={{
                   width: colWidths[key],
                   minWidth: MIN_COLUMN_WIDTH,
-                  maxWidth: 500,
                   boxSizing: "border-box",
                 }}
                 title={entry[key]}
