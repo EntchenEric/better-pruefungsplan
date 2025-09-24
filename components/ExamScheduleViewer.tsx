@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { ExamEntry } from "@/types/exam";
-import { parseExamSchedulePDF } from "@/utils/pdfParser";
-import { DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
 import { useExamFiltering } from "@/hooks/useExamFiltering";
 import { useUrlSync } from "@/hooks/useUrlSync";
 import { StickyHeader } from "./StickyHeader";
@@ -28,8 +26,14 @@ const ExamScheduleViewer = () => {
   useEffect(() => {
     const fetchAndParseData = async () => {
       try {
-        const parsedEntries = await parseExamSchedulePDF();
-        setEntries(parsedEntries);
+        const ac = new AbortController();
+        const response = await fetch("/api/exams", { signal: ac.signal, cache: "no-store" })
+        if (!response.ok) {
+          throw Error("Error loading pdf.")
+        }
+        const data = await response.json();
+        setEntries(data.entries);
+        return () => ac.abort();
       } catch (error) {
         console.error("Error parsing PDF:", error);
       }
