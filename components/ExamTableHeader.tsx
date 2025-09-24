@@ -7,7 +7,6 @@ interface ExamTableHeaderProps {
   colWidths: ColumnWidths;
   columnFilters: ColumnFilters;
   onColumnFilterChange: (key: string, value: string) => void;
-  stickyHeaderHeight: number;
 }
 
 export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
@@ -15,12 +14,11 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   colWidths,
   columnFilters,
   onColumnFilterChange,
-  stickyHeaderHeight,
 }) => {
   return (
     <thead>
-      <tr className="bg-primary text-black-inverse text-sm select-none sticky top-0 
-               z-10 shadow-sm border-b border-accent-light/20">
+      <tr className="bg-primary text-white text-sm select-none sticky top-0 
+               z-10 shadow-sm border-b border-primary">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
             <th
@@ -28,12 +26,11 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
               scope="col"
               aria-colindex={TABLE_HEADERS.findIndex((h) => h.key === key) + 1}
               className="sticky z-20 group
-                   bg-gradient-to-b from-white/5 to-transparent
-                   border-r border-accent-light/10 last:border-r-0
+                   bg-primary
+                   border-r border-white/10 last:border-r-0
                    font-semibold text-left whitespace-nowrap overflow-hidden
                    h-12 px-4 py-3
-                   transition-all duration-200 ease-in-out
-                   hover:bg-white/10 hover:shadow-lg
+                   transition-all duration-200 ease-in-out hover:shadow-lg
                    text-sm tracking-wide uppercase letter-spacing-wide"
               style={{
                 width: colWidths[key],
@@ -44,14 +41,13 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
             >
               <div className="relative flex items-center h-full">
                 <span className="flex-grow pointer-events-none select-none truncate
-                          text-black-inverse/90 group-hover:text-black-inverse
+                          text-white/90 group-hover:text-white
                           font-medium tracking-wider
                           transition-colors duration-200">
                   {label}
                 </span>
 
-                <div className="absolute bottom-0 left-0 w-full h-0.5 
-                         bg-gradient-to-r from-accent-light via-accent to-accent-light/50
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white
                          transform scale-x-0 group-hover:scale-x-100
                          transition-transform duration-300 ease-out" />
               </div>
@@ -60,12 +56,12 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
         )}
       </tr>
 
-      <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-white">
+      <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
             <th
               key={`filter-${key}`}
-              className="border-b-2 border-secondary-400 text-left whitespace-nowrap p-2"
+              className="border-b-2 border-border text-left whitespace-nowrap p-2"
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
@@ -86,12 +82,12 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                   aria-label={`Filter für ${label}`}
                   spellCheck={false}
                   autoComplete="off"
-                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-secondary-400 rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-secondary-500"
+                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-border rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-border-light"
                 />
                 {columnFilters[key] && (
                   <button
                     onClick={() => onColumnFilterChange(key, "")}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-black-muted hover:text-error transition-colors"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
                     aria-label={`Clear filter for ${label}`}
                   >
                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

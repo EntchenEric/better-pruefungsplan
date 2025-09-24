@@ -45,7 +45,7 @@ export const ShareUrlButton: React.FC = () => {
     <div className="relative">
       <button
         onClick={handleShareUrl}
-        className="bg-primary/80 hover:bg-primary border border-primary/30 text-white font-medium px-4 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 flex items-center gap-2 text-sm"
+        className="bg-secondary hover:bg-secondary-200 border text-secondary-text font-medium px-4 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer"
         aria-label="Share current URL with filters"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@ export const ShareUrlButton: React.FC = () => {
       </button>
       
       {showToast && (
-        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-success text-white px-3 py-1 rounded-md text-sm whitespace-nowrap shadow-lg">
+        <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-3 py-1 rounded-md text-sm whitespace-nowrap shadow-lg">
           URL in Zwischenablage kopiert!
         </div>
       )}

@@ -24,7 +24,6 @@ const ExamScheduleViewer = () => {
 
 
   const stickyHeaderRef = useRef<HTMLDivElement>(null);
-  const [stickyHeaderHeight, setStickyHeaderHeight] = useState<number>(0);
 
   useEffect(() => {
     const fetchAndParseData = async () => {
@@ -37,21 +36,6 @@ const ExamScheduleViewer = () => {
     };
 
     fetchAndParseData();
-  }, []);
-
-  useEffect(() => {
-    const updateStickyHeaderHeight = () => {
-      if (stickyHeaderRef.current) {
-        setStickyHeaderHeight(stickyHeaderRef.current.offsetHeight);
-      }
-    };
-
-    updateStickyHeaderHeight();
-    window.addEventListener('resize', updateStickyHeaderHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateStickyHeaderHeight);
-    };
   }, []);
 
   const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters);
@@ -69,9 +53,9 @@ const ExamScheduleViewer = () => {
       </div>
       
       <div className="p-4 max-w-6xl mx-auto font-sans box-border mt-4">
-        <div className="overflow-x-auto rounded-lg shadow-md border border-theme max-h-[480px] overflow-y-auto bg-theme">
+        <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-text max-h-[480px] overflow-y-auto">
         <table
-          className="w-full min-w-[900px] border-collapse table-fixed user-select-none"
+          className="w-full border-collapse table-fixed user-select-none"
           role="grid"
           aria-label="Prüfungsplan Tabelle"
         >
@@ -80,7 +64,6 @@ const ExamScheduleViewer = () => {
             colWidths={DEFAULT_COLUMN_WIDTHS}
             columnFilters={columnFilters}
             onColumnFilterChange={handleColumnFilterChange}
-            stickyHeaderHeight={stickyHeaderHeight}
           />
           <ExamTableBody
             entries={filteredEntries}
@@ -90,7 +73,7 @@ const ExamScheduleViewer = () => {
         </table>
         </div>
 
-        <div className="mt-5 text-center text-theme-secondary italic text-base select-none">
+        <div className="mt-5 text-center text-secondary-text italic text-base select-none">
           Gefundene Einträge: {filteredEntries.length} / {entries.length}
         </div>
       </div>
