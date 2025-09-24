@@ -25,7 +25,8 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
             key={`toggle-${key}`}
             className={`flex items-center gap-2 cursor-pointer px-3 py-2 
               rounded-lg transition-all duration-200 font-medium 
-              text-sm hover:shadow-sm text-secondary-text 
+              text-sm hover:shadow-sm text-secondary-text focus-visible:outline
+              focus-visible:outline-offset-2 focus-visible:outline-primary
               bg-secondary hover:bg-secondary-200
             }`}
           >

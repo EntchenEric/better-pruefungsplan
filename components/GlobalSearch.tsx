@@ -25,13 +25,14 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
           aria-label="Globale Suche"
           spellCheck={false}
           autoComplete="off"
-          className="w-full pl-9 pr-4 py-2 text-sm border border-secondary-text rounded-lg backdrop-blur-sm text-secondary-text placeholder-secondary-text transition-all duration-200 focus:outline-none focus:border-secondary-text"
+          className="w-full pl-9 pr-4 py-2 text-sm border border-secondary-text rounded-lg backdrop-blur-sm text-secondary-text placeholder-secondary-text transition-all duration-200 focus:outline-none focus:border-secondary-text focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
         />
       </div>
       {globalSearch && (
         <button
+          type="button"
           onClick={() => onGlobalSearchChange("")}
-          aria-label="Clear global search"
+          aria-label="Globale Suche löschen"
           className="hover:bg-red-500/80 border border-white/30 hover:border-red-500 text-white font-medium px-3 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 flex items-center gap-1 text-sm"
         >
           <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

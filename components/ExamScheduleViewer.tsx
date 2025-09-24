@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { ExamEntry } from "@/types/exam";
 import { parseExamSchedulePDF } from "@/utils/pdfParser";
 import { DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
@@ -23,8 +23,6 @@ const ExamScheduleViewer = () => {
   } = useUrlSync();
 
 
-  const stickyHeaderRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const fetchAndParseData = async () => {
       try {
@@ -43,7 +41,7 @@ const ExamScheduleViewer = () => {
 
   return (
     <>
-      <div ref={stickyHeaderRef}>
+      <div>
         <StickyHeader
           hiddenCols={hiddenCols}
           onToggleColumn={handleToggleColumnVisibility}

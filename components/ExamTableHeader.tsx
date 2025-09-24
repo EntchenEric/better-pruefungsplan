@@ -17,17 +17,17 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 }) => {
   return (
     <thead>
-      <tr className="bg-primary text-white text-sm select-none sticky top-0 
+      <tr className="bg-primary text-primary-text text-sm select-none sticky top-0
                z-10 shadow-sm border-b border-primary">
-        {TABLE_HEADERS.map(({ key, label }) =>
+        {TABLE_HEADERS.map(({ key, label }, index) =>
           hiddenCols[key] ? null : (
             <th
               key={`header-${key}`}
               scope="col"
-              aria-colindex={TABLE_HEADERS.findIndex((h) => h.key === key) + 1}
-              className="sticky z-20 group
+              aria-colindex={index + 1}
+              className="z-20 group
                    bg-primary
-                   border-r border-white/10 last:border-r-0
+                   border-r border-border-light last:border-r-0
                    font-semibold text-left whitespace-nowrap overflow-hidden
                    h-12 px-4 py-3
                    transition-all duration-200 ease-in-out hover:shadow-lg
@@ -41,7 +41,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
             >
               <div className="relative flex items-center h-full">
                 <span className="flex-grow pointer-events-none select-none truncate
-                          text-white/90 group-hover:text-white
+                          text-primary-text opacity-90 group-hover:opacity-100
                           font-medium tracking-wider
                           transition-colors duration-200">
                   {label}
@@ -71,7 +71,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
             >
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                  <svg className="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-3 w-3 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z" />
                   </svg>
                 </div>
