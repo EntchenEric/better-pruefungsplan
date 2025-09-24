@@ -9,7 +9,10 @@ type Item = { text: string; x: number; y: number };
 
 async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
     const mod: any = await import("pdfreader"); // CJS module
-    const { PdfReader } = mod;
+    const { PdfReader } = mod.PdfReader ?? mod.default?.PdfReader;
+    if (!PdfReader) {
+        throw new Error('Failed to load PdfReader from "pdfreader" (CJS interop)');
+    }
     return new Promise((resolve, reject) => {
         const pages: Item[][] = [];
         let curr: Item[] = [];
@@ -114,15 +117,14 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
     }
 
 
-    const lastHeaderY = headerRows[headerRows.length - 1][0].y;
+    const lastHeaderY = headerRows[headerRows.length - 1]?.[0]?.y ?? -Infinity;
 
     let dataLines: Item[][] = [];
 
-    pages.forEach(page => {
+    for (const page of pages) {
         const pageDataItems = page.filter(i => i.y > lastHeaderY + 0.01);
-
-        dataLines.push(...groupByY(pageDataItems));
-    });
+        dataLines.push(...groupByY(pageDataItems, 0.5));
+    }
 
     const colWidths: number[] = [];
     for (let i = 0; i < headerXPositions.length; i++) {

@@ -26,12 +26,14 @@ const ExamScheduleViewer = () => {
   useEffect(() => {
     const fetchAndParseData = async () => {
       try {
-        const response = await fetch("/api/exams")
+        const ac = new AbortController();
+        const response = await fetch("/api/exams", { signal: ac.signal, cache: "no-store" })
         if (!response.ok) {
           throw Error("Error loading pdf.")
         }
         const data = await response.json();
         setEntries(data.entries);
+        return () => ac.abort();
       } catch (error) {
         console.error("Error parsing PDF:", error);
       }
