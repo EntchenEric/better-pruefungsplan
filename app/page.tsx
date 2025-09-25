@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import ExamScheduleViewer from "@/components/ExamScheduleViewer";
 
-const InfoCards = () => {
+async function InfoCards() {
   return (
     <>
       <div className="px-6 py-8 text-center max-w-xl mx-auto w-full">
@@ -139,8 +139,8 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <InfoCards />
         </div>
+        <InfoCards />
       </div>
     </div>
   );

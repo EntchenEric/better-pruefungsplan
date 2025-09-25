@@ -34,7 +34,7 @@ export const SemesterSelect = ({
     <div>
       <select
         value={selectedSemester ?? ""}
-        onChange={(e) => setSelectedSemester(e.target.value || undefined)}
+        onChange={handleSelect}
         className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 

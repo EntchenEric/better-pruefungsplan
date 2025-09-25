@@ -38,7 +38,7 @@ const ExamScheduleViewer = () => {
      * @async
      * @returns {Promise<void>} Resolves when fetching/parsing completes or errors out.
      */
-    const fetchAndParseData = async () => {
+    const fetchAndParseData = async (): Promise<void>  => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", {

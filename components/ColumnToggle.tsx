@@ -58,7 +58,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                 <input
                   type="checkbox"
                   checked={!hiddenCols[key]}
-                  onChange={() => onToggleColumn(key)}
+                  onChange={handleColumnToggle}
                   className="sr-only"
                 />
                 <div
