@@ -52,7 +52,7 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
     <tbody>
       {entries.map((entry, idx) => (
         <tr
-          key={idx}
+          key={entry.mid}
           tabIndex={0}
           aria-rowindex={idx + 1}
           className={`${
@@ -62,7 +62,7 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
           {TABLE_HEADERS.map(({ key }) =>
             hiddenCols[key] ? null : (
               <td
-                key={`${idx}-${key}`}
+                key={`${entry.mid}-${key}`}
                 data-label={key}
                 className="p-2 text-sm text-secondary-text whitespace-nowrap overflow-hidden text-ellipsis"
                 style={{
