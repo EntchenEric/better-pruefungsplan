@@ -62,12 +62,12 @@ Deine Unterstützung macht das Projekt besser! So kannst du mitmachen:
 
 ## 📄 Lizenz
 
-Dieses Projkt unterliegt der 0BSD Lizenz. Mehr Informationen findest du in [LICENCE](/LICENCE).
+Dieses Projekt unterliegt der 0BSD Lizenz. Mehr Informationen findest du in [LICENCE](/LICENCE).
 
 ## Support
 
 **Issues**: https://github.com/EntchenEric/better-pruefungsplan/issues
-**Discussion**:https://github.com/EntchenEric/better-pruefungsplan/discussions
+**Discussion**: https://github.com/EntchenEric/better-pruefungsplan/discussions
 
 ---
 
