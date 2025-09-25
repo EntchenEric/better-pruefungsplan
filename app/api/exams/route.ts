@@ -91,13 +91,13 @@ function validateField(fieldName: string, value: string): boolean {
         case "pruefer":
             return isTwoCharsOrSprachenzentrum(value) && isNaN(Number(value));
         case "pruefer_name":
-            return value.indexOf(" ") > -1 && value.length >= 5;
+            return value.includes(" ") && value.length >= 5;
         case "zweitpruefer":
             return isTwoCharsOrSprachenzentrum(value) && isNaN(Number(value));
         case "b_m":
             return value === "B" || value === "M";
         case "raeume":
-            return value.length >= 4 && value.indexOf(".") > -1 && isNaN(Number(value))
+            return value.length >= 4 && value.includes(".") && isNaN(Number(value))
         case "beisitzer":
             return value.length > 3 && isNaN(Number(value))
         case "pi_ba":
