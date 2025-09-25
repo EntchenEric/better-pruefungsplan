@@ -1,5 +1,5 @@
 import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
-import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
+import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH, COURSES, SEMESTERS } from "@/config/tableConfig";
 
 export const encodeColumnFilters = (filters: ColumnFilters): string => {
   const activeFilters = Object.entries(filters).filter(([_, value]) => value.trim() !== "");
@@ -91,11 +91,21 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   }
 }
 
+export const isCourse = (s: string): boolean => {
+  return COURSES.some(c => c.key === s);
+}
+
+export const isSemester = (v: string): boolean => {
+  return SEMESTERS.some(s => s.key === v);
+}
+
 export const createSearchParams = (
   globalSearch: string,
   columnFilters: ColumnFilters,
   hiddenCols: ColumnVisibility,
   newColumnWidths: ColumnWidths,
+  selectedCourse: string | undefined,
+  selectedSemester: string | undefined,
 ): URLSearchParams => {
   const params = new URLSearchParams();
 
@@ -116,6 +126,14 @@ export const createSearchParams = (
   const encodedWidths = encodeColumnWidths(newColumnWidths);
   if (encodedWidths) {
     params.set("widths", encodedWidths);
+  }
+
+  if (selectedCourse && isCourse(selectedCourse)) {
+    params.set("course", selectedCourse);
+  }
+
+  if (selectedSemester && isSemester(selectedSemester)) {
+    params.set("semester", selectedSemester)
   }
 
   return params;

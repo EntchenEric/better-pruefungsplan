@@ -8,6 +8,8 @@ import {
   decodeColumnVisibility,
   createSearchParams,
   decodeColumnWidths,
+  isCourse,
+  isSemester,
 } from "@/utils/urlUtils";
 
 export const useUrlSync = () => {
@@ -34,18 +36,34 @@ export const useUrlSync = () => {
     return decodeColumnWidths(encodedWidths || "");
   })
 
+  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
+    const v = searchParams.get("course") || undefined;
+    return v && isCourse(v) ? v : undefined;
+
+  })
+
+  const [selectedSemester, setSelectedSemester] = useState<string | undefined>(() => {
+    const v = searchParams.get("semester") || undefined;
+    return v && isSemester(v) ? v : undefined;
+
+  })
+
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,
       newColumnFilters: ColumnFilters,
       newHiddenCols: ColumnVisibility,
       newColumnWidths: ColumnWidths,
+      selectedCourse: string | undefined,
+      selectedSemester: string | undefined,
     ) => {
       const params = createSearchParams(
         newGlobalSearch,
         newColumnFilters,
         newHiddenCols,
         newColumnWidths,
+        selectedCourse,
+        selectedSemester
       );
 
       const newUrl = params.toString()
@@ -59,11 +77,11 @@ export const useUrlSync = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths);
+      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse, selectedSemester);
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [globalSearch, columnFilters, hiddenCols, colWidths, updateUrl]);
+  }, [globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse, selectedSemester, updateUrl]);
 
   const handleGlobalSearchChange = useCallback((value: string) => {
     setGlobalSearch(value);
@@ -89,9 +107,13 @@ export const useUrlSync = () => {
     columnFilters,
     hiddenCols,
     colWidths,
+    selectedCourse,
+    selectedSemester,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
     handleColumnWidthChange,
+    setSelectedCourse,
+    setSelectedSemester,
   };
 };
