@@ -8,6 +8,8 @@ import {
   decodeColumnVisibility,
   createSearchParams,
   decodeColumnWidths,
+  isCourse,
+  isSemester,
 } from "@/utils/urlUtils";
 
 export const useUrlSync = () => {
@@ -35,11 +37,15 @@ export const useUrlSync = () => {
   })
 
   const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
-    return searchParams.get("course") || undefined
+    const v = searchParams.get("course") || undefined;
+    return v && isCourse(v) ? v : undefined;
+
   })
 
   const [selectedSemester, setSelectedSemester] = useState<string | undefined>(() => {
-    return searchParams.get("semester") || undefined
+    const v = searchParams.get("semester") || undefined;
+    return v && isSemester(v) ? v : undefined;
+
   })
 
   const updateUrl = useCallback(

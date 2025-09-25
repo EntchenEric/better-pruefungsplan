@@ -1,5 +1,5 @@
 import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
-import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
+import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH, COURSES, SEMESTERS } from "@/config/tableConfig";
 
 export const encodeColumnFilters = (filters: ColumnFilters): string => {
   const activeFilters = Object.entries(filters).filter(([_, value]) => value.trim() !== "");
@@ -92,36 +92,11 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
 }
 
 export const isCourse = (s: string): boolean => {
-  return ["pi_ba",
-    "ti_ba",
-    "wi_ba",
-    "pi_ba_dual",
-    "ti_ba_dual",
-    "mi_ba_dual",
-    "wi_ba_dual",
-    "pi_ma",
-    "ti_ma",
-    "mi_ma",
-    "wi_ma",
-    "is_ma"].includes(s)
+  return COURSES.some(c => c.key === s);
 }
 
-export const isSemester = (s: string): boolean => {
-  return [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "WP",
-    "WP-I",
-    "WP-IN",
-    "WP-L",
-    "WP-LE"
-  ].includes(s);
+export const isSemester = (v: string): boolean => {
+  return SEMESTERS.some(s => s.key === v);
 }
 
 export const createSearchParams = (

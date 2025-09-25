@@ -1,4 +1,4 @@
-import { COURSES, SEMESTERS } from "@/config/tableConfig"
+import { SEMESTERS } from "@/config/tableConfig"
 
 export const SemesterSelect = ({
     selectedSemester,
@@ -10,8 +10,8 @@ export const SemesterSelect = ({
   return (
     <div>
       <select
-        value={selectedSemester}
-        onChange={(e) => setSelectedSemester(e.target.value)}
+        value={selectedSemester ?? ""}
+        onChange={(e) => setSelectedSemester(e.target.value || undefined)}
         className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 
@@ -19,7 +19,7 @@ export const SemesterSelect = ({
           transition-colors duration-300 ease-in-out cursor-pointer
           "
       >
-        <option>Alle Semester</option>
+        <option value="">Alle Semester</option>
         {SEMESTERS.map((semester) => (
           <option key={semester.key} value={semester.key}>
             {semester.label}

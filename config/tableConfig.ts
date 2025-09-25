@@ -42,7 +42,7 @@ export const SEMESTERS = [
   {key: "5", label: "5"},
   {key: "6", label: "6"},
   {key: "7", label: "7"},
-  //{key: "8", label: "8"},
+  //{key: "8", label: "8"}, // Unsure if there is a 8th semester.
   {key: "WP", label: "Wahlpflicht"},
   {key: "WP-I", label: "Wahlpflicht Informatik Master"},
   {key: "WP-IN", label: "Wahlpflicht Informatik Bachelor"},

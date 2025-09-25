@@ -23,7 +23,7 @@ const ExamScheduleViewer = () => {
     handleToggleColumnVisibility,
     handleColumnWidthChange,
     setSelectedCourse,
-    setSelectedSemester
+    setSelectedSemester,
   } = useUrlSync();
 
 
