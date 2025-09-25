@@ -2,12 +2,28 @@ import React from "react";
 import { ExamEntry, ColumnWidths, ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 
+/**
+ * Represents the props of the ExamTableBody.
+ */
 interface ExamTableBodyProps {
+  /**
+   * The Entries from the Exam Schedule Table.
+   */
   entries: ExamEntry[];
+  /**
+   * The Columns that are hidden from the Exam Schedule Table.
+   */
   hiddenCols: ColumnVisibility;
+  /**
+   * The widths of the Columns in the Exam Schedule Table.
+   */
   colWidths: ColumnWidths;
 }
 
+/**
+ * Represents the Exam Table Body
+ * @returns the ExamTableBody as a React Component.
+ */
 export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
   entries,
   hiddenCols,

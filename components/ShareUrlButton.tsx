@@ -2,6 +2,10 @@
 
 import React, { useState } from "react";
 
+/**
+ * The Share URL Button.
+ * @returns The Share URL Button as a React Component.
+ */
 export const ShareUrlButton: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
 

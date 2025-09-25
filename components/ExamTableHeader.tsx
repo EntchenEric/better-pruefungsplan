@@ -4,14 +4,43 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 
+/**
+ * Represents the props of the Exam Tabe Header.
+ */
 interface ExamTableHeaderProps {
+  /**
+   * The Columns that are hidden from the Table-
+   */
   hiddenCols: ColumnVisibility;
+  /**
+   * The widths of the Columns.
+   */
   colWidths: ColumnWidths;
+  /**
+   * The callback that is called when the width of a Column is changed.
+   * @param key The key of the column to change.
+   * @param value The new width of the coulm.
+   * @returns void
+   */
   setColWidths: (key: string, value: number) => void;
+  /**
+   * The active filters to filter the columns.
+   */
   columnFilters: ColumnFilters;
+  /**
+   * The callback that is called when a Filter should be changed.
+   * @param key The key of the column whose filter should be changed.
+   * @param value The value of the Filter.
+   * @returns void
+   */
   onColumnFilterChange: (key: string, value: string) => void;
 }
 
+/**
+ * The Exam Table Header component-
+ * @param params the Parameters from the Exam Table Header-
+ * @returns The Exam Table HEader as a React Component.
+ */
 export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   hiddenCols,
   colWidths,

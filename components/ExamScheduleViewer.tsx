@@ -8,6 +8,11 @@ import { StickyHeader } from "./StickyHeader";
 import { ExamTableHeader } from "./ExamTableHeader";
 import { ExamTableBody } from "./ExamTableBody";
 
+/**
+ * Represents the ExamScheduleViewer that is the main Component containing the Table and the Filters
+ * used to display the Exam schedule.
+ * @returns The ExamScheduleViewer as a React Component.
+ */
 const ExamScheduleViewer = () => {
   const [entries, setEntries] = useState<ExamEntry[]>([]);
 
@@ -27,7 +32,13 @@ const ExamScheduleViewer = () => {
   } = useUrlSync();
 
   useEffect(() => {
-    const fetchAndParseData = async (): Promise<void> => {
+    /**
+     * Fetches exam data JSON from server and updates entries state.
+     *
+     * @async
+     * @returns {Promise<void>} Resolves when fetching/parsing completes or errors out.
+     */
+    const fetchAndParseData = async (): Promise<void>  => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", {
@@ -48,6 +59,9 @@ const ExamScheduleViewer = () => {
     fetchAndParseData();
   }, []);
 
+  /**
+   * The entries filtered according to the filters.
+   */
   const filteredEntries = useExamFiltering(
     entries,
     globalSearch,

@@ -12,6 +12,10 @@ import {
   isSemester,
 } from "@/utils/urlUtils";
 
+/**
+ * Synchronizes the URL to include filters and other props.
+ * @returns void
+ */
 export const useUrlSync = () => {
   const searchParams = useSearchParams();
   const router = useRouter();

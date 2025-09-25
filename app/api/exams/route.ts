@@ -4,11 +4,18 @@ import { ExamEntry } from "@/types/exam";
 import { NextResponse } from "next/server";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { isSemester } from "@/utils/urlUtils";
 
 type Item = { text: string; x: number; y: number };
 
 const HEADERS = 28;
 
+/**
+ * Reads the contents of the cells from each Table of the PDF.
+ *
+ * @param buffer The Buffer of the PDF.
+ * @returns The Items of the PDF as a 2d Array.
+ */
 async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mod: any = await import("pdfreader"); // CJS module
@@ -36,6 +43,16 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
   });
 }
 
+/**
+ * Groups Items that have simmilar Y-Coordinates.
+ * Items with nearly the same Y-Coordinate are in one
+ * Row in the Table. They might not have the exact same
+ * Y-Coordinates because of compression.
+ *
+ * @param items The Items to group.
+ * @param tolerance
+ * @returns The Items grouped by their Y-Corrdinates.
+ */
 function groupByY(items: Item[], tolerance = 0.1): Item[][] {
   const rows: Item[][] = [];
   const sorted = [...items].sort((a, b) => a.y - b.y);
@@ -58,29 +75,45 @@ function groupByY(items: Item[], tolerance = 0.1): Item[][] {
   return rows;
 }
 
+/**
+ * Rather a String is a Date in Format yyyy-mm-dd.
+ * @param s The string to check.
+ * @returns true if the string is a Date in format yyyy-mm-dd, false else.
+ */
 const isDate = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s);
+
+/**
+ * Rather a String is a time in format hh:mm.
+ * @param s The string to check.
+ * @returns true if the string is a time in format hh:mm, false else.
+ */
 const isTime = (s: string) => /^\d{2}:\d{2}$/.test(s);
+
+/**
+ * Checks if the string is a Number in a given set of numbers.
+ * @param s the string to check.
+ * @param set the set the string should be in.
+ * @returns true if the string is in the set of numbers, false else.
+ */
 const isNumberInSet = (s: string, set: number[]) =>
   !isNaN(Number(s)) && set.includes(Number(s));
 const isTwoCharsOrSprachenzentrum = (s: string) =>
   s.length === 2 || s === "Sprachenzentrum";
-const isSemester = (s: string) => {
-  return [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "WP",
-    "WP-IN",
-    "WP-L",
-    "WP-LE",
-  ].includes(s);
-};
 
+/**
+ * checks if a string is two chars long or equals "Sprachenzentrum".
+ * @param s The string to check.
+ * @returns true if the string is two chars long or equals "Sprachenzentrum", false else.
+ */
+const isTwoCharsOrSprachenzentrum = (s: string) =>
+  s.length === 2 || s === "Sprachenzentrum";
+
+/**
+ * Validates if a value can be in a specified Field.
+ * @param fieldName The field the data should be validated against.
+ * @param value The data to validate.
+ * @returns If the value can be in the field or not.
+ */
 function validateField(fieldName: string, value: string): boolean {
   switch (fieldName) {
     case "mid":
@@ -132,8 +165,16 @@ function validateField(fieldName: string, value: string): boolean {
   }
 }
 
+/**
+ * Fields that are aligned center in the PDF.
+ */
 const centerAlignedFields = new Set(["lp", "pruefungsdauer"]);
 
+/**
+ * Parses the contents of the PDF to ExamEntries.
+ * @param pages the pages of the PDF.
+ * @returns The ExamEntries that are found from the PDF.
+ */
 const parsePdf = (pages: Item[][]): ExamEntry[] => {
   const entries: ExamEntry[] = [];
 
@@ -147,7 +188,6 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
   const headerXPositions = Array.from(headerXPositionsSet).sort(
     (a, b) => a - b,
   );
-
   const headers: string[] = [];
 
   for (const xPos of headerXPositions) {
@@ -253,6 +293,11 @@ const parsePdf = (pages: Item[][]): ExamEntry[] => {
   return entries;
 };
 
+/**
+ * Merges pages if the Table is split up into multiple pages.
+ * @param pages The pages of the PDF
+ * @returns The Items of the PDF merged.
+ */
 const mergePages = (pages: Item[][]): Item[][] => {
   if (pages.length <= 5) {
     // No merging needed

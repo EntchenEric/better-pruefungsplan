@@ -97,8 +97,12 @@ async function InfoCards() {
       </div>
     </>
   );
-}
+};
 
+/**
+ * The Homepage of the Page.
+ * @returns The main Contents of the Page.
+ */
 export default function Home() {
   return (
     <div className="font-sans min-h-screen bg-secondary text-primary">

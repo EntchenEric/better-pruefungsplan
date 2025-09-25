@@ -1,10 +1,26 @@
 import React from "react";
 
+/**
+ * Represents the Props of the Global Search.
+ */
 interface GlobalSearchProps {
+  /**
+   * The current Value of the global search.
+   */
   globalSearch: string;
+  /**
+   * The callback that is called when the Global Search is changed.
+   * @param value The new value of the global change.
+   * @returns void
+   */
   onGlobalSearchChange: (value: string) => void;
 }
 
+/**
+ * The global search component.
+ * @param params the Parameters of the Global search component.
+ * @returns the GlobalSearch as a React Component.
+ */
 export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   globalSearch,
   onGlobalSearchChange,

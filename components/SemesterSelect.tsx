@@ -1,13 +1,31 @@
 import { SEMESTERS } from "@/config/tableConfig";
 import { ChangeEvent } from "react";
 
+/**
+ * Represents the Props of the Semester Select.
+ */
+interface SemesterSelectProps {
+  /**
+   * The currently selected semester.
+   */
+  selectedSemester: string | undefined;
+  /**
+   * The callback that is called when the Semester is changed.
+   * @param value The id of the newly selected semester.
+   * @returns void
+   */
+  setSelectedSemester: (value: string | undefined) => void;
+}
+
+/**
+ * The component of the Semester Select.
+ * @param params the Params of the Seester Select.
+ * @returns The SemesterSelect as a React Component.
+ */
 export const SemesterSelect = ({
   selectedSemester,
   setSelectedSemester,
-}: {
-  selectedSemester: string | undefined;
-  setSelectedSemester: (value: string | undefined) => void;
-}) => {
+}: SemesterSelectProps) => {
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     setSelectedSemester(e.target.value || undefined);
   }
