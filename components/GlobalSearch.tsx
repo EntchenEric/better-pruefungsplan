@@ -25,6 +25,14 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   globalSearch,
   onGlobalSearchChange,
 }) => {
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onGlobalSearchChange(e.target.value)
+  }
+
+  function handleSearchClear() {
+    onGlobalSearchChange("")
+  }
+
   return (
     <div className="flex gap-2 flex-wrap">
       <div className="relative flex-grow min-w-[200px]">
@@ -37,7 +45,6 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
           >
             <path
               strokeLinecap="round"
-              strokeLinejoin="round"
               strokeWidth="2"
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
@@ -46,7 +53,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
         <input
           type="text"
           value={globalSearch}
-          onChange={(e) => onGlobalSearchChange(e.target.value)}
+          onChange={handleInputChange}
           placeholder="Durchsuche alle Spalten..."
           aria-label="Globale Suche"
           spellCheck={false}
@@ -57,7 +64,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
       {globalSearch && (
         <button
           type="button"
-          onClick={() => onGlobalSearchChange("")}
+          onClick={handleSearchClear}
           aria-label="Globale Suche löschen"
           className="hover:bg-red-500/80 border border-white/30 hover:border-red-500 text-white font-medium px-3 py-2 rounded-lg backdrop-blur-sm transition-all duration-200 flex items-center gap-1 text-sm"
         >
@@ -69,7 +76,6 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
           >
             <path
               strokeLinecap="round"
-              strokeLinejoin="round"
               strokeWidth="2"
               d="M6 18L18 6M6 6l12 12"
             />

@@ -30,7 +30,7 @@ export const ShareUrlButton: React.FC = () => {
     document.body.removeChild(textArea);
   };
 
-  const handleShareUrl = () => {
+  function handleShareUrl(){
     const currentUrl = window.location.href;
 
     if (navigator.clipboard) {
