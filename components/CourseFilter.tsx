@@ -7,11 +7,15 @@ export const CourseFilter = ({
   selectedCourse: string | undefined
   setSelectedCourse: (value: string | undefined) => void
 }) => {
+  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedCourse(e.target.value || undefined);
+  }
+
   return (
     <div>
       <select
         value={selectedCourse ?? ""}
-        onChange={(e) => setSelectedCourse(e.target.value || undefined)}
+        onChange={handleSelectChange}
         className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 
