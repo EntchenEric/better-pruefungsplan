@@ -62,7 +62,7 @@ Deine Unterstützung macht das Projekt besser! So kannst du mitmachen:
 
 ## 📄 Lizenz
 
-Dieses Projkt unterliegt der 0BSD Lizenz. Mehr Informationen findest du in LICENCE.
+Dieses Projkt unterliegt der 0BSD Lizenz. Mehr Informationen findest du in [LICENCE](/LICENCE).
 
 ## Support
 
