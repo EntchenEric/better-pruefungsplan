@@ -12,7 +12,7 @@ const HEADERS = 28;
 
 /**
  * Reads the contents of the cells from each Table of the PDF.
- * 
+ *
  * @param buffer The Buffer of the PDF.
  * @returns The Items of the PDF as a 2d Array.
  */

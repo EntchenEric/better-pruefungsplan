@@ -62,7 +62,13 @@ const ExamScheduleViewer = () => {
   /**
    * The entries filtered according to the filters.
    */
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse, selectedSemester);
+  const filteredEntries = useExamFiltering(
+    entries,
+    globalSearch,
+    columnFilters,
+    selectedCourse,
+    selectedSemester,
+  );
 
   return (
     <>

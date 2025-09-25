@@ -62,11 +62,10 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                   className="sr-only"
                 />
                 <div
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${
-                    hiddenCols[key]
-                      ? "border-secondary-text"
-                      : "border-primary bg-primary"
-                  }`}
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${hiddenCols[key]
+                    ? "border-secondary-text"
+                    : "border-primary bg-primary"
+                    }`}
                 >
                   {!hiddenCols[key] && (
                     <svg
@@ -86,7 +85,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
               </div>
               <span>{label}</span>
             </label>
-          );
+          )
         })}
       </div>
     </div>
