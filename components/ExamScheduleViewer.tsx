@@ -10,7 +10,7 @@ import { ExamTableBody } from "./ExamTableBody";
 
 const ExamScheduleViewer = () => {
   const [entries, setEntries] = useState<ExamEntry[]>([]);
-  
+
   const {
     globalSearch,
     columnFilters,
@@ -26,18 +26,20 @@ const ExamScheduleViewer = () => {
     setSelectedSemester,
   } = useUrlSync();
 
-
   useEffect(() => {
-    const fetchAndParseData = async () => {
+    const fetchAndParseData = async (): Promise<void> => {
       try {
         const ac = new AbortController();
-        const response = await fetch("/api/exams", { signal: ac.signal, cache: "no-store" })
+        const response = await fetch("/api/exams", {
+          signal: ac.signal,
+          cache: "no-store",
+        });
         if (!response.ok) {
-          throw Error("Error loading pdf.")
+          throw Error("Error loading pdf.");
         }
         const data = await response.json();
         setEntries(data.entries);
-        return () => ac.abort();
+        ac.abort();
       } catch (error) {
         console.error("Error parsing PDF:", error);
       }
@@ -46,7 +48,13 @@ const ExamScheduleViewer = () => {
     fetchAndParseData();
   }, []);
 
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse, selectedSemester);
+  const filteredEntries = useExamFiltering(
+    entries,
+    globalSearch,
+    columnFilters,
+    selectedCourse,
+    selectedSemester,
+  );
 
   return (
     <>
@@ -62,27 +70,26 @@ const ExamScheduleViewer = () => {
           setSelectedSemester={setSelectedSemester}
         />
       </div>
-      
+
       <div className="p-4 max-w-6xl mx-auto font-sans box-border mt-4">
         <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-text max-h-[480px] overflow-y-auto">
-        <table
-          className="w-full border-collapse table-fixed user-select-none select-none"
-          role="grid"
-          aria-label="Prüfungsplan Tabelle"
-        >
-          <ExamTableHeader
-            hiddenCols={hiddenCols}
-            colWidths={colWidths}
-            setColWidths={handleColumnWidthChange}
-            columnFilters={columnFilters}
-            onColumnFilterChange={handleColumnFilterChange}
-          />
-          <ExamTableBody
-            entries={filteredEntries}
-            hiddenCols={hiddenCols}
-            colWidths={colWidths}
-          />
-        </table>
+          <table
+            className="w-full border-collapse table-fixed user-select-none select-none"
+            aria-label="Prüfungsplan Tabelle"
+          >
+            <ExamTableHeader
+              hiddenCols={hiddenCols}
+              colWidths={colWidths}
+              setColWidths={handleColumnWidthChange}
+              columnFilters={columnFilters}
+              onColumnFilterChange={handleColumnFilterChange}
+            />
+            <ExamTableBody
+              entries={filteredEntries}
+              hiddenCols={hiddenCols}
+              colWidths={colWidths}
+            />
+          </table>
         </div>
 
         <div className="mt-5 text-center text-secondary-text italic text-base select-none">

@@ -1,17 +1,22 @@
-import { SEMESTERS } from "@/config/tableConfig"
+import { SEMESTERS } from "@/config/tableConfig";
+import { ChangeEvent } from "react";
 
 export const SemesterSelect = ({
-    selectedSemester,
-    setSelectedSemester
+  selectedSemester,
+  setSelectedSemester,
 }: {
-  selectedSemester: string | undefined
-  setSelectedSemester: (value: string | undefined) => void
+  selectedSemester: string | undefined;
+  setSelectedSemester: (value: string | undefined) => void;
 }) => {
+  function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
+    setSelectedSemester(e.target.value || undefined);
+  }
+
   return (
     <div>
       <select
         value={selectedSemester ?? ""}
-        onChange={(e) => setSelectedSemester(e.target.value || undefined)}
+        onChange={handleSelect}
         className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 
@@ -27,5 +32,5 @@ export const SemesterSelect = ({
         ))}
       </select>
     </div>
-  )
-}
+  );
+};
