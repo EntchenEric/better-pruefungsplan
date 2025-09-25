@@ -150,8 +150,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 </span>
 
                 <div
-                  role="separator"
-                  aria-orientation="vertical"
                   className="absolute top-0 right-0 w-[6px] h-full cursor-col-resize z-30 touch-none"
                   onMouseDown={onMouseDownResizer(key)}
                 />

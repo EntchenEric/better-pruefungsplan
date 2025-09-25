@@ -38,7 +38,7 @@ const ExamScheduleViewer = () => {
      * @async
      * @returns {Promise<void>} Resolves when fetching/parsing completes or errors out.
      */
-    const fetchAndParseData = async () => {
+    const fetchAndParseData = async (): Promise<void> => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", {
@@ -87,24 +87,24 @@ const ExamScheduleViewer = () => {
 
       <div className="p-4 max-w-6xl mx-auto font-sans box-border mt-4">
         <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-text max-h-[480px] overflow-y-auto">
-          <table
-            className="w-full border-collapse table-fixed user-select-none select-none"
-            role="grid"
-            aria-label="Prüfungsplan Tabelle"
-          >
-            <ExamTableHeader
-              hiddenCols={hiddenCols}
-              colWidths={colWidths}
-              setColWidths={handleColumnWidthChange}
-              columnFilters={columnFilters}
-              onColumnFilterChange={handleColumnFilterChange}
-            />
-            <ExamTableBody
-              entries={filteredEntries}
-              hiddenCols={hiddenCols}
-              colWidths={colWidths}
-            />
-          </table>
+
+        <table
+          className="w-full border-collapse table-fixed user-select-none select-none"
+          aria-label="Prüfungsplan Tabelle"
+        >
+          <ExamTableHeader
+            hiddenCols={hiddenCols}
+            colWidths={colWidths}
+            setColWidths={handleColumnWidthChange}
+            columnFilters={columnFilters}
+            onColumnFilterChange={handleColumnFilterChange}
+          />
+          <ExamTableBody
+            entries={filteredEntries}
+            hiddenCols={hiddenCols}
+            colWidths={colWidths}
+          />
+        </table>
         </div>
 
         <div className="mt-5 text-center text-secondary-text italic text-base select-none">

@@ -17,30 +17,30 @@ const HEADERS = 28;
  * @returns The Items of the PDF as a 2d Array.
  */
 async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod: any = await import("pdfreader"); // CJS module
-  const { PdfReader } = mod;
-  if (!PdfReader) {
-    throw new Error('Failed to load PdfReader from "pdfreader" (CJS interop)');
-  }
-  return new Promise((resolve, reject) => {
-    const pages: Item[][] = [];
-    let curr: Item[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
-      if (err) return reject(err);
-      if (!item) {
-        if (curr.length) pages.push(curr);
-        return resolve(pages);
-      }
-      if (item.page) {
-        if (curr.length) pages.push(curr);
-        curr = [];
-      } else if (item.text != null) {
-        curr.push({ text: item.text, x: item.x, y: item.y });
-      }
+    const mod: any = await import("pdfreader"); // CJS module
+    const { PdfReader } = mod;
+    if (!PdfReader) {
+        throw new Error('Failed to load PdfReader from "pdfreader" (CJS interop)');
+    }
+    return new Promise((resolve, reject) => {
+        const pages: Item[][] = [];
+        let curr: Item[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        new PdfReader().parseBuffer(buffer, (err: any, item: any): void => {
+            if (err) return reject(err);
+            if (!item) {
+                if (curr.length) pages.push(curr);
+                return resolve(pages);
+            }
+            if (item.page) {
+                if (curr.length) pages.push(curr);
+                curr = [];
+            } else if (item.text != null) {
+                curr.push({ text: item.text, x: item.x, y: item.y });
+            }
+        });
     });
-  });
 }
 
 /**

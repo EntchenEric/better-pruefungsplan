@@ -40,19 +40,18 @@ export const useUrlSync = () => {
     return decodeColumnWidths(encodedWidths || "");
   });
 
-  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(
-    () => {
-      const v = searchParams.get("course") || undefined;
-      return v && isCourse(v) ? v : undefined;
-    },
-  );
+  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
+    const course = searchParams.get("course") || undefined;
+    return course && isCourse(course) ? course : undefined;
 
-  const [selectedSemester, setSelectedSemester] = useState<string | undefined>(
-    () => {
-      const v = searchParams.get("semester") || undefined;
-      return v && isSemester(v) ? v : undefined;
-    },
-  );
+  })
+
+  const [selectedSemester, setSelectedSemester] = useState<string | undefined>(() => {
+    const semester = searchParams.get("semester") || undefined;
+    return semester && isSemester(semester) ? semester : undefined;
+
+  })
+
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,
