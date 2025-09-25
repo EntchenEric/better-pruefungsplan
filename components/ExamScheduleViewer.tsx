@@ -50,7 +50,7 @@ const ExamScheduleViewer = () => {
         }
         const data = await response.json();
         setEntries(data.entries);
-        return () => ac.abort();
+        ac.abort();
       } catch (error) {
         console.error("Error parsing PDF:", error);
       }
