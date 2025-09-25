@@ -351,7 +351,6 @@ export async function GET() {
   );
   const pages = await readPdfItems(buffer);
   const mergedPages = mergePages(pages);
-  console.log(mergedPages);
   const parsed = parsePdf(mergedPages);
   return NextResponse.json({ entries: parsed });
 }
