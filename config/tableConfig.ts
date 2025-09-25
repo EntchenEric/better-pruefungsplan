@@ -11,6 +11,11 @@ export const TABLE_HEADERS: TableHeader[] = [
   { key: "pruefungsdauer", label: "Dauer" },
   { key: "modul", label: "Modul" },
   { key: "pruefer", label: "Prüfer" },
+  { key: "pruefer_name", label: "Prüfer Name" },
+  { key: "zweitpruefer", label: "Zweitprüfer" },
+  { key: "b_m", label: "Bachelor/Master" },
+  { key: "raeume", label: "Räume" },
+  { key: "beisitzer", label: "Beisitzer" },
 ];
 
 export const MIN_COLUMN_WIDTH = 20;
@@ -27,6 +32,11 @@ export const DEFAULT_COLUMN_WIDTHS: ColumnWidths = {
   pruefungsdauer: 90,
   modul: 300,
   pruefer: 90,
+  pruefer_name: 140,
+  zweitpruefer: 90,
+  b_m: 60,
+  raeume: 140,
+  beisitzer: 90,
 };
 
-export const DEFAULT_HIDDEN_COLUMNS = ["mid", "lp", "pruefungsform", "modul"];
+export const DEFAULT_HIDDEN_COLUMNS = ["mid", "lp", "pruefungsform", "modul", "pruefer", "zweitpruefer", "b_m", "beisitzer"];
