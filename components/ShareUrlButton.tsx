@@ -9,24 +9,6 @@ import React, { useState } from "react";
 export const ShareUrlButton: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
 
-  const handleShareUrl = () => {
-    const currentUrl = window.location.href;
-
-    if (navigator.clipboard) {
-      navigator.clipboard
-        .writeText(currentUrl)
-        .then(() => {
-          setShowToast(true);
-          setTimeout(() => setShowToast(false), 2000);
-        })
-        .catch(() => {
-          fallbackCopyToClipboard(currentUrl);
-        });
-    } else {
-      fallbackCopyToClipboard(currentUrl);
-    }
-  };
-
   const fallbackCopyToClipboard = (text: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -48,6 +30,21 @@ export const ShareUrlButton: React.FC = () => {
     document.body.removeChild(textArea);
   };
 
+  const handleShareUrl = () => {
+    const currentUrl = window.location.href;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+      }).catch(() => {
+        fallbackCopyToClipboard(currentUrl);
+      });
+    } else {
+      fallbackCopyToClipboard(currentUrl);
+    }
+  };
+
   return (
     <div className="relative">
       <button
@@ -64,7 +61,6 @@ export const ShareUrlButton: React.FC = () => {
         >
           <path
             strokeLinecap="round"
-            strokeLinejoin="round"
             strokeWidth="2"
             d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
           />
