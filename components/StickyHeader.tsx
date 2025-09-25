@@ -84,7 +84,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
           <h1 className="text-3xl font-bold text-white mb-2 tracking-wide">
             📅 Better Prüfungsplan - Stand September/Oktober 2025
           </h1>
-          <div className="h-1 w-32 bg-white/30 mx-auto rounded-full"></div>
+          <div className="h-1 w-32 bg-white/30 mx-auto rounded-full" />
         </div>
         <Filters
           hiddenCols={hiddenCols}

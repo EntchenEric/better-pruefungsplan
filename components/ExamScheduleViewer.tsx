@@ -28,7 +28,7 @@ const ExamScheduleViewer = () => {
 
 
   useEffect(() => {
-    const fetchAndParseData = async () => {
+    const fetchAndParseData = async (): Promise<void> => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", { signal: ac.signal, cache: "no-store" })
@@ -67,7 +67,6 @@ const ExamScheduleViewer = () => {
         <div className="overflow-x-auto rounded-lg shadow-md border border-secondary-text max-h-[480px] overflow-y-auto">
         <table
           className="w-full border-collapse table-fixed user-select-none select-none"
-          role="grid"
           aria-label="Prüfungsplan Tabelle"
         >
           <ExamTableHeader

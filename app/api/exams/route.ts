@@ -20,7 +20,7 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
         const pages: Item[][] = [];
         let curr: Item[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
+        new PdfReader().parseBuffer(buffer, (err: any, item: any): void => {
             if (err) return reject(err);
             if (!item) {
                 if (curr.length) pages.push(curr);
