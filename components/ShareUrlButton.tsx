@@ -30,20 +30,23 @@ export const ShareUrlButton: React.FC = () => {
     document.body.removeChild(textArea);
   };
 
-  function handleShareUrl(){
+  function handleShareUrl() {
     const currentUrl = window.location.href;
 
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(currentUrl).then(() => {
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000);
-      }).catch(() => {
-        fallbackCopyToClipboard(currentUrl);
-      });
+      navigator.clipboard
+        .writeText(currentUrl)
+        .then(() => {
+          setShowToast(true);
+          setTimeout(() => setShowToast(false), 2000);
+        })
+        .catch(() => {
+          fallbackCopyToClipboard(currentUrl);
+        });
     } else {
       fallbackCopyToClipboard(currentUrl);
     }
-  };
+  }
 
   return (
     <div className="relative">

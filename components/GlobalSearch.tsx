@@ -26,11 +26,11 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   onGlobalSearchChange,
 }) => {
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    onGlobalSearchChange(e.target.value)
+    onGlobalSearchChange(e.target.value);
   }
 
   function handleSearchClear() {
-    onGlobalSearchChange("")
+    onGlobalSearchChange("");
   }
 
   return (

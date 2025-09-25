@@ -71,10 +71,7 @@ const Filters: React.FC<StickyHeaderProps> = ({
           <span className="mr-2">👁️</span>
           Spalten verwalten
         </h3>
-        <ColumnToggle
-          hiddenCols={hiddenCols}
-          onToggleColumn={onToggleColumn}
-        />
+        <ColumnToggle hiddenCols={hiddenCols} onToggleColumn={onToggleColumn} />
       </div>
 
       <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
@@ -99,8 +96,8 @@ const Filters: React.FC<StickyHeaderProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
   hiddenCols,
@@ -110,7 +107,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   selectedCourse,
   setSelectedCourse,
   selectedSemester,
-  setSelectedSemester
+  setSelectedSemester,
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-primary shadow-lg border-b-2 border-primary">

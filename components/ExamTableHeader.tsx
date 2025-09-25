@@ -167,56 +167,74 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
       <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
         {TABLE_HEADERS.map(({ key, label }) => {
-          function handleColumnFilterChange(e: React.ChangeEvent<HTMLInputElement>) {
-            onColumnFilterChange(key, e.target.value)
+          function handleColumnFilterChange(
+            e: React.ChangeEvent<HTMLInputElement>,
+          ) {
+            onColumnFilterChange(key, e.target.value);
           }
 
           function handleColumnFilterClear() {
-            onColumnFilterChange(key, "")
+            onColumnFilterChange(key, "");
           }
 
-          return hiddenCols[key] ? null :
-            (
-              <th
-                key={`filter-${key}`}
-                className="border-b-2 border-border text-left whitespace-nowrap p-2"
-                style={{
-                  width: colWidths[key],
-                  minWidth: MIN_COLUMN_WIDTH,
-                  boxSizing: "border-box",
-                }}
-              >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                    <svg className="h-3 w-3 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z" />
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    value={columnFilters[key]}
-                    onChange={handleColumnFilterChange}
-                    aria-label={`Filter für ${label}`}
-                    spellCheck={false}
-                    autoComplete="off"
-                    className="w-full pl-7 pr-2 py-1.5 text-xs border border-border rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-border-light"
-                  />
-                  {columnFilters[key] && (
-                    <button
-                      onClick={handleColumnFilterClear}
-                      className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
-                      aria-label={`Clear filter for ${label}`}
-                    >
-                      <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  )}
+          return hiddenCols[key] ? null : (
+            <th
+              key={`filter-${key}`}
+              className="border-b-2 border-border text-left whitespace-nowrap p-2"
+              style={{
+                width: colWidths[key],
+                minWidth: MIN_COLUMN_WIDTH,
+                boxSizing: "border-box",
+              }}
+            >
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                  <svg
+                    className="h-3 w-3 text-text-muted"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeWidth="2"
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"
+                    />
+                  </svg>
                 </div>
-              </th>
-            )
-        }
-        )}
+                <input
+                  type="text"
+                  value={columnFilters[key]}
+                  onChange={handleColumnFilterChange}
+                  aria-label={`Filter für ${label}`}
+                  spellCheck={false}
+                  autoComplete="off"
+                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-border rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-border-light"
+                />
+                {columnFilters[key] && (
+                  <button
+                    onClick={handleColumnFilterClear}
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
+                    aria-label={`Clear filter for ${label}`}
+                  >
+                    <svg
+                      className="h-3 w-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </th>
+          );
+        })}
       </tr>
     </thead>
   );

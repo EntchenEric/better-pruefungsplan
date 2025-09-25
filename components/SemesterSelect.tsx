@@ -23,11 +23,11 @@ interface SemesterSelectProps {
  * @returns The SemesterSelect as a React Component.
  */
 export const SemesterSelect = ({
-    selectedSemester,
-    setSelectedSemester
-}: SemesterSelectProps) => {
+  selectedSemester,
+  setSelectedSemester,
+}:SemesterSelectProps) => {
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
-    setSelectedSemester(e.target.value || undefined)
+    setSelectedSemester(e.target.value || undefined);
   }
 
   return (
