@@ -30,7 +30,7 @@ export const useExamFiltering = (
 
     if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
       filtered = filtered.filter((entry) => {
-        //@ts-ignore
+        //@ts-expect-error Its too much work to parse the selectedCourse to a ExamEntry. To save overhead this is just ignored.
         const val = String(entry[selectedCourse] ?? "").trim();
         return val.length > 0;
       });
@@ -39,12 +39,12 @@ export const useExamFiltering = (
     if (selectedSemester && SEMESTERS.some(s => s.key === selectedSemester)) {
       if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
         filtered = filtered.filter(
-          //@ts-ignore
+          //@ts-expect-error Its too much work to parse the selectedCourse to a ExamEntry. To save overhead this is just ignored.
           (entry) => String(entry[selectedCourse] ?? "") === selectedSemester
         );
       } else {
         filtered = filtered.filter((entry) =>
-          //@ts-ignore
+          //@ts-expect-error Its too much work to parse the key to a ExamEntry. To save overhead this is just ignored.
           COURSES.some((c) => String(entry[c.key] ?? "") === selectedSemester)
         );
       }
