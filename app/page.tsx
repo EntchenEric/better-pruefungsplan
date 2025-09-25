@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import ExamScheduleViewer from "@/components/ExamScheduleViewer";
+import { BsBug, BsGithub, BsLightbulb } from "react-icons/bs";
+import { IoWarning } from "react-icons/io5";
 
 async function InfoCards() {
   return (
@@ -10,9 +12,8 @@ async function InfoCards() {
             bg-primary/80
             backdrop-blur-lg rounded-xl shadow-xl border border-theme p-8 "
         >
-          <div className="flex justify-center items-center mb-3">
-            🐈{" "}
-            {/*Hier kommt später Github Icon rein, erst sollte Icon Libary eingebaut werden */}
+          <div className="flex justify-center items-center mb-3 text-4xl">
+            <BsGithub color="black" />
           </div>
           <h3 className="text-xl font-bold text-theme-primary mb-[10px] tracking-wide drop-shadow-sm">
             Quellcode
@@ -48,7 +49,7 @@ async function InfoCards() {
                 px-[13px] py-px rounded-md bg-red-900/30 hover:bg-red-900/50 active:bg-red-950
                 font-medium text-sm text-red-200 shadow-sm transition-all duration-150 cursor-pointer my-px"
             >
-              🐞 Bug melden
+              <BsBug /> Bug melden
             </a>
 
             <a
@@ -62,7 +63,7 @@ async function InfoCards() {
              px-[13px] py-px rounded-md bg-blue-900/30 hover:bg-blue-900/50 active:bg-blue-gray
              font-medium text-sm text-blue-100 shadow-sm transition-all duration-150 cursor-pointer my-px "
             >
-              💡 Feedback & Ideen teilen
+              <BsLightbulb /> Feedback & Ideen teilen
             </a>
           </div>
         </div>
@@ -74,8 +75,8 @@ async function InfoCards() {
             bg-primary/80
             backdrop-blur-lg rounded-xl shadow-xl border border-theme p-8 "
         >
-          <div className="flex justify-center items-center mb-3 text-red-700">
-            !{" "}
+          <div className="flex justify-center items-center mb-3 text-red-700  text-4xl">
+            <IoWarning />
             {/*Hier kommt später So Warnungs Icon wenn IconLibary installiert ist */}
           </div>
           <h3 className="text-xl font-bold text-red-700 mb-[10px] tracking-wide drop-shadow-sm">

@@ -7,6 +7,8 @@ import { ShareUrlButton } from "./ShareUrlButton";
 import { ColumnVisibility } from "@/types/exam";
 import { CourseFilter } from "./CourseFilter";
 import { SemesterSelect } from "./SemesterSelect";
+import { FaCalendar, FaEye } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 /**
  * The props of the Stcky header component.
@@ -73,7 +75,7 @@ export const Filters: React.FC<StickyHeaderProps> = ({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
       <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
         <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
-          <span className="mr-2">👁️</span>
+          <span className="mr-2"><FaEye /></span>
           Spalten verwalten
         </h3>
         <ColumnToggle hiddenCols={hiddenCols} onToggleColumn={onToggleColumn} />
@@ -81,7 +83,7 @@ export const Filters: React.FC<StickyHeaderProps> = ({
 
       <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
         <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
-          <span className="mr-2">🔍</span>
+          <span className="mr-2"><FaMagnifyingGlass /></span>
           Globale Suche
         </h3>
         <div className="flex flex-col gap-3">
@@ -124,7 +126,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="text-center mb-4">
           <h1 className="text-3xl font-bold text-white mb-2 tracking-wide">
-            📅 Better Prüfungsplan - Stand September/Oktober 2025
+            <span className="inline-flex items-center justify-center"><FaCalendar /> Better Prüfungsplan - Stand September/Oktober 2025</span>
           </h1>
           <div className="h-1 w-32 bg-white/30 mx-auto rounded-full" />
         </div>

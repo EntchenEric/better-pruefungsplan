@@ -1,6 +1,7 @@
 import React from "react";
 import { ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS } from "@/config/tableConfig";
+import { FaColumns } from "react-icons/fa";
 
 interface ColumnToggleProps {
   /**
@@ -25,18 +26,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   return (
     <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
       <div className="flex items-center gap-2 text-primary-text font-medium">
-        <svg
-          className="h-5 w-5 text-primary-text"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeWidth="2"
-            d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z"
-          />
-        </svg>
+       <FaColumns />
         <span>Spalten anzeigen:</span>
       </div>
       <div className="flex flex-wrap justify-center gap-2">
