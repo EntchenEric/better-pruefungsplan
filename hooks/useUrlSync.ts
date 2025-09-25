@@ -34,19 +34,21 @@ export const useUrlSync = () => {
   const [colWidths, setColWidths] = useState<ColumnWidths>(() => {
     const encodedWidths = searchParams.get("widths");
     return decodeColumnWidths(encodedWidths || "");
-  })
+  });
 
-  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
-    const course = searchParams.get("course") || undefined;
-    return course && isCourse(course) ? course : undefined;
+  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(
+    () => {
+      const course = searchParams.get("course") || undefined;
+      return course && isCourse(course) ? course : undefined;
+    },
+  );
 
-  })
-
-  const [selectedSemester, setSelectedSemester] = useState<string | undefined>(() => {
-    const semester = searchParams.get("semester") || undefined;
-    return semester && isSemester(semester) ? semester : undefined;
-
-  })
+  const [selectedSemester, setSelectedSemester] = useState<string | undefined>(
+    () => {
+      const semester = searchParams.get("semester") || undefined;
+      return semester && isSemester(semester) ? semester : undefined;
+    },
+  );
 
   const updateUrl = useCallback(
     (
@@ -63,7 +65,7 @@ export const useUrlSync = () => {
         newHiddenCols,
         newColumnWidths,
         selectedCourse,
-        selectedSemester
+        selectedSemester,
       );
 
       const newUrl = params.toString()
@@ -72,16 +74,31 @@ export const useUrlSync = () => {
 
       router.replace(newUrl, { scroll: false });
     },
-    [pathname, router]
+    [pathname, router],
   );
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse, selectedSemester);
+      updateUrl(
+        globalSearch,
+        columnFilters,
+        hiddenCols,
+        colWidths,
+        selectedCourse,
+        selectedSemester,
+      );
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse, selectedSemester, updateUrl]);
+  }, [
+    globalSearch,
+    columnFilters,
+    hiddenCols,
+    colWidths,
+    selectedCourse,
+    selectedSemester,
+    updateUrl,
+  ]);
 
   const handleGlobalSearchChange = useCallback((value: string) => {
     setGlobalSearch(value);
@@ -100,7 +117,7 @@ export const useUrlSync = () => {
 
   const handleColumnWidthChange = useCallback((key: string, value: number) => {
     setColWidths((prev) => ({ ...prev, [key]: value }));
-  }, [])
+  }, []);
 
   return {
     globalSearch,

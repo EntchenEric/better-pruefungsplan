@@ -1,11 +1,11 @@
-import { COURSES } from "@/config/tableConfig"
+import { COURSES } from "@/config/tableConfig";
 
 export const CourseFilter = ({
   selectedCourse,
   setSelectedCourse,
 }: {
-  selectedCourse: string | undefined
-  setSelectedCourse: (value: string | undefined) => void
+  selectedCourse: string | undefined;
+  setSelectedCourse: (value: string | undefined) => void;
 }) => {
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedCourse(e.target.value || undefined);
@@ -31,5 +31,5 @@ export const CourseFilter = ({
         ))}
       </select>
     </div>
-  )
-}
+  );
+};
