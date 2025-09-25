@@ -97,8 +97,6 @@ const isTime = (s: string) => /^\d{2}:\d{2}$/.test(s);
  */
 const isNumberInSet = (s: string, set: number[]) =>
   !isNaN(Number(s)) && set.includes(Number(s));
-const isTwoCharsOrSprachenzentrum = (s: string) =>
-  s.length === 2 || s === "Sprachenzentrum";
 
 /**
  * checks if a string is two chars long or equals "Sprachenzentrum".
