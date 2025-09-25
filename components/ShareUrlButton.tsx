@@ -5,21 +5,6 @@ import React, { useState } from "react";
 export const ShareUrlButton: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
 
-  const handleShareUrl = () => {
-    const currentUrl = window.location.href;
-
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(currentUrl).then(() => {
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000);
-      }).catch(() => {
-        fallbackCopyToClipboard(currentUrl);
-      });
-    } else {
-      fallbackCopyToClipboard(currentUrl);
-    }
-  };
-
   const fallbackCopyToClipboard = (text: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -39,6 +24,21 @@ export const ShareUrlButton: React.FC = () => {
     }
 
     document.body.removeChild(textArea);
+  };
+
+  const handleShareUrl = () => {
+    const currentUrl = window.location.href;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+      }).catch(() => {
+        fallbackCopyToClipboard(currentUrl);
+      });
+    } else {
+      fallbackCopyToClipboard(currentUrl);
+    }
   };
 
   return (
