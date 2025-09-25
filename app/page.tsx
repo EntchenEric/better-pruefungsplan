@@ -1,6 +1,10 @@
 import { Suspense } from "react";
 import ExamScheduleViewer from "@/components/ExamScheduleViewer";
 
+/**
+ * The Homepage of the Page.
+ * @returns The main Contents of the Page.
+ */
 export default function Home() {
   return (
 
@@ -92,10 +96,10 @@ export default function Home() {
 
             <p className="mt-[18px] text-base text-secondary-text leading-relaxed mb-[22px] opacity-[92%]">
               Die Informationen auf dieser Seite können falsch sein. Es gibt leider keine API für den Prüfungsplan (Wann W-HS API?). Aus 
-              diesem Grund muss die Prüfungsplan PDF von dieser Webseite gelesen und geparsed werden. Da PDFs schmutz sind ist das leichter 
-              gesagt als getan. Aufgrund eines ziemlich komplexen Parsing vorgangs (welcher nicht wirklich eleganter möglich ist) können 
+              diesem Grund muss die Prüfungsplan-PDF von dieser Webseite gelesen und verarbeitet werden. Da PDFs schwierig zu verarbeiten sind, ist das leichter 
+              gesagt als getan. Aufgrund eines ziemlich komplexen Verarbeitungsvorgangs (welcher nicht eleganter möglich ist) können 
               sich Fehler einschleichen. Es ist zwar bis jetzt nicht vorgekommen dass Informationen falsch sind, aber better safe than sorry.
-              Falls du einen Fehler bemerkst melde diesen bitte umgehend.
+              Falls du einen Fehler bemerkst, melde diesen bitte umgehend.
             </p>
           </div>
         </div>

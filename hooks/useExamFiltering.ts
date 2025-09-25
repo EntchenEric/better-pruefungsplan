@@ -2,6 +2,15 @@ import { useMemo } from "react";
 import { ExamEntry, ColumnFilters } from "@/types/exam";
 import { COURSES, SEMESTERS, TABLE_HEADERS } from "@/config/tableConfig";
 
+/**
+ * Filters ExamEntries.
+ * @param entries The Exam Entries to filter.
+ * @param globalSearch The content of the global search-
+ * @param columnFilters The columnfilters.
+ * @param selectedCourse the selected course.
+ * @param selectedSemester the selected semester.
+ * @returns The exam entries filtered by other props.
+ */
 export const useExamFiltering = (
   entries: ExamEntry[],
   globalSearch: string,
@@ -30,8 +39,7 @@ export const useExamFiltering = (
 
     if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
       filtered = filtered.filter((entry) => {
-        //@ts-expect-error Its too much work to parse the selectedCourse to a ExamEntry. To save overhead this is just ignored.
-        const val = String(entry[selectedCourse] ?? "").trim();
+        const val = String(entry[selectedCourse as keyof ExamEntry] ?? "").trim();
         return val.length > 0;
       });
     }
@@ -39,13 +47,11 @@ export const useExamFiltering = (
     if (selectedSemester && SEMESTERS.some(s => s.key === selectedSemester)) {
       if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
         filtered = filtered.filter(
-          //@ts-expect-error Its too much work to parse the selectedCourse to a ExamEntry. To save overhead this is just ignored.
-          (entry) => String(entry[selectedCourse] ?? "") === selectedSemester
+          (entry) => String(entry[selectedCourse as keyof ExamEntry] ?? "") === selectedSemester
         );
       } else {
         filtered = filtered.filter((entry) =>
-          //@ts-expect-error Its too much work to parse the key to a ExamEntry. To save overhead this is just ignored.
-          COURSES.some((c) => String(entry[c.key] ?? "") === selectedSemester)
+          COURSES.some((c) => String(entry[c.key as keyof ExamEntry] ?? "") === selectedSemester)
         );
       }
     }

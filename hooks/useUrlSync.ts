@@ -12,6 +12,10 @@ import {
   isSemester,
 } from "@/utils/urlUtils";
 
+/**
+ * Synchronizes the URL to include filters and other props.
+ * @returns void
+ */
 export const useUrlSync = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,15 +43,12 @@ export const useUrlSync = () => {
   const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
     const v = searchParams.get("course") || undefined;
     return v && isCourse(v) ? v : undefined;
-
-  })
+  });
 
   const [selectedSemester, setSelectedSemester] = useState<string | undefined>(() => {
     const v = searchParams.get("semester") || undefined;
     return v && isSemester(v) ? v : undefined;
-
-  })
-
+  });
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,

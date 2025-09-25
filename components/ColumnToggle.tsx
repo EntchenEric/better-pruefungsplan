@@ -3,10 +3,21 @@ import { ColumnVisibility } from "@/types/exam";
 import { TABLE_HEADERS } from "@/config/tableConfig";
 
 interface ColumnToggleProps {
+  /**
+   * The Columns that are hidden => not visible. Columns passed here will be unchecked.
+   */
   hiddenCols: ColumnVisibility;
+  /**
+   * The Callback that is executed when the Visibility of a Column should be changed.
+   * @param key The column whose visibility should be changed.
+   * @returns void
+   */
   onToggleColumn: (key: string) => void;
 }
 
+/**
+ * Represents the column toggle that allows to hide/show columns.
+ */
 export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   hiddenCols,
   onToggleColumn,

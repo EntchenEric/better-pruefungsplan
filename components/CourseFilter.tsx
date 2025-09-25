@@ -1,12 +1,27 @@
-import { COURSES } from "@/config/tableConfig"
+import { COURSES } from "@/config/tableConfig";
 
+interface CourseFilterProps {
+    /**
+     * The course that is currently selected.
+     */
+  selectedCourse: string | undefined
+  /**
+   * The callback that is called when a new course should be selected.
+   * @param value The key of the newly selected course
+   * @returns void
+   */
+  setSelectedCourse: (value: string | undefined) => void
+}
+
+/**
+ * Represents the filter of the courses.
+ * @param params The parameters of the Course Filter.
+ * @returns The CourseFilter Component as a React Component.
+ */
 export const CourseFilter = ({
   selectedCourse,
   setSelectedCourse,
-}: {
-  selectedCourse: string | undefined
-  setSelectedCourse: (value: string | undefined) => void
-}) => {
+}: CourseFilterProps) => {
   return (
     <div>
       <select

@@ -8,17 +8,57 @@ import { ColumnVisibility } from "@/types/exam";
 import { CourseFilter } from "./CourseFilter";
 import { SemesterSelect } from "./SemesterSelect";
 
+/**
+ * The props of the Stcky header component.
+ */
 interface StickyHeaderProps {
+  /**
+   * The Columns that are hidden.
+   */
   hiddenCols: ColumnVisibility;
+  /**
+   * The callback that is called when the visibility of a Column should be toggled.
+   * @param key the key of the coulmn to toggle the visibility of.
+   * @returns void.
+   */
   onToggleColumn: (key: string) => void;
+  /**
+   * The content of the globalSearch.
+   */
   globalSearch: string;
+  /**
+   * The callback that is called when the Global Search should be changed.
+   * @param value the new value of the global search.
+   * @returns void.
+   */
   onGlobalSearchChange: (value: string) => void;
+  /**
+   * The currently selected course.
+   */
   selectedCourse: string | undefined;
+  /**
+   * The callback that is called when the currently selected course should be changed.
+   * @param value The id of the newly selected course.
+   * @returns void.
+   */
   setSelectedCourse: (value: string | undefined) => void;
+  /**
+   * The currently selected semester.
+   */
   selectedSemester: string | undefined;
+  /**
+   * The callback that is called when the currently selected semester should be changed.
+   * @param value The id of the newly selected semester.
+   * @returns void.
+   */
   setSelectedSemester: (value: string | undefined) => void;
 }
 
+/**
+ * The component of the StickyHeader.
+ * @param params the Params of the Sticky Header.
+ * @returns The Sticky Header as a React Component.
+ */
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
   hiddenCols,
   onToggleColumn,

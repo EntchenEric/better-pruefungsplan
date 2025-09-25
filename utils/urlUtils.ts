@@ -1,6 +1,11 @@
 import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
 import { TABLE_HEADERS, DEFAULT_HIDDEN_COLUMNS, DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH, COURSES, SEMESTERS } from "@/config/tableConfig";
 
+/**
+ * Encodes the Column Filters.
+ * @param filters The current filters.
+ * @returns The filters encoded to a String-
+ */
 export const encodeColumnFilters = (filters: ColumnFilters): string => {
   const activeFilters = Object.entries(filters).filter(([_, value]) => value.trim() !== "");
   if (activeFilters.length === 0) return "";
@@ -8,6 +13,11 @@ export const encodeColumnFilters = (filters: ColumnFilters): string => {
   return btoa(JSON.stringify(Object.fromEntries(activeFilters)));
 };
 
+/**
+ * Decodes the Column Filters.
+ * @param encodedFilters The Column Filters as a encoded string.
+ * @returns The decoded Column Filters.
+ */
 export const decodeColumnFilters = (encodedFilters: string): ColumnFilters => {
   const defaultFilters = TABLE_HEADERS.reduce((acc, h) => {
     acc[h.key] = "";
@@ -25,6 +35,11 @@ export const decodeColumnFilters = (encodedFilters: string): ColumnFilters => {
   }
 };
 
+/**
+ * Encodes the Column Visibilties.
+ * @param visibility The Column Visibilities.
+ * @returns The Column Visibilities as a String.
+ */
 export const encodeColumnVisibility = (visibility: ColumnVisibility): string => {
   const defaultVisibility = TABLE_HEADERS.reduce((acc, h) => {
     acc[h.key] = DEFAULT_HIDDEN_COLUMNS.includes(h.key);
@@ -40,6 +55,11 @@ export const encodeColumnVisibility = (visibility: ColumnVisibility): string => 
   return btoa(JSON.stringify(Object.fromEntries(changedVisibility)));
 };
 
+/**
+ * Encodes the Column Widths.
+ * @param columnWidths The Column Widths.
+ * @returns The Coulm Widths as a String.
+ */
 export const encodeColumnWidths = (columnWidths: ColumnWidths): string => {
   const changedColumnWidths = Object.entries(columnWidths).filter(
     ([key, value]) => value !== DEFAULT_COLUMN_WIDTHS[key]
@@ -50,6 +70,11 @@ export const encodeColumnWidths = (columnWidths: ColumnWidths): string => {
   return btoa(JSON.stringify(Object.fromEntries(changedColumnWidths)));
 }
 
+/**
+ * Decodes the column Visibilities.
+ * @param encodedVisibility The Column Visitbilities as a String.
+ * @returns The decoded Column Visibiities.
+ */
 export const decodeColumnVisibility = (encodedVisibility: string): ColumnVisibility => {
   const defaultVisibility = TABLE_HEADERS.reduce((acc, h) => {
     acc[h.key] = DEFAULT_HIDDEN_COLUMNS.includes(h.key);
@@ -67,6 +92,11 @@ export const decodeColumnVisibility = (encodedVisibility: string): ColumnVisibil
   }
 };
 
+/**
+ * Decoes the Column Widths.
+ * @param encodedWidths The encoded Column Widths as a String.
+ * @returns The Decoded Coulmn Widths.
+ */
 export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   if (!encodedWidths) return DEFAULT_COLUMN_WIDTHS;
 
@@ -91,14 +121,27 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   }
 }
 
+/**
+ * Checks if a String is a Course.
+ * @param s The string to check.
+ * @returns true if the string is a course, fase else.
+ */
 export const isCourse = (s: string): boolean => {
   return COURSES.some(c => c.key === s);
 }
 
+/**
+ * Checks if a String is a Semester.
+ * @param v The string to check.
+ * @returns true if the string is a semester, false else.
+ */
 export const isSemester = (v: string): boolean => {
   return SEMESTERS.some(s => s.key === v);
 }
 
+/**
+ * Creates the Search Params.
+ */
 export const createSearchParams = (
   globalSearch: string,
   columnFilters: ColumnFilters,
@@ -133,7 +176,7 @@ export const createSearchParams = (
   }
 
   if (selectedSemester && isSemester(selectedSemester)) {
-    params.set("semester", selectedSemester)
+    params.set("semester", selectedSemester);
   }
 
   return params;
