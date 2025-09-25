@@ -67,7 +67,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   selectedCourse,
   setSelectedCourse,
   selectedSemester,
-  setSelectedSemester
+  setSelectedSemester,
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-primary shadow-lg border-b-2 border-primary">

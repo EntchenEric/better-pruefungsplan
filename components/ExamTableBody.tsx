@@ -55,8 +55,9 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
           key={idx}
           tabIndex={0}
           aria-rowindex={idx + 1}
-          className={`${idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
-            } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
+          className={`${
+            idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
+          } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
         >
           {TABLE_HEADERS.map(({ key }) =>
             hiddenCols[key] ? null : (
@@ -73,7 +74,7 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
               >
                 {entry[key] || ""}
               </td>
-            )
+            ),
           )}
         </tr>
       ))}

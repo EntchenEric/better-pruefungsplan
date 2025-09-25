@@ -4,16 +4,16 @@ import { SEMESTERS } from "@/config/tableConfig";
  * Represents the Props of the Semester Select.
  */
 interface SemesterSelectProps {
-    /**
-     * The currently selected semester.
-     */
-    selectedSemester: string | undefined;
-    /**
-     * The callback that is called when the Semester is changed.
-     * @param value The id of the newly selected semester.
-     * @returns void
-     */
-    setSelectedSemester: (value: string | undefined) => void;
+  /**
+   * The currently selected semester.
+   */
+  selectedSemester: string | undefined;
+  /**
+   * The callback that is called when the Semester is changed.
+   * @param value The id of the newly selected semester.
+   * @returns void
+   */
+  setSelectedSemester: (value: string | undefined) => void;
 }
 
 /**
@@ -22,28 +22,28 @@ interface SemesterSelectProps {
  * @returns The SemesterSelect as a React Component.
  */
 export const SemesterSelect = ({
-    selectedSemester,
-    setSelectedSemester
+  selectedSemester,
+  setSelectedSemester,
 }: SemesterSelectProps) => {
-    return (
-        <div>
-            <select
-                value={selectedSemester ?? ""}
-                onChange={(e) => setSelectedSemester(e.target.value || undefined)}
-                className="
+  return (
+    <div>
+      <select
+        value={selectedSemester ?? ""}
+        onChange={(e) => setSelectedSemester(e.target.value || undefined)}
+        className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 
           focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 
           transition-colors duration-300 ease-in-out cursor-pointer
           "
-            >
-                <option value="">Alle Semester</option>
-                {SEMESTERS.map((semester) => (
-                    <option key={semester.key} value={semester.key}>
-                        {semester.label}
-                    </option>
-                ))}
-            </select>
-        </div>
-    )
-}
+      >
+        <option value="">Alle Semester</option>
+        {SEMESTERS.map((semester) => (
+          <option key={semester.key} value={semester.key}>
+            {semester.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};

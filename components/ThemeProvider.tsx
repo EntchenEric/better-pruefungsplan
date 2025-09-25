@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 /**
  * Represents the Props of the Theme Provider.
@@ -19,13 +19,13 @@ interface ThemeProviderProps {
  */
 export default function ThemeProvider({ children }: ThemeProviderProps) {
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem("theme");
     const root = document.documentElement;
 
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      root.setAttribute('data-theme', savedTheme);
+    if (savedTheme === "light" || savedTheme === "dark") {
+      root.setAttribute("data-theme", savedTheme);
     } else {
-      root.removeAttribute('data-theme');
+      root.removeAttribute("data-theme");
     }
   }, []);
 

@@ -31,7 +31,6 @@ const ExamScheduleViewer = () => {
     setSelectedSemester,
   } = useUrlSync();
 
-
   useEffect(() => {
     /**
      * Fetches exam data JSON from server and updates entries state.
@@ -42,9 +41,12 @@ const ExamScheduleViewer = () => {
     const fetchAndParseData = async () => {
       try {
         const ac = new AbortController();
-        const response = await fetch("/api/exams", { signal: ac.signal, cache: "no-store" })
+        const response = await fetch("/api/exams", {
+          signal: ac.signal,
+          cache: "no-store",
+        });
         if (!response.ok) {
-          throw Error("Error loading pdf.")
+          throw Error("Error loading pdf.");
         }
         const data = await response.json();
         setEntries(data.entries);
@@ -60,7 +62,13 @@ const ExamScheduleViewer = () => {
   /**
    * The entries filtered according to the filters.
    */
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse, selectedSemester);
+  const filteredEntries = useExamFiltering(
+    entries,
+    globalSearch,
+    columnFilters,
+    selectedCourse,
+    selectedSemester,
+  );
 
   return (
     <>

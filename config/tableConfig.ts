@@ -71,4 +71,13 @@ export const DEFAULT_COLUMN_WIDTHS: ColumnWidths = {
   beisitzer: 90,
 };
 
-export const DEFAULT_HIDDEN_COLUMNS = ["mid", "lp", "pruefungsform", "modul", "pruefer", "zweitpruefer", "b_m", "beisitzer"];
+export const DEFAULT_HIDDEN_COLUMNS = [
+  "mid",
+  "lp",
+  "pruefungsform",
+  "modul",
+  "pruefer",
+  "zweitpruefer",
+  "b_m",
+  "beisitzer",
+];

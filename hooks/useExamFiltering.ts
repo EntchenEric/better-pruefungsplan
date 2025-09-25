@@ -24,7 +24,9 @@ export const useExamFiltering = (
     if (globalSearch.trim()) {
       const lowerGlobal = globalSearch.toLowerCase();
       filtered = filtered.filter((entry) =>
-        Object.values(entry).some((v) => v?.toLowerCase().includes(lowerGlobal))
+        Object.values(entry).some((v) =>
+          v?.toLowerCase().includes(lowerGlobal),
+        ),
       );
     }
 
@@ -34,24 +36,32 @@ export const useExamFiltering = (
         if (!filterVal) return true;
         const entryVal = (entry[key] || "").toLowerCase();
         return entryVal.includes(filterVal);
-      })
+      }),
     );
 
-    if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
+    if (selectedCourse && COURSES.some((c) => c.key === selectedCourse)) {
       filtered = filtered.filter((entry) => {
-        const val = String(entry[selectedCourse as keyof ExamEntry] ?? "").trim();
+        const val = String(
+          entry[selectedCourse as keyof ExamEntry] ?? "",
+        ).trim();
         return val.length > 0;
       });
     }
 
-    if (selectedSemester && SEMESTERS.some(s => s.key === selectedSemester)) {
-      if (selectedCourse && COURSES.some(c => c.key === selectedCourse)) {
+    if (selectedSemester && SEMESTERS.some((s) => s.key === selectedSemester)) {
+      if (selectedCourse && COURSES.some((c) => c.key === selectedCourse)) {
         filtered = filtered.filter(
-          (entry) => String(entry[selectedCourse as keyof ExamEntry] ?? "") === selectedSemester
+          (entry) =>
+            String(entry[selectedCourse as keyof ExamEntry] ?? "") ===
+            selectedSemester,
         );
       } else {
         filtered = filtered.filter((entry) =>
-          COURSES.some((c) => String(entry[c.key as keyof ExamEntry] ?? "") === selectedSemester)
+          COURSES.some(
+            (c) =>
+              String(entry[c.key as keyof ExamEntry] ?? "") ===
+              selectedSemester,
+          ),
         );
       }
     }
