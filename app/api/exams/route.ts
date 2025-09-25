@@ -141,9 +141,7 @@ function validateField(fieldName: string, value: string): boolean {
     case "b_m":
       return value === "B" || value === "M";
     case "raeume":
-      return (
-        value.length >= 4 && value.includes(".") && isNaN(Number(value))
-      );
+      return value.length >= 4 && value.includes(".") && isNaN(Number(value));
     case "beisitzer":
       return value.length > 3 && isNaN(Number(value));
     case "pi_ba":

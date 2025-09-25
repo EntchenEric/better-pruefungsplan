@@ -24,9 +24,8 @@ interface SemesterSelectProps {
  */
 export const SemesterSelect = ({
   selectedSemester,
-  setSelectedSemester
+  setSelectedSemester,
 }: SemesterSelectProps) => {
-
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     setSelectedSemester(e.target.value || undefined);
   }
@@ -51,5 +50,5 @@ export const SemesterSelect = ({
         ))}
       </select>
     </div>
-  )
-}
+  );
+};
