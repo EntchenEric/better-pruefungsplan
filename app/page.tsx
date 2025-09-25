@@ -51,7 +51,6 @@ export default function Home() {
               https://github.com/EntchenEric/better-pruefungsplan
             </a>
 
-            {/* DESCRIPTION */}
             <p className="mt-[18px] text-base text-secondary-text leading-relaxed mb-[22px] px-[2vw] md:px-[16%] opacity-[92%]">
               Der Quellcode dieser Webseite ist öffentlich zugänglich! Wenn du ihn erkunden oder sogar mithelfen möchtest, findest du alles im Repository.
             </p>
@@ -77,6 +76,27 @@ export default function Home() {
                 💡 Feedback & Ideen teilen
               </a>
             </div>
+          </div>
+        </div>
+
+
+        <div className="px-6 py-8 text-center max-w-xl mx-auto w-full">
+          <div
+            className="
+            bg-primary/80
+            backdrop-blur-lg rounded-xl shadow-xl border border-theme p-8 ">
+            <div className="flex justify-center items-center mb-3 text-red-700">
+              ! {/*Hier kommt später So Warnungs Icon wenn IconLibary installiert ist */}
+            </div>
+            <h3 className="text-xl font-bold text-red-700 mb-[10px] tracking-wide drop-shadow-sm">Achtung</h3>
+
+            <p className="mt-[18px] text-base text-secondary-text leading-relaxed mb-[22px] opacity-[92%]">
+              Die Informationen auf dieser Seite können falsch sein. Es gibt leider keine API für den Prüfungsplan (Wann W-HS API?). Aus 
+              diesen Grund muss die Prüfungsplan PDF von dieser Webseite gelesen und geparsed werden. Da PDFs schmutz sind ist das leichter 
+              gesagt als getan. Aufgrund eines ziemlich komplexen Parsing vorgangs (welcher nicht wirklich eleganter möglich ist) können 
+              sich Fehler einschleichen. Es ist zwar bis jetzt nicht vorgekommen dass Informationen falsch sind, aber better safe than sorry.
+              Falls du einen Fehler bemerkst melde diesen bitte umgehend.
+            </p>
           </div>
         </div>
       </div>
