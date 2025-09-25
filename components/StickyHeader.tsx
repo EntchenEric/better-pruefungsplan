@@ -54,12 +54,7 @@ interface StickyHeaderProps {
   setSelectedSemester: (value: string | undefined) => void;
 }
 
-/**
- * The component of the StickyHeader.
- * @param params the Params of the Sticky Header.
- * @returns The Sticky Header as a React Component.
- */
-export const StickyHeader: React.FC<StickyHeaderProps> = ({
+const Filters: React.FC<StickyHeaderProps> = ({
   hiddenCols,
   onToggleColumn,
   globalSearch,
@@ -70,6 +65,54 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   setSelectedSemester,
 }) => {
   return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+      <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
+        <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
+          <span className="mr-2">👁️</span>
+          Spalten verwalten
+        </h3>
+        <ColumnToggle
+          hiddenCols={hiddenCols}
+          onToggleColumn={onToggleColumn}
+        />
+      </div>
+
+      <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
+        <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
+          <span className="mr-2">🔍</span>
+          Globale Suche
+        </h3>
+        <div className="flex flex-col gap-3">
+          <GlobalSearch
+            globalSearch={globalSearch}
+            onGlobalSearchChange={onGlobalSearchChange}
+          />
+          <ShareUrlButton />
+          <CourseFilter
+            selectedCourse={selectedCourse}
+            setSelectedCourse={setSelectedCourse}
+          />
+          <SemesterSelect
+            selectedSemester={selectedSemester}
+            setSelectedSemester={setSelectedSemester}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const StickyHeader: React.FC<StickyHeaderProps> = ({
+  hiddenCols,
+  onToggleColumn,
+  globalSearch,
+  onGlobalSearchChange,
+  selectedCourse,
+  setSelectedCourse,
+  selectedSemester,
+  setSelectedSemester
+}) => {
+  return (
     <header className="sticky top-0 z-50 bg-primary shadow-lg border-b-2 border-primary">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="text-center mb-4">
@@ -78,41 +121,16 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
           </h1>
           <div className="h-1 w-32 bg-white/30 mx-auto rounded-full"></div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-          <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
-            <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
-              <span className="mr-2">👁️</span>
-              Spalten verwalten
-            </h3>
-            <ColumnToggle
-              hiddenCols={hiddenCols}
-              onToggleColumn={onToggleColumn}
-            />
-          </div>
-
-          <div className="backdrop-blur-sm rounded-lg p-3 border border-white/20">
-            <h3 className="text-sm font-semibold text-white mb-2 flex items-center">
-              <span className="mr-2">🔍</span>
-              Globale Suche
-            </h3>
-            <div className="flex flex-col gap-3">
-              <GlobalSearch
-                globalSearch={globalSearch}
-                onGlobalSearchChange={onGlobalSearchChange}
-              />
-              <ShareUrlButton />
-              <CourseFilter
-                selectedCourse={selectedCourse}
-                setSelectedCourse={setSelectedCourse}
-              />
-              <SemesterSelect
-                selectedSemester={selectedSemester}
-                setSelectedSemester={setSelectedSemester}
-              />
-            </div>
-          </div>
-        </div>
+        <Filters
+          hiddenCols={hiddenCols}
+          onToggleColumn={onToggleColumn}
+          globalSearch={globalSearch}
+          onGlobalSearchChange={onGlobalSearchChange}
+          selectedCourse={selectedCourse}
+          setSelectedCourse={setSelectedCourse}
+          selectedSemester={selectedSemester}
+          setSelectedSemester={setSelectedSemester}
+        />
       </div>
     </header>
   );
