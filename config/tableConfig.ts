@@ -34,6 +34,22 @@ export const COURSES = [
   { key: "is_ma", label: "Internetsicherheit Master" },
 ]
 
+export const SEMESTERS = [
+  {key: "1", label: "1"},
+  {key: "2", label: "2"},
+  {key: "3", label: "3"},
+  {key: "4", label: "4"},
+  {key: "5", label: "5"},
+  {key: "6", label: "6"},
+  {key: "7", label: "7"},
+  //{key: "8", label: "8"},
+  {key: "WP", label: "Wahlpflicht"},
+  {key: "WP-I", label: "Wahlpflicht Informatik Master"},
+  {key: "WP-IN", label: "Wahlpflicht Informatik Bachelor"},
+  {key: "WP-L", label: "Wahlpflicht Lerneinheit Master"},
+  {key: "WP-LE", label: "Wahlpflicht Lerneinheit Bachelor"},
+]
+
 export const MIN_COLUMN_WIDTH = 20;
 export const DEFAULT_COLUMN_WIDTH = 140;
 

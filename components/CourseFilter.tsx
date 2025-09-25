@@ -19,7 +19,7 @@ export const CourseFilter = ({
           transition-colors duration-300 ease-in-out cursor-pointer
           "
       >
-        <option key={"none"}>Alle Studiengänge anzeigen</option>
+        <option>Alle Studiengänge anzeigen</option>
         {COURSES.map((course) => (
           <option key={course.key} value={course.key}>
             {course.label}

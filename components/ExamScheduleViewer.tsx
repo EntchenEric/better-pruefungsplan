@@ -17,11 +17,13 @@ const ExamScheduleViewer = () => {
     hiddenCols,
     colWidths,
     selectedCourse,
+    selectedSemester,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
     handleColumnWidthChange,
-    setSelectedCourse
+    setSelectedCourse,
+    setSelectedSemester
   } = useUrlSync();
 
 
@@ -44,7 +46,7 @@ const ExamScheduleViewer = () => {
     fetchAndParseData();
   }, []);
 
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse);
+  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse, selectedSemester);
 
   return (
     <>
@@ -56,6 +58,8 @@ const ExamScheduleViewer = () => {
           onGlobalSearchChange={handleGlobalSearchChange}
           selectedCourse={selectedCourse}
           setSelectedCourse={setSelectedCourse}
+          selectedSemester={selectedSemester}
+          setSelectedSemester={setSelectedSemester}
         />
       </div>
       

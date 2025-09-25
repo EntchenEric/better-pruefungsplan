@@ -6,6 +6,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { ShareUrlButton } from "./ShareUrlButton";
 import { ColumnVisibility } from "@/types/exam";
 import { CourseFilter } from "./CourseFilter";
+import { SemesterSelect } from "./SemesterSelect";
 
 interface StickyHeaderProps {
   hiddenCols: ColumnVisibility;
@@ -14,6 +15,8 @@ interface StickyHeaderProps {
   onGlobalSearchChange: (value: string) => void;
   selectedCourse: string | undefined;
   setSelectedCourse: (value: string | undefined) => void;
+  selectedSemester: string | undefined;
+  setSelectedSemester: (value: string | undefined) => void;
 }
 
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
@@ -23,6 +26,8 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   onGlobalSearchChange,
   selectedCourse,
   setSelectedCourse,
+  selectedSemester,
+  setSelectedSemester
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-primary shadow-lg border-b-2 border-primary">
@@ -40,7 +45,7 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
               <span className="mr-2">👁️</span>
               Spalten verwalten
             </h3>
-            <ColumnToggle 
+            <ColumnToggle
               hiddenCols={hiddenCols}
               onToggleColumn={onToggleColumn}
             />
@@ -57,9 +62,13 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 onGlobalSearchChange={onGlobalSearchChange}
               />
               <ShareUrlButton />
-              <CourseFilter 
+              <CourseFilter
                 selectedCourse={selectedCourse}
                 setSelectedCourse={setSelectedCourse}
+              />
+              <SemesterSelect
+                selectedSemester={selectedSemester}
+                setSelectedSemester={setSelectedSemester}
               />
             </div>
           </div>

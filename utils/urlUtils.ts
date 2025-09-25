@@ -106,12 +106,31 @@ export const isCourse = (s: string): boolean => {
     "is_ma"].includes(s)
 }
 
+export const isSemester = (s: string): boolean => {
+  return [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "WP",
+    "WP-I",
+    "WP-IN",
+    "WP-L",
+    "WP-LE"
+  ].includes(s);
+}
+
 export const createSearchParams = (
   globalSearch: string,
   columnFilters: ColumnFilters,
   hiddenCols: ColumnVisibility,
   newColumnWidths: ColumnWidths,
   selectedCourse: string | undefined,
+  selectedSemester: string | undefined,
 ): URLSearchParams => {
   const params = new URLSearchParams();
 
@@ -136,6 +155,10 @@ export const createSearchParams = (
 
   if (selectedCourse && isCourse(selectedCourse)) {
     params.set("course", selectedCourse);
+  }
+
+  if (selectedSemester && isSemester(selectedSemester)) {
+    params.set("semester", selectedSemester)
   }
 
   return params;
