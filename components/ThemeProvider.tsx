@@ -28,6 +28,6 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
       root.removeAttribute("data-theme");
     }
   }, []);
-
-  return <>{children}</>;
+  
+  return children;
 }
