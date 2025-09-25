@@ -13,6 +13,6 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       root.removeAttribute('data-theme');
     }
   }, []);
-
-  return <>{children}</>;
+g
+  return children;
 }
