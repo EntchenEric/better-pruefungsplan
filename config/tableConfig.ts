@@ -18,6 +18,22 @@ export const TABLE_HEADERS: TableHeader[] = [
   { key: "beisitzer", label: "Beisitzer" },
 ];
 
+export const COURSES = [
+  { key: "pi_ba", label: "Praktische Informatik Bachelor" },
+  { key: "ti_ba", label: "Theoretische Informatik Bachelor" },
+  { key: "mi_ba", label: "Medieninformatik Bachelor" },
+  { key: "wi_ba", label: "Wirtschaftsinformatik Bachelor" },
+  { key: "pi_ba_dual", label: "Praktische Informatik Dual Bachelor" },
+  { key: "ti_ba_dual", label: "Theoretische Informatik Dual Bachelor" },
+  { key: "mi_ba_dual", label: "Medieninformatik Dual Bachelor" },
+  { key: "wi_ba_dual", label: "Wirtschaftsinformatik Dual Bachelor" },
+  { key: "pi_ma", label: "Praktische Informatik Master" },
+  { key: "ti_ma", label: "Theoretische Informatik Master" },
+  { key: "mi_ma", label: "Medieninformatik Master" },
+  { key: "wi_ma", label: "Wirtschaftsinformatik Master" },
+  { key: "is_ma", label: "Internetsicherheit Master" },
+]
+
 export const MIN_COLUMN_WIDTH = 20;
 export const DEFAULT_COLUMN_WIDTH = 140;
 

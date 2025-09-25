@@ -91,11 +91,27 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   }
 }
 
+export const isCourse = (s: string): boolean => {
+  return ["pi_ba",
+    "ti_ba",
+    "wi_ba",
+    "pi_ba_dual",
+    "ti_ba_dual",
+    "mi_ba_dual",
+    "wi_ba_dual",
+    "pi_ma",
+    "ti_ma",
+    "mi_ma",
+    "wi_ma",
+    "is_ma"].includes(s)
+}
+
 export const createSearchParams = (
   globalSearch: string,
   columnFilters: ColumnFilters,
   hiddenCols: ColumnVisibility,
   newColumnWidths: ColumnWidths,
+  selectedCourse: string | undefined,
 ): URLSearchParams => {
   const params = new URLSearchParams();
 
@@ -116,6 +132,10 @@ export const createSearchParams = (
   const encodedWidths = encodeColumnWidths(newColumnWidths);
   if (encodedWidths) {
     params.set("widths", encodedWidths);
+  }
+
+  if (selectedCourse && isCourse(selectedCourse)) {
+    params.set("course", selectedCourse);
   }
 
   return params;

@@ -34,18 +34,24 @@ export const useUrlSync = () => {
     return decodeColumnWidths(encodedWidths || "");
   })
 
+  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(() => {
+    return searchParams.get("course") || undefined
+  })
+
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,
       newColumnFilters: ColumnFilters,
       newHiddenCols: ColumnVisibility,
       newColumnWidths: ColumnWidths,
+      selectedCourse: string | undefined
     ) => {
       const params = createSearchParams(
         newGlobalSearch,
         newColumnFilters,
         newHiddenCols,
         newColumnWidths,
+        selectedCourse
       );
 
       const newUrl = params.toString()
@@ -59,11 +65,11 @@ export const useUrlSync = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths);
+      updateUrl(globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse);
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [globalSearch, columnFilters, hiddenCols, colWidths, updateUrl]);
+  }, [globalSearch, columnFilters, hiddenCols, colWidths, selectedCourse, updateUrl]);
 
   const handleGlobalSearchChange = useCallback((value: string) => {
     setGlobalSearch(value);
@@ -89,9 +95,11 @@ export const useUrlSync = () => {
     columnFilters,
     hiddenCols,
     colWidths,
+    selectedCourse,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
     handleColumnWidthChange,
+    setSelectedCourse,
   };
 };

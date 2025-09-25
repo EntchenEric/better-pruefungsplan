@@ -5,7 +5,8 @@ import { TABLE_HEADERS } from "@/config/tableConfig";
 export const useExamFiltering = (
   entries: ExamEntry[],
   globalSearch: string,
-  columnFilters: ColumnFilters
+  columnFilters: ColumnFilters,
+  selectedCourse: string | undefined
 ) => {
   const filteredEntries = useMemo(() => {
     let filtered = entries;
@@ -24,10 +25,30 @@ export const useExamFiltering = (
         const entryVal = (entry[key] || "").toLowerCase();
         return entryVal.includes(filterVal);
       })
-    );
+    ).filter((entry) => {
+      switch (selectedCourse) {
+        case "pi_ba":
+        case "ti_ba":
+        case "wi_ba":
+        case "pi_ba_dual":
+        case "ti_ba_dual":
+        case "mi_ba_dual":
+        case "wi_ba_dual":
+        case "pi_ma":
+        case "ti_ma":
+        case "mi_ma":
+        case "wi_ma":
+        case "is_ma":
+          return entry[selectedCourse] != "";
+        case undefined:
+          return true;
+        default:
+          return true;
+      }
+    });
     
     return filtered;
-  }, [entries, globalSearch, columnFilters]);
+  }, [entries, globalSearch, columnFilters, selectedCourse]);
 
   return filteredEntries;
 };

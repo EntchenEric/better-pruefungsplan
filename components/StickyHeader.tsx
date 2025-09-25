@@ -5,12 +5,15 @@ import { ColumnToggle } from "./ColumnToggle";
 import { GlobalSearch } from "./GlobalSearch";
 import { ShareUrlButton } from "./ShareUrlButton";
 import { ColumnVisibility } from "@/types/exam";
+import { CourseFilter } from "./CourseFilter";
 
 interface StickyHeaderProps {
   hiddenCols: ColumnVisibility;
   onToggleColumn: (key: string) => void;
   globalSearch: string;
   onGlobalSearchChange: (value: string) => void;
+  selectedCourse: string | undefined;
+  setSelectedCourse: (value: string | undefined) => void;
 }
 
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
@@ -18,6 +21,8 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   onToggleColumn,
   globalSearch,
   onGlobalSearchChange,
+  selectedCourse,
+  setSelectedCourse,
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-primary shadow-lg border-b-2 border-primary">
@@ -52,6 +57,10 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 onGlobalSearchChange={onGlobalSearchChange}
               />
               <ShareUrlButton />
+              <CourseFilter 
+                selectedCourse={selectedCourse}
+                setSelectedCourse={setSelectedCourse}
+              />
             </div>
           </div>
         </div>
