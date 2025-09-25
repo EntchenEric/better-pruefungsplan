@@ -54,7 +54,12 @@ interface StickyHeaderProps {
   setSelectedSemester: (value: string | undefined) => void;
 }
 
-const Filters: React.FC<StickyHeaderProps> = ({
+/**
+ * The Filters of the StickyHeader.
+ * @param params the Params of the Filter of the Sticky Header.
+ * @returns The Filters as a React Component.
+ */
+export const Filters: React.FC<StickyHeaderProps> = ({
   hiddenCols,
   onToggleColumn,
   globalSearch,
@@ -99,6 +104,11 @@ const Filters: React.FC<StickyHeaderProps> = ({
   );
 };
 
+/**
+ * The component of the StickyHeader.
+ * @param params the Params of the Sticky Header.
+ * @returns The Sticky Header as a React Component.
+ */
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
   hiddenCols,
   onToggleColumn,

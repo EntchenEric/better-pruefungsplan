@@ -15,7 +15,7 @@ import { ExamTableBody } from "./ExamTableBody";
  */
 const ExamScheduleViewer = () => {
   const [entries, setEntries] = useState<ExamEntry[]>([]);
-
+  
   const {
     globalSearch,
     columnFilters,
@@ -38,7 +38,7 @@ const ExamScheduleViewer = () => {
      * @async
      * @returns {Promise<void>} Resolves when fetching/parsing completes or errors out.
      */
-    const fetchAndParseData = async (): Promise<void> => {
+    const fetchAndParseData = async () => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", {
@@ -62,13 +62,7 @@ const ExamScheduleViewer = () => {
   /**
    * The entries filtered according to the filters.
    */
-  const filteredEntries = useExamFiltering(
-    entries,
-    globalSearch,
-    columnFilters,
-    selectedCourse,
-    selectedSemester,
-  );
+  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, selectedCourse, selectedSemester);
 
   return (
     <>

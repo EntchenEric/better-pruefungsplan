@@ -22,7 +22,7 @@ interface ExamTableHeaderProps {
    * @param value The new width of the coulm.
    * @returns void
    */
-  setColWidths: (key: string, value: number) => void;
+  setColWidths: (key: string, value: number) => void,
   /**
    * The active filters to filter the columns.
    */

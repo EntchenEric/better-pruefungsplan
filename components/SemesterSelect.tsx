@@ -24,8 +24,9 @@ interface SemesterSelectProps {
  */
 export const SemesterSelect = ({
   selectedSemester,
-  setSelectedSemester,
-}:SemesterSelectProps) => {
+  setSelectedSemester
+}: SemesterSelectProps) => {
+
   function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
     setSelectedSemester(e.target.value || undefined);
   }
@@ -34,7 +35,7 @@ export const SemesterSelect = ({
     <div>
       <select
         value={selectedSemester ?? ""}
-        onChange={handleSelect}
+        onChange={(e) => setSelectedSemester(e.target.value || undefined)}
         className="
           px-4 py-2 rounded-lg border-2 border-primary 
           bg-secondary text-secondary-text 
@@ -50,5 +51,5 @@ export const SemesterSelect = ({
         ))}
       </select>
     </div>
-  );
-};
+  )
+}

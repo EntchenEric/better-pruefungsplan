@@ -1,16 +1,16 @@
 import { COURSES } from "@/config/tableConfig";
 
 interface CourseFilterProps {
-  /**
-   * The course that is currently selected.
-   */
-  selectedCourse: string | undefined;
+    /**
+     * The course that is currently selected.
+     */
+  selectedCourse: string | undefined
   /**
    * The callback that is called when a new course should be selected.
    * @param value The key of the newly selected course
    * @returns void
    */
-  setSelectedCourse: (value: string | undefined) => void;
+  setSelectedCourse: (value: string | undefined) => void
 }
 
 /**
