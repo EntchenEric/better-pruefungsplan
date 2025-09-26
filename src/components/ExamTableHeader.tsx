@@ -119,15 +119,18 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
     };
 
   /**
-* Handles clearing the column filter.
-*/
-  const handleColumnFilterClear = useCallback((key: string) => {
-    onColumnFilterChange(key, "");
-  }, [onColumnFilterChange]);
+   * Handles clearing the column filter.
+   */
+  const handleColumnFilterClear = useCallback(
+    (key: string) => {
+      onColumnFilterChange(key, "");
+    },
+    [onColumnFilterChange],
+  );
 
   /**
-          * Handles changing the column filter.
-          */
+   * Handles changing the column filter.
+   */
   const handleColumnFilterChange = useCallback(
     (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
       onColumnFilterChange(key, e.target.value);
@@ -189,7 +192,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
       <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
         {TABLE_HEADERS.map(({ key, label }) => {
-
           return hiddenCols[key] ? null : (
             <th
               key={`filter-${key}`}

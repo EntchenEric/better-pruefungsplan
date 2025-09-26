@@ -23,9 +23,12 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   hiddenCols,
   onToggleColumn,
 }) => {
-  const handleColumnToggle = useCallback((key: string) => {
-    onToggleColumn(key);
-  }, [onToggleColumn]);
+  const handleColumnToggle = useCallback(
+    (key: string) => {
+      onToggleColumn(key);
+    },
+    [onToggleColumn],
+  );
 
   return (
     <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
@@ -38,7 +41,6 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
           /**
            * Handles toggeling visibility of a column.
            */
-
 
           return (
             <label
@@ -58,10 +60,11 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                   className="sr-only"
                 />
                 <div
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${hiddenCols[key]
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${
+                    hiddenCols[key]
                       ? "border-secondary-text"
                       : "border-primary bg-primary"
-                    }`}
+                  }`}
                 >
                   {!hiddenCols[key] && (
                     <svg
