@@ -3,9 +3,36 @@ import ExamScheduleViewer from "@//components/ExamScheduleViewer";
 import { BsBug, BsGithub, BsLightbulb } from "react-icons/bs";
 import { IoWarning } from "react-icons/io5";
 
-async function InfoCards() {
+/**
+ * The info Cards used to display some information.
+ * @returns The Info Cards as a React Component.
+ */
+function InfoCards() {
   return (
     <>
+      <div className="px-6 py-8 text-center max-w-xl mx-auto w-full">
+        <div className="bg-primary/80 backdrop-blur-md rounded-xl shadow-lg border border-theme p-8">
+          <p className="text-xl font-semibold text-theme-primary mb-4 tracking-wide">
+            Nicht der aktuelle Prüfungsplan?
+          </p>
+          <p className="text-base text-secondary-text mb-6 leading-relaxed">
+            Bitte schreibe{" "}
+            <span className="text-primary-text hover:text-primary-text font-semibold underline underline-offset-2 hover:underline-offset-[6px] transition-all duration-200 cursor-pointer">
+              @entcheneric
+            </span>{" "}
+            auf Discord und ich werde ihn so schnell wie möglich
+            aktualisieren!
+          </p>
+          <div className="border-t border-theme-light pt-4 mt-4">
+            <p className="text-xs text-secondary-text leading-relaxed italic opacity-80">
+              Diese Website ist <strong>nicht</strong> in Zusammenarbeit mit
+              der Westfälischen Hochschule entstanden und steht in{" "}
+              <strong>keinem</strong> offiziellen Zusammenhang mit der
+              Hochschule.
+            </p>
+          </div>
+        </div>
+      </div>
       <div className="px-6 py-8 text-center max-w-xl mx-auto w-full">
         <div
           className="
@@ -118,29 +145,6 @@ export default function Home() {
       </Suspense>
 
       <div className="flex flex-col md:flex-row justify-center items-start">
-        <div className="px-6 py-8 text-center max-w-xl mx-auto w-full">
-          <div className="bg-primary/80 backdrop-blur-md rounded-xl shadow-lg border border-theme p-8">
-            <p className="text-xl font-semibold text-theme-primary mb-4 tracking-wide">
-              Nicht der aktuelle Prüfungsplan?
-            </p>
-            <p className="text-base text-secondary-text mb-6 leading-relaxed">
-              Bitte schreibe{" "}
-              <span className="text-primary-text hover:text-primary-text font-semibold underline underline-offset-2 hover:underline-offset-[6px] transition-all duration-200 cursor-pointer">
-                @entcheneric
-              </span>{" "}
-              auf Discord und ich werde ihn so schnell wie möglich
-              aktualisieren!
-            </p>
-            <div className="border-t border-theme-light pt-4 mt-4">
-              <p className="text-xs text-secondary-text leading-relaxed italic opacity-80">
-                Diese Website ist <strong>nicht</strong> in Zusammenarbeit mit
-                der Westfälischen Hochschule entstanden und steht in{" "}
-                <strong>keinem</strong> offiziellen Zusammenhang mit der
-                Hochschule.
-              </p>
-            </div>
-          </div>
-        </div>
         <InfoCards />
       </div>
     </div>

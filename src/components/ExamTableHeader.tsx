@@ -85,6 +85,11 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
     };
   }, [onMouseMove, onMouseUp]);
 
+  /**
+   * Resizes the column.
+   * @param key The column to resize.
+   * @returns void
+   */
   const onMouseDownResizer =
     (key: string) => (e: React.MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
@@ -167,15 +172,22 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
       <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
         {TABLE_HEADERS.map(({ key, label }) => {
-          function handleColumnFilterChange(
-            e: React.ChangeEvent<HTMLInputElement>,
-          ) {
-            onColumnFilterChange(key, e.target.value);
-          }
 
-          function handleColumnFilterClear() {
+          /**
+           * Handles changing the column filter.
+           */
+          const handleColumnFilterChange = useCallback((
+            e: React.ChangeEvent<HTMLInputElement>,
+          ) => {
+            onColumnFilterChange(key, e.target.value);
+          }, [onColumnFilterChange])
+
+          /**
+           * Handles clearing the column filter.
+           */
+          const handleColumnFilterClear = useCallback(() => {
             onColumnFilterChange(key, "");
-          }
+          }, [onColumnFilterChange])
 
           return hiddenCols[key] ? null : (
             <th

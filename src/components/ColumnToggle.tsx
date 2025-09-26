@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ColumnVisibility } from "@//types/exam";
 import { TABLE_HEADERS } from "@//config/tableConfig";
 import { FaColumns } from "react-icons/fa";
@@ -31,9 +31,14 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         {TABLE_HEADERS.map(({ key, label }) => {
-          function handleColumnToggle() {
+
+          /**
+           * Handles toggeling visibility of a column.
+           */
+          const handleColumnToggle = useCallback(() => {
             onToggleColumn(key);
-          }
+          }, [onToggleColumn])
+
           return (
             <label
               key={`toggle-${key}`}

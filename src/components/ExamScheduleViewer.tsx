@@ -56,7 +56,7 @@ const ExamScheduleViewer = () => {
       }
     };
 
-    fetchAndParseData();
+    fetchAndParseData().then(() => {});
   }, []);
 
   /**
