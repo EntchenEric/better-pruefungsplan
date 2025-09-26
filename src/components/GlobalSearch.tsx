@@ -26,20 +26,22 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   globalSearch,
   onGlobalSearchChange,
 }) => {
-  
   /**
    * Handles changing the global search input.
    */
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    onGlobalSearchChange(e.target.value);
-  }, [onGlobalSearchChange])
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onGlobalSearchChange(e.target.value);
+    },
+    [onGlobalSearchChange],
+  );
 
   /**
    * Handles clearing the global search.
    */
   const handleSearchClear = useCallback(() => {
     onGlobalSearchChange("");
-  }, [onGlobalSearchChange])
+  }, [onGlobalSearchChange]);
 
   return (
     <div className="flex gap-2 flex-wrap">

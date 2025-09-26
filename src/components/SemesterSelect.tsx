@@ -26,13 +26,15 @@ export const SemesterSelect = ({
   selectedSemester,
   setSelectedSemester,
 }: SemesterSelectProps) => {
-
   /**
    * Handles selecting a semester.
    */
-  const handleSelect = useCallback(() => (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSemester(e.target.value || undefined);
-  }, [setSelectedSemester])
+  const handleSelect = useCallback(
+    () => (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedSemester(e.target.value || undefined);
+    },
+    [setSelectedSemester],
+  );
 
   return (
     <div>

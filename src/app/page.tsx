@@ -20,13 +20,12 @@ function InfoCards() {
             <span className="text-primary-text hover:text-primary-text font-semibold underline underline-offset-2 hover:underline-offset-[6px] transition-all duration-200 cursor-pointer">
               @entcheneric
             </span>{" "}
-            auf Discord und ich werde ihn so schnell wie möglich
-            aktualisieren!
+            auf Discord und ich werde ihn so schnell wie möglich aktualisieren!
           </p>
           <div className="border-t border-theme-light pt-4 mt-4">
             <p className="text-xs text-secondary-text leading-relaxed italic opacity-80">
-              Diese Website ist <strong>nicht</strong> in Zusammenarbeit mit
-              der Westfälischen Hochschule entstanden und steht in{" "}
+              Diese Website ist <strong>nicht</strong> in Zusammenarbeit mit der
+              Westfälischen Hochschule entstanden und steht in{" "}
               <strong>keinem</strong> offiziellen Zusammenhang mit der
               Hochschule.
             </p>

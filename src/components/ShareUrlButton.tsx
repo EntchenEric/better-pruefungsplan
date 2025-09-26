@@ -40,7 +40,7 @@ export const ShareUrlButton: React.FC = () => {
    */
   const handleShareUrl = useCallback(() => {
     const currentUrl = window.location.href;
-    
+
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(currentUrl)
@@ -51,10 +51,10 @@ export const ShareUrlButton: React.FC = () => {
         .catch(() => {
           fallbackCopyToClipboard(currentUrl);
         });
-      } else {
-        fallbackCopyToClipboard(currentUrl);
-      }
-    }, [fallbackCopyToClipboard])
+    } else {
+      fallbackCopyToClipboard(currentUrl);
+    }
+  }, [fallbackCopyToClipboard]);
 
   return (
     <div className="relative">

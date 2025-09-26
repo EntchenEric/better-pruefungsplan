@@ -31,13 +31,12 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         {TABLE_HEADERS.map(({ key, label }) => {
-
           /**
            * Handles toggeling visibility of a column.
            */
           const handleColumnToggle = useCallback(() => {
             onToggleColumn(key);
-          }, [onToggleColumn])
+          }, [onToggleColumn]);
 
           return (
             <label

@@ -23,13 +23,15 @@ export const CourseFilter = ({
   selectedCourse,
   setSelectedCourse,
 }: CourseFilterProps) => {
-
   /**
    * Handles changing the course.
    */
-  const handleSelectChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCourse(e.target.value || undefined);
-  }, [setSelectedCourse])
+  const handleSelectChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCourse(e.target.value || undefined);
+    },
+    [setSelectedCourse],
+  );
 
   return (
     <div>
