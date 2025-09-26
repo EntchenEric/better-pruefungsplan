@@ -23,6 +23,10 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   hiddenCols,
   onToggleColumn,
 }) => {
+  const handleColumnToggle = useCallback((key: string) => {
+    onToggleColumn(key);
+  }, [onToggleColumn]);
+
   return (
     <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
       <div className="flex items-center gap-2 text-primary-text font-medium">
@@ -34,9 +38,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
           /**
            * Handles toggeling visibility of a column.
            */
-          const handleColumnToggle = useCallback(() => {
-            onToggleColumn(key);
-          }, [onToggleColumn]);
+
 
           return (
             <label
@@ -52,15 +54,14 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                 <input
                   type="checkbox"
                   checked={!hiddenCols[key]}
-                  onChange={handleColumnToggle}
+                  onChange={() => handleColumnToggle(key)}
                   className="sr-only"
                 />
                 <div
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${
-                    hiddenCols[key]
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all duration-200 ${hiddenCols[key]
                       ? "border-secondary-text"
                       : "border-primary bg-primary"
-                  }`}
+                    }`}
                 >
                   {!hiddenCols[key] && (
                     <svg

@@ -118,6 +118,23 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
       document.body.style.userSelect = "none";
     };
 
+  /**
+* Handles clearing the column filter.
+*/
+  const handleColumnFilterClear = useCallback((key: string) => {
+    onColumnFilterChange(key, "");
+  }, [onColumnFilterChange]);
+
+  /**
+          * Handles changing the column filter.
+          */
+  const handleColumnFilterChange = useCallback(
+    (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
+      onColumnFilterChange(key, e.target.value);
+    },
+    [onColumnFilterChange],
+  );
+
   return (
     <thead>
       <tr
@@ -172,22 +189,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
       <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
         {TABLE_HEADERS.map(({ key, label }) => {
-          /**
-           * Handles changing the column filter.
-           */
-          const handleColumnFilterChange = useCallback(
-            (e: React.ChangeEvent<HTMLInputElement>) => {
-              onColumnFilterChange(key, e.target.value);
-            },
-            [onColumnFilterChange],
-          );
-
-          /**
-           * Handles clearing the column filter.
-           */
-          const handleColumnFilterClear = useCallback(() => {
-            onColumnFilterChange(key, "");
-          }, [onColumnFilterChange]);
 
           return hiddenCols[key] ? null : (
             <th
@@ -217,7 +218,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 <input
                   type="text"
                   value={columnFilters[key]}
-                  onChange={handleColumnFilterChange}
+                  onChange={(e) => handleColumnFilterChange(key, e)}
                   aria-label={`Filter für ${label}`}
                   spellCheck={false}
                   autoComplete="off"
@@ -225,7 +226,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 />
                 {columnFilters[key] && (
                   <button
-                    onClick={handleColumnFilterClear}
+                    onClick={() => handleColumnFilterClear(key)}
                     className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
                     aria-label={`Clear filter for ${label}`}
                   >
