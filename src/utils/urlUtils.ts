@@ -1,4 +1,4 @@
-import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
+import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@//types/exam";
 import {
   TABLE_HEADERS,
   DEFAULT_HIDDEN_COLUMNS,
@@ -6,7 +6,7 @@ import {
   MIN_COLUMN_WIDTH,
   COURSES,
   SEMESTERS,
-} from "@/config/tableConfig";
+} from "@//config/tableConfig";
 
 /**
  * Encodes the Column Filters.

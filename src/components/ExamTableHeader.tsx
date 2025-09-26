@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef } from "react";
-import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@/types/exam";
-import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
+import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@//types/exam";
+import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@//config/tableConfig";
 
 /**
  * Represents the props of the Exam Tabe Header.

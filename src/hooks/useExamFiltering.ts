@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { ExamEntry, ColumnFilters } from "@/types/exam";
-import { COURSES, SEMESTERS, TABLE_HEADERS } from "@/config/tableConfig";
+import { ExamEntry, ColumnFilters } from "@//types/exam";
+import { COURSES, SEMESTERS, TABLE_HEADERS } from "@//config/tableConfig";
 
 /**
  * Filters ExamEntries.

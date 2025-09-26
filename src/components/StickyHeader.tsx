@@ -4,7 +4,7 @@ import React from "react";
 import { ColumnToggle } from "./ColumnToggle";
 import { GlobalSearch } from "./GlobalSearch";
 import { ShareUrlButton } from "./ShareUrlButton";
-import { ColumnVisibility } from "@/types/exam";
+import { ColumnVisibility } from "@//types/exam";
 import { CourseFilter } from "./CourseFilter";
 import { SemesterSelect } from "./SemesterSelect";
 import { FaCalendar, FaEye } from "react-icons/fa";

@@ -1,6 +1,6 @@
 import React from "react";
-import { ColumnVisibility } from "@/types/exam";
-import { TABLE_HEADERS } from "@/config/tableConfig";
+import { ColumnVisibility } from "@//types/exam";
+import { TABLE_HEADERS } from "@//config/tableConfig";
 import { FaColumns } from "react-icons/fa";
 
 interface ColumnToggleProps {

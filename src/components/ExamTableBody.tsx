@@ -1,6 +1,6 @@
 import React from "react";
-import { ExamEntry, ColumnWidths, ColumnVisibility } from "@/types/exam";
-import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
+import { ExamEntry, ColumnWidths, ColumnVisibility } from "@//types/exam";
+import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@//config/tableConfig";
 
 /**
  * Represents the props of the ExamTableBody.

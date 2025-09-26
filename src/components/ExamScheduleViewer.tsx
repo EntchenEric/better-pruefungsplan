@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ExamEntry } from "@/types/exam";
-import { useExamFiltering } from "@/hooks/useExamFiltering";
-import { useUrlSync } from "@/hooks/useUrlSync";
+import { ExamEntry } from "@//types/exam";
+import { useExamFiltering } from "@//hooks/useExamFiltering";
+import { useUrlSync } from "@//hooks/useUrlSync";
 import { StickyHeader } from "./StickyHeader";
 import { ExamTableHeader } from "./ExamTableHeader";
 import { ExamTableBody } from "./ExamTableBody";

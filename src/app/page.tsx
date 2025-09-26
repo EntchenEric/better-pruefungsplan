@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ExamScheduleViewer from "@/components/ExamScheduleViewer";
+import ExamScheduleViewer from "@//components/ExamScheduleViewer";
 import { BsBug, BsGithub, BsLightbulb } from "react-icons/bs";
 import { IoWarning } from "react-icons/io5";
 

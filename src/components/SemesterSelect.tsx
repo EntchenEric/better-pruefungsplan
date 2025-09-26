@@ -1,4 +1,4 @@
-import { SEMESTERS } from "@/config/tableConfig";
+import { SEMESTERS } from "@//config/tableConfig";
 import { ChangeEvent } from "react";
 
 /**
