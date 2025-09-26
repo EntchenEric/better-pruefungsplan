@@ -1,4 +1,4 @@
-import { TableHeader, ColumnWidths } from "@/types/exam";
+import { TableHeader, ColumnWidths } from "@//types/exam";
 
 export const TABLE_HEADERS: TableHeader[] = [
   { key: "mid", label: "MID" },

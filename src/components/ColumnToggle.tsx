@@ -1,6 +1,6 @@
 import React from "react";
-import { ColumnVisibility } from "@/types/exam";
-import { TABLE_HEADERS } from "@/config/tableConfig";
+import { ColumnVisibility } from "@//types/exam";
+import { TABLE_HEADERS } from "@//config/tableConfig";
 import { FaColumns } from "react-icons/fa";
 
 interface ColumnToggleProps {
@@ -26,7 +26,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   return (
     <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
       <div className="flex items-center gap-2 text-primary-text font-medium">
-       <FaColumns />
+        <FaColumns />
         <span>Spalten anzeigen:</span>
       </div>
       <div className="flex flex-wrap justify-center gap-2">

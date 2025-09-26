@@ -1,4 +1,4 @@
-import { COURSES } from "@/config/tableConfig";
+import { COURSES } from "@//config/tableConfig";
 
 interface CourseFilterProps {
   /**

@@ -1,10 +1,10 @@
 export const runtime = "nodejs";
 
-import { ExamEntry } from "@/types/exam";
+import { ExamEntry } from "@//types/exam";
 import { NextResponse } from "next/server";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { isSemester } from "@/utils/urlUtils";
+import { isSemester } from "@//utils/urlUtils";
 
 type Item = { text: string; x: number; y: number };
 
@@ -347,7 +347,7 @@ const mergePages = (pages: Item[][]): Item[][] => {
 
 export async function GET() {
   const buffer = await fs.readFile(
-    path.join(process.cwd(), "public", "pruefungsplan.pdf"),
+    path.join(process.cwd(), "src", "public", "pruefungsplan.pdf"),
   );
   const pages = await readPdfItems(buffer);
   const mergedPages = mergePages(pages);

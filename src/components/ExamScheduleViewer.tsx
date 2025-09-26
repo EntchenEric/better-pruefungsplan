@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ExamEntry } from "@/types/exam";
-import { useExamFiltering } from "@/hooks/useExamFiltering";
-import { useUrlSync } from "@/hooks/useUrlSync";
+import { ExamEntry } from "@//types/exam";
+import { useExamFiltering } from "@//hooks/useExamFiltering";
+import { useUrlSync } from "@//hooks/useUrlSync";
 import { StickyHeader } from "./StickyHeader";
 import { ExamTableHeader } from "./ExamTableHeader";
 import { ExamTableBody } from "./ExamTableBody";
@@ -38,7 +38,7 @@ const ExamScheduleViewer = () => {
      * @async
      * @returns {Promise<void>} Resolves when fetching/parsing completes or errors out.
      */
-    const fetchAndParseData = async (): Promise<void>  => {
+    const fetchAndParseData = async (): Promise<void> => {
       try {
         const ac = new AbortController();
         const response = await fetch("/api/exams", {

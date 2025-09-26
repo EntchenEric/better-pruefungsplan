@@ -10,7 +10,7 @@ import {
   decodeColumnWidths,
   isCourse,
   isSemester,
-} from "@/utils/urlUtils";
+} from "@//utils/urlUtils";
 
 /**
  * Synchronizes the URL to include filters and other props.
