@@ -12,7 +12,7 @@ export interface ExamEntry {
   pruefer_name: string;
   zweitpruefer: string;
   b_m: "B" | "M";
-  raeume: string
+  raeume: string;
   beisitzer: string;
   pi_ba: string;
   ti_ba: string;

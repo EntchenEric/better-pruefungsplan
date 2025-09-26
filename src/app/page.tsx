@@ -98,7 +98,7 @@ async function InfoCards() {
       </div>
     </>
   );
-};
+}
 
 /**
  * The Homepage of the Page.
