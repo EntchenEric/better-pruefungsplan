@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
-/**
- * useExamFiltering.test.tsx
- */
+/*
+    This file is AI generated. However tests are checked closely.
+*/
 
 import { renderHook } from '@testing-library/react';
 import { useExamFiltering } from '@/hooks/useExamFiltering';
