@@ -27,7 +27,7 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
     const pages: Item[][] = [];
     let curr: Item[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    new PdfReader().parseBuffer(buffer, (err: any, item: any): void => {
+    new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
       if (err) return reject(err);
       if (!item) {
         if (curr.length) pages.push(curr);
@@ -345,6 +345,10 @@ const mergePages = (pages: Item[][]): Item[][] => {
   return mergedPages;
 };
 
+/**
+ * The route used to extract data from the pruefungsplan.
+ * @returns a NextResponse containig the entries.
+ */
 export async function GET() {
   const buffer = await fs.readFile(
     path.join(process.cwd(), "src", "public", "pruefungsplan.pdf"),

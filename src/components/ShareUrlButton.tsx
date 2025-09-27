@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { FaShare } from "react-icons/fa";
 
 /**
@@ -10,6 +10,10 @@ import { FaShare } from "react-icons/fa";
 export const ShareUrlButton: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
 
+  /**
+   * Uses a different approach to copy to clipboard.
+   * @param text The text to copy.
+   */
   const fallbackCopyToClipboard = (text: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -31,7 +35,10 @@ export const ShareUrlButton: React.FC = () => {
     document.body.removeChild(textArea);
   };
 
-  function handleShareUrl() {
+  /**
+   * handles clicking on the share URL button.
+   */
+  const handleShareUrl = useCallback(() => {
     const currentUrl = window.location.href;
 
     if (navigator.clipboard) {
@@ -47,7 +54,7 @@ export const ShareUrlButton: React.FC = () => {
     } else {
       fallbackCopyToClipboard(currentUrl);
     }
-  }
+  }, [fallbackCopyToClipboard]);
 
   return (
     <div className="relative">

@@ -1,6 +1,5 @@
-import React from "react";
-import { FaMagnifyingGlass, FaX } from "react-icons/fa6";
-import { FcCancel } from "react-icons/fc";
+import React, { useCallback } from "react";
+import { FaX } from "react-icons/fa6";
 
 /**
  * Represents the Props of the Global Search.
@@ -27,13 +26,22 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   globalSearch,
   onGlobalSearchChange,
 }) => {
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    onGlobalSearchChange(e.target.value);
-  }
+  /**
+   * Handles changing the global search input.
+   */
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onGlobalSearchChange(e.target.value);
+    },
+    [onGlobalSearchChange],
+  );
 
-  function handleSearchClear() {
+  /**
+   * Handles clearing the global search.
+   */
+  const handleSearchClear = useCallback(() => {
     onGlobalSearchChange("");
-  }
+  }, [onGlobalSearchChange]);
 
   return (
     <div className="flex gap-2 flex-wrap">

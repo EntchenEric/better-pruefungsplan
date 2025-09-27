@@ -1,4 +1,5 @@
 import { COURSES } from "@//config/tableConfig";
+import { useCallback } from "react";
 
 interface CourseFilterProps {
   /**
@@ -22,9 +23,15 @@ export const CourseFilter = ({
   selectedCourse,
   setSelectedCourse,
 }: CourseFilterProps) => {
-  function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setSelectedCourse(e.target.value || undefined);
-  }
+  /**
+   * Handles changing the course.
+   */
+  const handleSelectChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCourse(e.target.value || undefined);
+    },
+    [setSelectedCourse],
+  );
 
   return (
     <div>

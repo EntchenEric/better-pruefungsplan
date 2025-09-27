@@ -72,7 +72,7 @@ describe("useExamFiltering", () => {
 
   test("global search matches any field, case-insensitive; does not trim the search string for matching", () => {
     // With surrounding spaces, the hook does NOT trim for matching -> no result
-    let { result, rerender } = renderHook(
+    const { result, rerender } = renderHook(
       ({ search }) =>
         useExamFiltering(ENTRIES as any, search, {}, undefined, undefined),
       { initialProps: { search: "  soft  " } },

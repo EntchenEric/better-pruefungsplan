@@ -1,5 +1,5 @@
 import { SEMESTERS } from "@//config/tableConfig";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 /**
  * Represents the Props of the Semester Select.
@@ -26,9 +26,15 @@ export const SemesterSelect = ({
   selectedSemester,
   setSelectedSemester,
 }: SemesterSelectProps) => {
-  function handleSelect(e: ChangeEvent<HTMLSelectElement>) {
-    setSelectedSemester(e.target.value || undefined);
-  }
+  /**
+   * Handles selecting a semester.
+   */
+  const handleSelect = useCallback(
+    () => (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedSemester(e.target.value || undefined);
+    },
+    [setSelectedSemester],
+  );
 
   return (
     <div>

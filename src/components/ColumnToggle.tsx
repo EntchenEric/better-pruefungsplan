@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ColumnVisibility } from "@//types/exam";
 import { TABLE_HEADERS } from "@//config/tableConfig";
 import { FaColumns } from "react-icons/fa";
@@ -23,6 +23,13 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   hiddenCols,
   onToggleColumn,
 }) => {
+  const handleColumnToggle = useCallback(
+    (key: string) => {
+      onToggleColumn(key);
+    },
+    [onToggleColumn],
+  );
+
   return (
     <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
       <div className="flex items-center gap-2 text-primary-text font-medium">
@@ -31,9 +38,10 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         {TABLE_HEADERS.map(({ key, label }) => {
-          function handleColumnToggle() {
-            onToggleColumn(key);
-          }
+          /**
+           * Handles toggeling visibility of a column.
+           */
+
           return (
             <label
               key={`toggle-${key}`}
@@ -48,7 +56,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                 <input
                   type="checkbox"
                   checked={!hiddenCols[key]}
-                  onChange={handleColumnToggle}
+                  onChange={() => handleColumnToggle(key)}
                   className="sr-only"
                 />
                 <div
