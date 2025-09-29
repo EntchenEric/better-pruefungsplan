@@ -142,7 +142,10 @@ describe("ExamTableHeader", () => {
       fireEvent.change(input, { target: { value: "Ali" } });
 
       expect(props.onColumnFilterChange).toHaveBeenCalledTimes(3);
-      expect(props.onColumnFilterChange).toHaveBeenLastCalledWith("name", "Ali");
+      expect(props.onColumnFilterChange).toHaveBeenLastCalledWith(
+        "name",
+        "Ali",
+      );
     });
   });
 
@@ -309,7 +312,9 @@ describe("ExamTableHeader", () => {
       const props = makeDefaultProps();
       render(<ExamTableHeader {...props} />);
 
-      const input = screen.getByLabelText("Filter für Name") as HTMLInputElement;
+      const input = screen.getByLabelText(
+        "Filter für Name",
+      ) as HTMLInputElement;
       expect(input.getAttribute("type")).toBe("text");
       expect(input.getAttribute("spellcheck")).toBe("false");
       expect(input.getAttribute("autocomplete")).toBe("off");

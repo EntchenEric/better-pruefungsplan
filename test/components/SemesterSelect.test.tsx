@@ -21,7 +21,7 @@ jest.mock("@//config/tableConfig", () => {
 // Import mocked array so we can adjust it in edge-case tests
 import { SEMESTERS } from "@//config/tableConfig";
 
-const DEFAULT_SEMESTERS = SEMESTERS.map(s => ({ ...s }));
+const DEFAULT_SEMESTERS = SEMESTERS.map((s) => ({ ...s }));
 
 describe("SemesterSelect", () => {
   let setSelectedSemester: jest.Mock;
@@ -33,7 +33,12 @@ describe("SemesterSelect", () => {
   });
 
   test("renders select with default 'Alle Semester' and configured options", () => {
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
 
     const selectEl = screen.getByRole("combobox");
     expect(!!selectEl).toBe(true);
@@ -53,13 +58,23 @@ describe("SemesterSelect", () => {
   });
 
   test("uses selectedSemester prop as current value", () => {
-    render(<SemesterSelect selectedSemester="2" setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester="2"
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
     expect(selectEl).toHaveProperty("value", "2");
   });
 
   test("change to a semester calls setter with that value (happy path)", () => {
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
 
     fireEvent.change(selectEl, { target: { value: "1" } });
@@ -68,7 +83,12 @@ describe("SemesterSelect", () => {
   });
 
   test('change to "" (Alle Semester) calls setter with undefined', () => {
-    render(<SemesterSelect selectedSemester={"1"} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={"1"}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
 
     fireEvent.change(selectEl, { target: { value: "" } });
@@ -77,7 +97,12 @@ describe("SemesterSelect", () => {
   });
 
   test("multiple sequential changes propagate correct values", () => {
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
 
     fireEvent.change(selectEl, { target: { value: "1" } });
@@ -91,13 +116,23 @@ describe("SemesterSelect", () => {
   });
 
   test("handles invalid selectedSemester values gracefully (value shown as-is)", () => {
-    render(<SemesterSelect selectedSemester={"unknown"} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={"unknown"}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
     expect(selectEl).toHaveProperty("value", "unknown");
   });
 
   test("treats null selectedSemester like undefined (empty)", () => {
-    render(<SemesterSelect selectedSemester={null as any} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={null as any}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
     expect(selectEl).toHaveProperty("value", "");
   });
@@ -105,7 +140,12 @@ describe("SemesterSelect", () => {
   test("renders correctly when SEMESTERS is empty (only default option remains)", () => {
     SEMESTERS.splice(0, SEMESTERS.length);
 
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const options = screen.getAllByRole("option");
     expect(options.length).toBe(1);
     expect(options[0].textContent).toBe("Alle Semester");
@@ -113,27 +153,55 @@ describe("SemesterSelect", () => {
   });
 
   test("supports labels with special characters", () => {
-    SEMESTERS.splice(0, SEMESTERS.length,
+    SEMESTERS.splice(
+      0,
+      SEMESTERS.length,
       { key: "sp1", label: "WS 2023/24 (βeta & QA)" },
-      { key: "sp2", label: "SS 2024 <Alpha>" }
+      { key: "sp2", label: "SS 2024 <Alpha>" },
     );
 
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
-    expect(screen.getByRole("option", { name: "WS 2023/24 (βeta & QA)" })).toBeTruthy();
-    expect(screen.getByRole("option", { name: "SS 2024 <Alpha>" })).toBeTruthy();
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
+    expect(
+      screen.getByRole("option", { name: "WS 2023/24 (βeta & QA)" }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("option", { name: "SS 2024 <Alpha>" }),
+    ).toBeTruthy();
   });
 
   test("applies key styling classes to the select element", () => {
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
     const classes = String((selectEl as HTMLSelectElement).className);
-    ["px-4", "py-2", "rounded-lg", "border-2", "border-primary", "bg-secondary", "text-secondary-text"]
-      .forEach(cls => expect(classes.includes(cls)).toBe(true));
+    [
+      "px-4",
+      "py-2",
+      "rounded-lg",
+      "border-2",
+      "border-primary",
+      "bg-secondary",
+      "text-secondary-text",
+    ].forEach((cls) => expect(classes.includes(cls)).toBe(true));
   });
 
   // Regression guard based on the diff: onChange should directly receive the event and call setSelectedSemester.
   test("[regression] onChange handler receives event and updates via setSelectedSemester", () => {
-    render(<SemesterSelect selectedSemester={undefined} setSelectedSemester={setSelectedSemester} />);
+    render(
+      <SemesterSelect
+        selectedSemester={undefined}
+        setSelectedSemester={setSelectedSemester}
+      />,
+    );
     const selectEl = screen.getByRole("combobox");
     fireEvent.change(selectEl, { target: { value: "WP" } });
     expect(setSelectedSemester).toHaveBeenCalledWith("WP");
