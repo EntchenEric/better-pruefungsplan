@@ -11,6 +11,7 @@ Generated comprehensive unit tests for files modified in branch `43-button-um-kl
 **Purpose:** Tests for iCalendar (.ics) file generation utility
 
 **Coverage:**
+
 - ✅ ICS file header generation with timezone information
 - ✅ VEVENT structure validation
 - ✅ DateTime formatting (DTSTART/DTEND)
@@ -29,6 +30,7 @@ Generated comprehensive unit tests for files modified in branch `43-button-um-kl
 **Purpose:** Tests for table configuration constants and data validation
 
 **Coverage:**
+
 - ✅ TABLE_HEADERS validation (15 columns)
 - ✅ COURSES configuration (13 course types: Bachelor, Master, Dual)
 - ✅ SEMESTERS configuration (numeric 1-7 + Wahlpflicht options)
@@ -46,6 +48,7 @@ Generated comprehensive unit tests for files modified in branch `43-button-um-kl
 **Purpose:** Tests for API route helper functions and PDF parsing logic
 
 **Coverage:**
+
 - ✅ `isDate()` - Date format validation (YYYY-MM-DD)
 - ✅ `isTime()` - Time format validation (HH:MM)
 - ✅ `isNumberInSet()` - Number set membership
