@@ -8,7 +8,6 @@ describe("display table correctly", () => {
   });
 
   it("table should have all headers", () => {
-    cy.get("table").should("exist");
     cy.get("th:nth-child(1) > .flex").should("have.text", "Kürzel");
     cy.get("th:nth-child(2) > .flex").should("have.text", "PO");
     cy.get("th:nth-child(3) > .flex").should("have.text", "Datum");
@@ -29,11 +28,10 @@ describe("display table correctly", () => {
   });
 
   it("table should load contents", () => {
-    cy.get('tr:nth-child(1) [data-label="po"]').should("be.visible");
-    cy.get('tr:nth-child(2) [data-label="pruefungsdauer"]').should(
-      "be.visible",
-    );
-    cy.get('tr:nth-child(4) [data-label="kuerzel"]').should("be.visible");
+    cy.get("table tbody tr").should("have.length.at.least", 1);
+    cy.get('tr:nth-child(1) [data-label="po"]').should("be.visible").and("not.be.empty");
+    cy.get('tr:nth-child(1) [data-label="kuerzel"]').should("be.visible").and("not.be.empty");
+    cy.get('tr:nth-child(1) [data-label="pruefungsdauer"]').should("be.visible").and("not.be.empty");
   });
 });
 

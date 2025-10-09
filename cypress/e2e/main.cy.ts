@@ -1,9 +1,12 @@
 describe("template spec", () => {
-  it("passes", () => {
-    cy.visit("http://localhost:3000");
+  it("Main page", () => {
+    cy.visit("/");
+    cy.get("body").should("be.visible");
   });
 });
 
 it("display table correctly", function () {
-  cy.visit("http://localhost:3000");
+  cy.visit("/");
+  cy.get("table").should("exist");
+  cy.get("thead").should("be.visible");
 });
