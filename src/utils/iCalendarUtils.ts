@@ -15,6 +15,20 @@ const stringToHash = (str: string) => {
   return hash;
 };
 
+/**
+ * Escapes special characters in iCalendar TEXT fields per RFC 5545.
+ */
+const escapeICSText = (text: string): string => {
+  return text
+    .replace(/\\/g, "\\\\")     // backslash -> \\
+    .replace(/;/g, "\\;")       // semicolon -> \;
+    .replace(/,/g, "\\,")       // comma -> \,
+    .replace(/\n/g, "\\n")      // newline -> \n
+    .replace(/\r/g, "");        // remove carriage return
+};
+
+
+
 export const generateICSFile = (examEntry: ExamEntry[]) => {
   const fileStart = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -59,7 +73,7 @@ END:VTIMEZONE`;
     const dtStamp = moment.utc().format("YYYYMMDDTHHmmss") + "Z";
     const uniqueString =
       entry["datum"] + entry["zeit"] + entry["mid"] + entry["beisitzer"];
-    const uid = `${stringToHash(uniqueString)}@yourdomain.com`;
+    const uid = `${stringToHash(uniqueString)}@pruefungsplan.entcheneric.com`;
 
     events.push(`
 BEGIN:VEVENT
@@ -67,10 +81,10 @@ DTSTAMP:${dtStamp}
 UID:${uid}
 DTSTART;TZID=Europe/Berlin:${examStartDate.format(iCalFormat)}
 DTEND;TZID=Europe/Berlin:${examEndDate.format(iCalFormat)}
-SUMMARY:${entry["modul"]}
+SUMMARY:${escapeICSText(entry["modul"])}
 URL:https://w-hs.de
-DESCRIPTION:Prüfung ${entry["modul"]}
-LOCATION:${entry["raeume"]}
+DESCRIPTION:Prüfung ${escapeICSText(entry["modul"])}
+LOCATION:${escapeICSText(entry["raeume"])}
 TRANSP:OPAQUE
 BEGIN:VALARM
 ACTION:DISPLAY

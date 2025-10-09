@@ -16,7 +16,7 @@ function download(filename: string, text: string) {
   const element = document.createElement("a");
   element.setAttribute(
     "href",
-    "data:text/plain;charset=utf-8," + encodeURIComponent(text),
+    "data:text/calendar;charset=utf-8," + encodeURIComponent(text),
   );
   element.setAttribute("download", filename);
 
@@ -131,6 +131,7 @@ const ExamScheduleViewer = () => {
         </div>
         <div className="flex justify-center">
           <button
+            type="button"
             className="cursor-pointer border rounded p-1"
             onClick={() => {
               download("pruefungsplan.ics", generateICSFile(filteredEntries));
