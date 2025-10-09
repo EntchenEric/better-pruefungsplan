@@ -10,7 +10,10 @@ import { ExamTableBody } from "./ExamTableBody";
 import { generateICSFile } from "@/utils/iCalendarUtils";
 
 /**
- * source: https://stackoverflow.com/a/18197341
+ * Triggers download of the provided text as a file using the given filename.
+ *
+ * @param filename - The name to assign to the downloaded file.
+ * @param text - The textual content to write into the file.
  */
 function download(filename: string, text: string) {
   var element = document.createElement("a");
