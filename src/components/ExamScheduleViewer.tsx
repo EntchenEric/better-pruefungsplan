@@ -13,11 +13,14 @@ import { generateICSFile } from "@/utils/iCalendarUtils";
  * source: https://stackoverflow.com/a/18197341
  */
 function download(filename: string, text: string) {
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename);
+  var element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text),
+  );
+  element.setAttribute("download", filename);
 
-  element.style.display = 'none';
+  element.style.display = "none";
   document.body.appendChild(element);
 
   element.click();
@@ -73,7 +76,7 @@ const ExamScheduleViewer = () => {
       }
     };
 
-    fetchAndParseData().then(() => { });
+    fetchAndParseData().then(() => {});
   }, []);
 
   /**
@@ -127,9 +130,12 @@ const ExamScheduleViewer = () => {
           Gefundene Einträge: {filteredEntries.length} / {entries.length}
         </div>
         <div className="flex justify-center">
-          <button className="cursor-pointer border rounded p-1" onClick={() => {
-            download("pruefungsplan.ics", generateICSFile(filteredEntries))
-          }}>
+          <button
+            className="cursor-pointer border rounded p-1"
+            onClick={() => {
+              download("pruefungsplan.ics", generateICSFile(filteredEntries));
+            }}
+          >
             Gefilterte Prüfungen als ics Datei exportieren (Kalenderdatei)
           </button>
         </div>

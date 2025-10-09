@@ -15,10 +15,8 @@ const stringToHash = (str: string) => {
   return hash;
 };
 
-
-
 export const generateICSFile = (examEntry: ExamEntry[]) => {
-    const fileStart = `BEGIN:VCALENDAR
+  const fileStart = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//pruefungsplan.entcheneric.com
 CALSCALE:GREGORIAN
@@ -41,26 +39,29 @@ TZOFFSETTO:+0100
 DTSTART:19701025T030000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
-END:VTIMEZONE`
+END:VTIMEZONE`;
 
-    const events: string[] = []
-    const iCalFormat = "YYYYMMDDTHHmmss"
+  const events: string[] = [];
+  const iCalFormat = "YYYYMMDDTHHmmss";
 
-    examEntry.forEach((entry) => {
-        if (!entry["zeit"]) return;
+  examEntry.forEach((entry) => {
+    if (!entry["zeit"]) return;
 
-        const examStartDate = moment(
-            `${entry["datum"]} ${entry["zeit"]}`,
-            'YYYY-MM-DD HH:mm'
-        );
+    const examStartDate = moment(
+      `${entry["datum"]} ${entry["zeit"]}`,
+      "YYYY-MM-DD HH:mm",
+    );
 
-        const examEndDate = examStartDate.clone().add(entry["pruefungsdauer"], "minutes");
+    const examEndDate = examStartDate
+      .clone()
+      .add(entry["pruefungsdauer"], "minutes");
 
-        const dtStamp = moment.utc().format("YYYYMMDDTHHmmss") + 'Z';
-        const uniqueString = entry["datum"] + entry["zeit"] + entry["mid"] + entry["beisitzer"];
-        const uid = `${stringToHash(uniqueString)}@yourdomain.com`;
+    const dtStamp = moment.utc().format("YYYYMMDDTHHmmss") + "Z";
+    const uniqueString =
+      entry["datum"] + entry["zeit"] + entry["mid"] + entry["beisitzer"];
+    const uid = `${stringToHash(uniqueString)}@yourdomain.com`;
 
-        events.push(`
+    events.push(`
 BEGIN:VEVENT
 DTSTAMP:${dtStamp}
 UID:${uid}
@@ -77,7 +78,7 @@ DESCRIPTION:Reminder
 TRIGGER:-PT30M
 END:VALARM
 END:VEVENT`);
-    });
+  });
 
-    return fileStart + events.join("") + "\nEND:VCALENDAR";
-}
+  return fileStart + events.join("") + "\nEND:VCALENDAR";
+};
