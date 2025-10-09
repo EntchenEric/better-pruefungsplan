@@ -38,10 +38,10 @@ const formatDate = (date?: string) => {
 
 /**
  * Formats the time of a exam so its better to read.
- * 
- * @param time the time of the exam. 
+ *
+ * @param time the time of the exam.
  * @param entry the ExamEntry.
- * @returns 
+ * @returns
  */
 const formatTime = (time?: string, entry?: ExamEntry) => {
   if (!time || !entry) return "";
