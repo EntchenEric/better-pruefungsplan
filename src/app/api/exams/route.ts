@@ -26,6 +26,7 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
   return new Promise((resolve, reject) => {
     const pages: Item[][] = [];
     let curr: Item[] = [];
+    // skipqc: JS-0045
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
       if (err) return reject(err);
@@ -112,6 +113,7 @@ const isTwoCharsOrSprachenzentrum = (s: string) =>
  * @param value The data to validate.
  * @returns If the value can be in the field or not.
  */
+// skipqc: JS-R1005
 function validateField(fieldName: string, value: string): boolean {
   switch (fieldName) {
     case "mid":
@@ -350,9 +352,19 @@ const mergePages = (pages: Item[][]): Item[][] => {
  * @returns a NextResponse containig the entries.
  */
 export async function GET() {
-  const buffer = await fs.readFile(
-    path.join(process.cwd(), "src", "public", "pruefungsplan.pdf"),
-  );
+  const buffer =
+    process.env.ENV === "testing"
+      ? await fs.readFile(
+          path.join(
+            process.cwd(),
+            "src",
+            "public",
+            "pruefungsplan_for_tests.pdf",
+          ),
+        )
+      : await fs.readFile(
+          path.join(process.cwd(), "src", "public", "pruefungsplan.pdf"),
+        );
   const pages = await readPdfItems(buffer);
   const mergedPages = mergePages(pages);
   const parsed = parsePdf(mergedPages);
