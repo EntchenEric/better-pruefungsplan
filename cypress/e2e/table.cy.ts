@@ -29,9 +29,15 @@ describe("display table correctly", () => {
 
   it("table should load contents", () => {
     cy.get("table tbody tr").should("have.length.at.least", 1);
-    cy.get('tr:nth-child(1) [data-label="po"]').should("be.visible").and("not.be.empty");
-    cy.get('tr:nth-child(1) [data-label="kuerzel"]').should("be.visible").and("not.be.empty");
-    cy.get('tr:nth-child(1) [data-label="pruefungsdauer"]').should("be.visible").and("not.be.empty");
+    cy.get('tr:nth-child(1) [data-label="po"]')
+      .should("be.visible")
+      .and("not.be.empty");
+    cy.get('tr:nth-child(1) [data-label="kuerzel"]')
+      .should("be.visible")
+      .and("not.be.empty");
+    cy.get('tr:nth-child(1) [data-label="pruefungsdauer"]')
+      .should("be.visible")
+      .and("not.be.empty");
   });
 });
 
