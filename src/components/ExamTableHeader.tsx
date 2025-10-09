@@ -222,7 +222,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 />
                 {columnFilters[key] && (
                   <button
-                    // skipcq: JS-0417 
+                    // skipcq: JS-0417
                     onClick={() => handleColumnFilterClear(key)}
                     className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
                     aria-label={`Clear filter for ${label}`}
