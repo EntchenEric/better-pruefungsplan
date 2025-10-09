@@ -27,6 +27,7 @@ async function readPdfItems(buffer: Buffer): Promise<Item[][]> {
     const pages: Item[][] = [];
     let curr: Item[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // skipqc: JS-0045
     new PdfReader().parseBuffer(buffer, (err: any, item: any) => {
       if (err) return reject(err);
       if (!item) {
@@ -112,6 +113,7 @@ const isTwoCharsOrSprachenzentrum = (s: string) =>
  * @param value The data to validate.
  * @returns If the value can be in the field or not.
  */
+// skipqc: JS-R1005
 function validateField(fieldName: string, value: string): boolean {
   switch (fieldName) {
     case "mid":

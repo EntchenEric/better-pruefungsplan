@@ -178,6 +178,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
 
                 <div
                   className="absolute top-0 right-0 w-[6px] h-full cursor-col-resize z-30 touch-none"
+                  // skipqc: JS-0765
                   onMouseDown={onMouseDownResizer(key)}
                 />
 
@@ -212,6 +213,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                   maxLength={100}
                   type="text"
                   value={columnFilters[key]}
+                  // skipcq: JS-0417
                   onChange={(e) => handleColumnFilterChange(key, e)}
                   aria-label={`Filter für ${label}`}
                   spellCheck={false}
@@ -220,6 +222,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 />
                 {columnFilters[key] && (
                   <button
+                    // skipcq: JS-0417 
                     onClick={() => handleColumnFilterClear(key)}
                     className="absolute inset-y-0 right-0 pr-2 flex items-center text-text-muted hover:text-red-500 transition-colors"
                     aria-label={`Clear filter for ${label}`}

@@ -4,6 +4,10 @@ export default defineConfig({
   e2e: {
     experimentalStudio: true,
     baseUrl: "http://localhost:3000",
-    setupNodeEvents(on, config) {},
+    /*
+    setupNodeEvents(on, config) {
+    
+    },
+    */
   },
 });
