@@ -2,7 +2,7 @@ import React from "react";
 import { ExamEntry, ColumnWidths, ColumnVisibility } from "@//types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@//config/tableConfig";
 import moment from "moment";
-moment.locale('de')
+moment.locale("de");
 
 /**
  * Represents the props of the ExamTableBody.
@@ -24,33 +24,38 @@ interface ExamTableBodyProps {
 
 /**
  * Formats the date of a exam so its better to read.
- * 
+ *
  * @param date the date of the exam to format.
  * @returns relative date of the exam including the abolute date.
  */
 const formatDate = (date?: string) => {
   if (!date) return "";
-  
-  const m = moment(date).format("DD.MMMM YYYY") + " (" + moment(date).fromNow() + ")";
+
+  const m =
+    moment(date).format("DD.MMMM YYYY") + " (" + moment(date).fromNow() + ")";
   return m;
-}
+};
 
 const formatTime = (time?: string, entry?: ExamEntry) => {
   if (!time || !entry) return "";
 
-  if (new Date(entry["datum"]).setHours(0,0,0,0) !== new Date().setHours(0,0,0,0)) return time;
+  if (
+    new Date(entry["datum"]).setHours(0, 0, 0, 0) !==
+    new Date().setHours(0, 0, 0, 0)
+  )
+    return time;
 
   const t = moment(time || "", "HH:mm");
-  const now = moment()
-  const dauer = parseInt(entry["pruefungsdauer"] || "")
+  const now = moment();
+  const dauer = parseInt(entry["pruefungsdauer"] || "");
   const diff = t.diff(now) / 1000 / 60;
   if (dauer > diff && diff > 0) {
     return diff == 1
       ? "noch " + diff.toFixed(0) + " minuten"
-      : "noch " + diff.toFixed(0) + " minute"
+      : "noch " + diff.toFixed(0) + " minute";
   }
-  return time
-}
+  return time;
+};
 
 /**
  * Represents the Exam Table Body
@@ -104,13 +109,11 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
                 }}
                 title={entry[key]}
               >
-                {
-                  key == "datum"?
-                    formatDate(entry[key])
-                    : key == "zeit" ?
-                      formatTime(entry[key], entry)
-                      : entry[key] || ""
-                }
+                {key == "datum"
+                  ? formatDate(entry[key])
+                  : key == "zeit"
+                    ? formatTime(entry[key], entry)
+                    : entry[key] || ""}
               </td>
             ),
           )}
