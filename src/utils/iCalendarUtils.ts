@@ -91,7 +91,7 @@ TRIGGER:-PT30M
 END:VALARM
 END:VEVENT`);
   });
-  
-    const calendar = fileStart + events.join("") + "\nEND:VCALENDAR";
-    return calendar.replace(/\n/g, "\r\n");
+
+  const calendar = fileStart + events.join("") + "\nEND:VCALENDAR";
+  return calendar.replace(/\n/g, "\r\n");
 };
