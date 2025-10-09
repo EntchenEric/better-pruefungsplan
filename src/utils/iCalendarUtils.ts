@@ -20,14 +20,12 @@ const stringToHash = (str: string) => {
  */
 const escapeICSText = (text: string): string => {
   return text
-    .replace(/\\/g, "\\\\")     // backslash -> \\
-    .replace(/;/g, "\\;")       // semicolon -> \;
-    .replace(/,/g, "\\,")       // comma -> \,
-    .replace(/\n/g, "\\n")      // newline -> \n
-    .replace(/\r/g, "");        // remove carriage return
+    .replace(/\\/g, "\\\\") // backslash -> \\
+    .replace(/;/g, "\\;") // semicolon -> \;
+    .replace(/,/g, "\\,") // comma -> \,
+    .replace(/\n/g, "\\n") // newline -> \n
+    .replace(/\r/g, ""); // remove carriage return
 };
-
-
 
 export const generateICSFile = (examEntry: ExamEntry[]) => {
   const fileStart = `BEGIN:VCALENDAR
