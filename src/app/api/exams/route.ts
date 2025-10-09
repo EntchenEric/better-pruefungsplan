@@ -350,7 +350,9 @@ const mergePages = (pages: Item[][]): Item[][] => {
  * @returns a NextResponse containig the entries.
  */
 export async function GET() {
-  const buffer = await fs.readFile(
+  const buffer = process.env.ENV === 'testing'? await fs.readFile(
+    path.join(process.cwd(), "src", "public", "pruefungsplan_for_tests.pdf"),
+  ): await fs.readFile(
     path.join(process.cwd(), "src", "public", "pruefungsplan.pdf"),
   );
   const pages = await readPdfItems(buffer);
