@@ -10,7 +10,12 @@ import { ExamTableBody } from "./ExamTableBody";
 import { generateICSFile } from "@/utils/iCalendarUtils";
 
 /**
- * source: https://stackoverflow.com/a/18197341
+ * Triggers a browser download of the provided text saved as a plain-text file.
+ *
+ * The text is encoded as UTF-8 and offered to the browser as a `text/plain` data URL.
+ *
+ * @param filename - The desired filename for the downloaded file (including extension).
+ * @param text - The file contents to be saved.
  */
 function download(filename: string, text: string) {
   var element = document.createElement("a");
