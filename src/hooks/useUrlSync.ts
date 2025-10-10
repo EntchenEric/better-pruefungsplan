@@ -2,7 +2,12 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { ColumnFilters, ColumnVisibility, ColumnWidths, FavoriteRows } from "@/types/exam";
+import {
+  ColumnFilters,
+  ColumnVisibility,
+  ColumnWidths,
+  FavoriteRows,
+} from "@/types/exam";
 import {
   decodeColumnFilters,
   decodeColumnVisibility,
@@ -55,12 +60,10 @@ export const useUrlSync = () => {
     },
   );
 
-  const [favoritedRows, setFavoritedRows] = useState<FavoriteRows>(
-    () => {
-      const favorites = searchParams.get("favorites");
-      return decodeFavoriteRows(favorites || "");
-    },
-  );
+  const [favoritedRows, setFavoritedRows] = useState<FavoriteRows>(() => {
+    const favorites = searchParams.get("favorites");
+    return decodeFavoriteRows(favorites || "");
+  });
 
   const updateUrl = useCallback(
     (
@@ -79,7 +82,7 @@ export const useUrlSync = () => {
         newColumnWidths,
         selectedCourse,
         selectedSemester,
-        favoritedRows
+        favoritedRows,
       );
 
       const newUrl = params.toString()

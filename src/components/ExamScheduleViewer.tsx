@@ -61,19 +61,21 @@ const ExamScheduleViewer = () => {
     fetchAndParseData().then(() => {});
   }, []);
 
-  const toggleFavorite = useCallback((mid: string) => {
-    setFavoritedRows(currentFavorites => {
-      const isFavorited = mid in currentFavorites;
+  const toggleFavorite = useCallback(
+    (mid: string) => {
+      setFavoritedRows((currentFavorites) => {
+        const isFavorited = mid in currentFavorites;
 
-      if (isFavorited) {
-        const { [mid]: _, ...rest } = currentFavorites;
-        return rest;
-      } else {
-        return { ...currentFavorites, [mid]: true };
-      }
-    });
-  }, [favoritedRows]);
-
+        if (isFavorited) {
+          const { [mid]: _, ...rest } = currentFavorites;
+          return rest;
+        } else {
+          return { ...currentFavorites, [mid]: true };
+        }
+      });
+    },
+    [favoritedRows],
+  );
 
   /**
    * The entries filtered according to the filters.

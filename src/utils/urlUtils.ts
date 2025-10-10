@@ -1,4 +1,9 @@
-import { ColumnFilters, ColumnVisibility, ColumnWidths, FavoriteRows } from "@//types/exam";
+import {
+  ColumnFilters,
+  ColumnVisibility,
+  ColumnWidths,
+  FavoriteRows,
+} from "@//types/exam";
 import {
   TABLE_HEADERS,
   DEFAULT_HIDDEN_COLUMNS,
@@ -141,12 +146,12 @@ export const encodeFavoriteRows = (favoriteRows: FavoriteRows): string => {
   if (!favoriteRows) return "";
 
   return btoa(JSON.stringify(favoriteRows));
-}
+};
 
 export const decodeFavoriteRows = (encodedFavorites: string): FavoriteRows => {
-  if (!encodedFavorites || encodedFavorites === "") return {}
-  return JSON.parse(atob(encodedFavorites))
-}
+  if (!encodedFavorites || encodedFavorites === "") return {};
+  return JSON.parse(atob(encodedFavorites));
+};
 
 /**
  * Checks if a String is a Course.
@@ -207,9 +212,9 @@ export const createSearchParams = (
     params.set("semester", selectedSemester);
   }
 
-  const encodedFavorites = encodeFavoriteRows(favoritedRows)
+  const encodedFavorites = encodeFavoriteRows(favoritedRows);
   if (encodedFavorites) {
-    params.set("favorites", encodedFavorites)
+    params.set("favorites", encodedFavorites);
   }
 
   return params;

@@ -1,5 +1,10 @@
 import React from "react";
-import { ExamEntry, ColumnWidths, ColumnVisibility, FavoriteRows } from "@//types/exam";
+import {
+  ExamEntry,
+  ColumnWidths,
+  ColumnVisibility,
+  FavoriteRows,
+} from "@//types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@//config/tableConfig";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
@@ -62,8 +67,9 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
           key={entry.mid}
           tabIndex={0}
           aria-rowindex={idx + 1}
-          className={`${idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
-            } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
+          className={`${
+            idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
+          } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
         >
           <td
             key={`${entry.mid}-favorite`}
@@ -76,15 +82,21 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
             }}
             title={"Favorisieren"}
           >
-            {
-              favoritedRows[entry["mid"]] ?
-                <FaStar className="w-5 cursor-pointer text-yellow-500" onClick={() => {
-                  toggleFavorite(entry["mid"])
-                }} />
-                : <FaRegStar className="w-5 cursor-pointer" onClick={() => {
-                  toggleFavorite(entry["mid"])
-                }} />
-            }
+            {favoritedRows[entry["mid"]] ? (
+              <FaStar
+                className="w-5 cursor-pointer text-yellow-500"
+                onClick={() => {
+                  toggleFavorite(entry["mid"]);
+                }}
+              />
+            ) : (
+              <FaRegStar
+                className="w-5 cursor-pointer"
+                onClick={() => {
+                  toggleFavorite(entry["mid"]);
+                }}
+              />
+            )}
           </td>
           {TABLE_HEADERS.map(({ key }) =>
             hiddenCols[key] ? null : (

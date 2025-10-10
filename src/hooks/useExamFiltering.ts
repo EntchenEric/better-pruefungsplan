@@ -18,7 +18,7 @@ export const useExamFiltering = (
   columnFilters: ColumnFilters,
   selectedCourse: string | undefined,
   selectedSemester: string | undefined,
-  favoritedRows: FavoriteRows
+  favoritedRows: FavoriteRows,
 ) => {
   const filteredEntries = useMemo(() => {
     let filtered = entries;
@@ -32,14 +32,15 @@ export const useExamFiltering = (
       );
     }
 
-    filtered = filtered.filter((entry) =>
-      favoritedRows[entry["mid"]] ||
-      TABLE_HEADERS.every(({ key }) => {
-        const filterVal = columnFilters[key]?.trim().toLowerCase();
-        if (!filterVal) return true;
-        const entryVal = (entry[key] || "").toLowerCase();
-        return entryVal.includes(filterVal);
-      }),
+    filtered = filtered.filter(
+      (entry) =>
+        favoritedRows[entry["mid"]] ||
+        TABLE_HEADERS.every(({ key }) => {
+          const filterVal = columnFilters[key]?.trim().toLowerCase();
+          if (!filterVal) return true;
+          const entryVal = (entry[key] || "").toLowerCase();
+          return entryVal.includes(filterVal);
+        }),
     );
 
     if (selectedCourse && COURSES.some((c) => c.key === selectedCourse)) {
@@ -59,13 +60,14 @@ export const useExamFiltering = (
             selectedSemester,
         );
       } else {
-        filtered = filtered.filter((entry) =>
-          favoritedRows[entry["mid"]] ||
-          COURSES.some(
-            (c) =>
-              String(entry[c.key as keyof ExamEntry] ?? "") ===
-              selectedSemester,
-          ),
+        filtered = filtered.filter(
+          (entry) =>
+            favoritedRows[entry["mid"]] ||
+            COURSES.some(
+              (c) =>
+                String(entry[c.key as keyof ExamEntry] ?? "") ===
+                selectedSemester,
+            ),
         );
       }
     }
