@@ -78,7 +78,7 @@ const ExamScheduleViewer = () => {
       }
     };
 
-    fetchAndParseData().then(() => { });
+    fetchAndParseData().then(() => {});
   }, []);
 
   const toggleFavorite = useCallback(
