@@ -46,6 +46,10 @@ export interface ColumnWidths {
   [key: string]: number;
 }
 
+export interface FavoriteRows {
+  [key: string]: boolean;
+}
+
 export interface ResizeInfo {
   startX: number;
   colKey: string | null;

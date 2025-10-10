@@ -54,6 +54,7 @@ export const MIN_COLUMN_WIDTH = 20;
 export const DEFAULT_COLUMN_WIDTH = 140;
 
 export const DEFAULT_COLUMN_WIDTHS: ColumnWidths = {
+  favorite: 20,
   mid: 90,
   kuerzel: 100,
   po: 100,

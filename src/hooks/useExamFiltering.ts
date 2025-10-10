@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ExamEntry, ColumnFilters } from "@//types/exam";
+import { ExamEntry, ColumnFilters, FavoriteRows } from "@//types/exam";
 import { COURSES, SEMESTERS, TABLE_HEADERS } from "@//config/tableConfig";
 
 /**
@@ -9,6 +9,7 @@ import { COURSES, SEMESTERS, TABLE_HEADERS } from "@//config/tableConfig";
  * @param columnFilters The columnfilters.
  * @param selectedCourse the selected course.
  * @param selectedSemester the selected semester.
+ * @param favoritedRows The rows that are favorited.
  * @returns The exam entries filtered by other props.
  */
 export const useExamFiltering = (
@@ -17,6 +18,7 @@ export const useExamFiltering = (
   columnFilters: ColumnFilters,
   selectedCourse: string | undefined,
   selectedSemester: string | undefined,
+  favoritedRows: FavoriteRows
 ) => {
   const filteredEntries = useMemo(() => {
     let filtered = entries;
@@ -31,6 +33,7 @@ export const useExamFiltering = (
     }
 
     filtered = filtered.filter((entry) =>
+      favoritedRows[entry["mid"]] ||
       TABLE_HEADERS.every(({ key }) => {
         const filterVal = columnFilters[key]?.trim().toLowerCase();
         if (!filterVal) return true;
@@ -44,7 +47,7 @@ export const useExamFiltering = (
         const val = String(
           entry[selectedCourse as keyof ExamEntry] ?? "",
         ).trim();
-        return val.length > 0;
+        return favoritedRows[entry["mid"]] || val.length > 0;
       });
     }
 
@@ -57,6 +60,7 @@ export const useExamFiltering = (
         );
       } else {
         filtered = filtered.filter((entry) =>
+          favoritedRows[entry["mid"]] ||
           COURSES.some(
             (c) =>
               String(entry[c.key as keyof ExamEntry] ?? "") ===

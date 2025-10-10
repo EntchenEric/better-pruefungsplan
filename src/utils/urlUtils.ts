@@ -1,4 +1,4 @@
-import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@//types/exam";
+import { ColumnFilters, ColumnVisibility, ColumnWidths, FavoriteRows } from "@//types/exam";
 import {
   TABLE_HEADERS,
   DEFAULT_HIDDEN_COLUMNS,
@@ -137,6 +137,17 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   }
 };
 
+export const encodeFavoriteRows = (favoriteRows: FavoriteRows): string => {
+  if (!favoriteRows) return "";
+
+  return btoa(JSON.stringify(favoriteRows));
+}
+
+export const decodeFavoriteRows = (encodedFavorites: string): FavoriteRows => {
+  if (!encodedFavorites || encodedFavorites === "") return {}
+  return JSON.parse(atob(encodedFavorites))
+}
+
 /**
  * Checks if a String is a Course.
  * @param s The string to check.
@@ -165,6 +176,7 @@ export const createSearchParams = (
   newColumnWidths: ColumnWidths,
   selectedCourse: string | undefined,
   selectedSemester: string | undefined,
+  favoritedRows: FavoriteRows,
 ): URLSearchParams => {
   const params = new URLSearchParams();
 
@@ -193,6 +205,11 @@ export const createSearchParams = (
 
   if (selectedSemester && isSemester(selectedSemester)) {
     params.set("semester", selectedSemester);
+  }
+
+  const encodedFavorites = encodeFavoriteRows(favoritedRows)
+  if (encodedFavorites) {
+    params.set("favorites", encodedFavorites)
   }
 
   return params;

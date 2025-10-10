@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@/types/exam";
+import { ColumnFilters, ColumnVisibility, ColumnWidths, FavoriteRows } from "@/types/exam";
 import {
   decodeColumnFilters,
   decodeColumnVisibility,
@@ -10,6 +10,7 @@ import {
   decodeColumnWidths,
   isCourse,
   isSemester,
+  decodeFavoriteRows,
 } from "@//utils/urlUtils";
 
 /**
@@ -54,6 +55,13 @@ export const useUrlSync = () => {
     },
   );
 
+  const [favoritedRows, setFavoritedRows] = useState<FavoriteRows>(
+    () => {
+      const favorites = searchParams.get("favorites");
+      return decodeFavoriteRows(favorites || "");
+    },
+  );
+
   const updateUrl = useCallback(
     (
       newGlobalSearch: string,
@@ -62,6 +70,7 @@ export const useUrlSync = () => {
       newColumnWidths: ColumnWidths,
       selectedCourse: string | undefined,
       selectedSemester: string | undefined,
+      favoritedRows: FavoriteRows,
     ) => {
       const params = createSearchParams(
         newGlobalSearch,
@@ -70,6 +79,7 @@ export const useUrlSync = () => {
         newColumnWidths,
         selectedCourse,
         selectedSemester,
+        favoritedRows
       );
 
       const newUrl = params.toString()
@@ -90,6 +100,7 @@ export const useUrlSync = () => {
         colWidths,
         selectedCourse,
         selectedSemester,
+        favoritedRows,
       );
     }, 300);
 
@@ -101,6 +112,7 @@ export const useUrlSync = () => {
     colWidths,
     selectedCourse,
     selectedSemester,
+    favoritedRows,
     updateUrl,
   ]);
 
@@ -130,11 +142,13 @@ export const useUrlSync = () => {
     colWidths,
     selectedCourse,
     selectedSemester,
+    favoritedRows,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
     handleColumnWidthChange,
     setSelectedCourse,
     setSelectedSemester,
+    setFavoritedRows,
   };
 };
