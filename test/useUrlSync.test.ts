@@ -23,6 +23,7 @@ jest.mock("@//utils/urlUtils", () => ({
   decodeColumnFilters: jest.fn(),
   decodeColumnVisibility: jest.fn(),
   decodeColumnWidths: jest.fn(),
+  decodeFavoriteRows: jest.fn(),
   createSearchParams: jest.fn(),
   isCourse: jest.fn(),
   isSemester: jest.fn(),
@@ -34,6 +35,8 @@ import {
   decodeColumnVisibility,
   decodeColumnWidths,
   createSearchParams,
+  decodeFavoriteRows,
+  encodeFavoriteRows,
   isCourse,
   isSemester,
 } from "@//utils/urlUtils";
@@ -51,6 +54,8 @@ const mockDecodeColumnWidths = decodeColumnWidths as unknown as jest.Mock;
 const mockCreateSearchParams = createSearchParams as unknown as jest.Mock;
 const mockIsCourse = isCourse as unknown as jest.Mock;
 const mockIsSemester = isSemester as unknown as jest.Mock;
+const mockDecodeFavoriteRows = decodeFavoriteRows as unknown as jest.Mock;
+const mockEncodeFavoriteRows = encodeFavoriteRows as unknown as jest.Mock;
 
 function setSearchParams(params: Record<string, string | undefined>) {
   // Use a simple object with .get for compatibility
@@ -72,6 +77,7 @@ beforeEach(() => {
   mockDecodeColumnFilters.mockReturnValue({});
   mockDecodeColumnVisibility.mockReturnValue({});
   mockDecodeColumnWidths.mockReturnValue({});
+  mockDecodeColumnFilters.mockReturnValue({})
 
   // Default validators
   mockIsCourse.mockImplementation((v: string) => ["AI", "SE"].includes(v));

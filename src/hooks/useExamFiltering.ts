@@ -26,6 +26,7 @@ export const useExamFiltering = (
     if (globalSearch.trim()) {
       const lowerGlobal = globalSearch.toLowerCase();
       filtered = filtered.filter((entry) =>
+        (favoritedRows && favoritedRows[entry["mid"]]) ||
         Object.values(entry).some((v) =>
           v?.toLowerCase().includes(lowerGlobal),
         ),
@@ -34,7 +35,7 @@ export const useExamFiltering = (
 
     filtered = filtered.filter(
       (entry) =>
-        favoritedRows[entry["mid"]] ||
+        (favoritedRows && favoritedRows[entry["mid"]]) ||
         TABLE_HEADERS.every(({ key }) => {
           const filterVal = columnFilters[key]?.trim().toLowerCase();
           if (!filterVal) return true;
@@ -48,7 +49,7 @@ export const useExamFiltering = (
         const val = String(
           entry[selectedCourse as keyof ExamEntry] ?? "",
         ).trim();
-        return favoritedRows[entry["mid"]] || val.length > 0;
+        return (favoritedRows && favoritedRows[entry["mid"]]) || val.length > 0;
       });
     }
 
@@ -62,7 +63,7 @@ export const useExamFiltering = (
       } else {
         filtered = filtered.filter(
           (entry) =>
-            favoritedRows[entry["mid"]] ||
+            (favoritedRows && favoritedRows[entry["mid"]]) ||
             COURSES.some(
               (c) =>
                 String(entry[c.key as keyof ExamEntry] ?? "") ===
