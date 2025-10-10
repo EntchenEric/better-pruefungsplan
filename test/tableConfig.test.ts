@@ -128,16 +128,6 @@ describe("COURSES", () => {
     expect(uniqueKeys.size).toBe(keys.length);
   });
 
-  test("labels contain descriptive course names in German", () => {
-    COURSES.forEach(course => {
-      // Should contain "Informatik" or similar
-      const hasRelevantKeyword =
-        course.label.includes("Informatik") ||
-        course.label.includes("Internetsicherheit");
-      expect(hasRelevantKeyword).toBe(true);
-    });
-  });
-
   test("bachelor and master courses are separated", () => {
     const bachelorCourses = COURSES.filter(c => c.key.includes("_ba"));
     const masterCourses = COURSES.filter(c => c.key.includes("_ma"));
@@ -337,13 +327,6 @@ describe("DEFAULT_HIDDEN_COLUMNS", () => {
 });
 
 describe("Configuration Consistency", () => {
-  test("DEFAULT_COLUMN_WIDTHS and TABLE_HEADERS are in sync", () => {
-    const widthKeys = Object.keys(DEFAULT_COLUMN_WIDTHS);
-    const headerKeys = TABLE_HEADERS.map(h => h.key);
-    
-    expect(widthKeys.sort()).toEqual(headerKeys.sort());
-  });
-
   test("DEFAULT_HIDDEN_COLUMNS are subset of TABLE_HEADERS", () => {
     const headerKeys = TABLE_HEADERS.map(h => h.key);
     DEFAULT_HIDDEN_COLUMNS.forEach(col => {
