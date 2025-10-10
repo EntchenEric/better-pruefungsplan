@@ -25,11 +25,12 @@ export const useExamFiltering = (
 
     if (globalSearch.trim()) {
       const lowerGlobal = globalSearch.toLowerCase();
-      filtered = filtered.filter((entry) =>
-        (favoritedRows && favoritedRows[entry["mid"]]) ||
-        Object.values(entry).some((v) =>
-          v?.toLowerCase().includes(lowerGlobal),
-        ),
+      filtered = filtered.filter(
+        (entry) =>
+          (favoritedRows && favoritedRows[entry["mid"]]) ||
+          Object.values(entry).some((v) =>
+            v?.toLowerCase().includes(lowerGlobal),
+          ),
       );
     }
 
