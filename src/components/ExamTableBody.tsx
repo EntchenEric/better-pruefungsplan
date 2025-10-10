@@ -111,9 +111,8 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
           key={entry.mid}
           tabIndex={0}
           aria-rowindex={idx + 1}
-          className={`${
-            idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
-          } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
+          className={`${idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
+            } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
         >
           <td
             key={`${entry.mid}-favorite`}
@@ -126,21 +125,21 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
             }}
             title={"Favorisieren"}
           >
-            {favoritedRows[entry["mid"]] ? (
-              <FaStar
-                className="w-5 cursor-pointer text-yellow-500"
-                onClick={() => {
-                  toggleFavorite(entry["mid"]);
-                }}
-              />
-            ) : (
-              <FaRegStar
-                className="w-5 cursor-pointer"
-                onClick={() => {
-                  toggleFavorite(entry["mid"]);
-                }}
-              />
-            )}
+            <button
+              onClick={() => toggleFavorite(entry["mid"])}
+              aria-label={
+                favoritedRows[entry["mid"]]
+                  ? "Von Favoriten entfernen"
+                  : "Zu Favoriten hinzufügen"
+              }
+              className="p-1 hover:bg-primary-100 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {favoritedRows[entry["mid"]] ? (
+                <FaStar className="w-4 h-4 text-yellow-500" />
+              ) : (
+                <FaRegStar className="w-4 h-4" />
+              )}
+            </button>
           </td>
           {TABLE_HEADERS.map(({ key }) =>
             hiddenCols[key] ? null : (

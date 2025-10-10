@@ -150,6 +150,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
           key={`header-favorite`}
           scope="col"
           aria-colindex={1}
+          aria-label="Favoriten"
           className="z-20 group
                    bg-primary
                    border-r border-border-light last:border-r-0

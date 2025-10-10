@@ -143,14 +143,25 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
 };
 
 export const encodeFavoriteRows = (favoriteRows: FavoriteRows): string => {
-  if (!favoriteRows) return "";
-
+  if (!favoriteRows || Object.keys(favoriteRows).length === 0) return "";
   return btoa(JSON.stringify(favoriteRows));
 };
 
 export const decodeFavoriteRows = (encodedFavorites: string): FavoriteRows => {
-  if (!encodedFavorites || encodedFavorites === "") return {};
-  return JSON.parse(atob(encodedFavorites));
+  const empty: FavoriteRows = {};
+  if (!encodedFavorites) return empty;
+  try {
+    const parsed = JSON.parse(atob(encodedFavorites));
+    if (!parsed || typeof parsed !== "object") return empty;
+    return Object.fromEntries(
+      Object.entries(parsed).filter(
+        ([k, v]) => typeof k === "string" && v === true,
+      ),
+    ) as FavoriteRows;
+  } catch (error) {
+    console.warn("Failed to decode favorites from URL:", error);
+    return empty;
+  }
 };
 
 /**
