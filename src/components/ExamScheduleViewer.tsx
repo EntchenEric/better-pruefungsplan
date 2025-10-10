@@ -7,6 +7,26 @@ import { useUrlSync } from "@//hooks/useUrlSync";
 import { StickyHeader } from "./StickyHeader";
 import { ExamTableHeader } from "./ExamTableHeader";
 import { ExamTableBody } from "./ExamTableBody";
+import { generateICSFile } from "@/utils/iCalendarUtils";
+
+/**
+ * source: https://stackoverflow.com/a/18197341
+ */
+function download(filename: string, text: string) {
+  const element = document.createElement("a");
+  element.setAttribute(
+    "href",
+    "data:text/calendar;charset=utf-8," + encodeURIComponent(text),
+  );
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 
 /**
  * Represents the ExamScheduleViewer that is the main Component containing the Table and the Filters
@@ -129,6 +149,17 @@ const ExamScheduleViewer = () => {
 
         <div className="mt-5 text-center text-secondary-text italic text-base select-none">
           Gefundene Einträge: {filteredEntries.length} / {entries.length}
+        </div>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            className="cursor-pointer border rounded p-1"
+            onClick={() => {
+              download("pruefungsplan.ics", generateICSFile(filteredEntries));
+            }}
+          >
+            Gefilterte Prüfungen als ics Datei exportieren (Kalenderdatei)
+          </button>
         </div>
       </div>
     </>
