@@ -1,4 +1,9 @@
-import { ColumnFilters, ColumnVisibility, ColumnWidths } from "@//types/exam";
+import {
+  ColumnFilters,
+  ColumnVisibility,
+  ColumnWidths,
+  FavoriteRows,
+} from "@//types/exam";
 import {
   TABLE_HEADERS,
   DEFAULT_HIDDEN_COLUMNS,
@@ -137,6 +142,28 @@ export const decodeColumnWidths = (encodedWidths: string): ColumnWidths => {
   }
 };
 
+export const encodeFavoriteRows = (favoriteRows: FavoriteRows): string => {
+  if (!favoriteRows || Object.keys(favoriteRows).length === 0) return "";
+  return btoa(JSON.stringify(favoriteRows));
+};
+
+export const decodeFavoriteRows = (encodedFavorites: string): FavoriteRows => {
+  const empty: FavoriteRows = {};
+  if (!encodedFavorites) return empty;
+  try {
+    const parsed = JSON.parse(atob(encodedFavorites));
+    if (!parsed || typeof parsed !== "object") return empty;
+    return Object.fromEntries(
+      Object.entries(parsed).filter(
+        ([k, v]) => typeof k === "string" && v === true,
+      ),
+    ) as FavoriteRows;
+  } catch (error) {
+    console.warn("Failed to decode favorites from URL:", error);
+    return empty;
+  }
+};
+
 /**
  * Checks if a String is a Course.
  * @param s The string to check.
@@ -165,6 +192,7 @@ export const createSearchParams = (
   newColumnWidths: ColumnWidths,
   selectedCourse: string | undefined,
   selectedSemester: string | undefined,
+  favoritedRows: FavoriteRows,
 ): URLSearchParams => {
   const params = new URLSearchParams();
 
@@ -193,6 +221,11 @@ export const createSearchParams = (
 
   if (selectedSemester && isSemester(selectedSemester)) {
     params.set("semester", selectedSemester);
+  }
+
+  const encodedFavorites = encodeFavoriteRows(favoritedRows);
+  if (encodedFavorites) {
+    params.set("favorites", encodedFavorites);
   }
 
   return params;

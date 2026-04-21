@@ -146,12 +146,30 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
         className="bg-primary text-primary-text text-sm select-none sticky top-0
                z-10 shadow-sm border-b border-primary"
       >
+        <th
+          key={`header-favorite`}
+          scope="col"
+          aria-colindex={1}
+          aria-label="Favoriten"
+          className="z-20 group
+                   bg-primary
+                   border-r border-border-light last:border-r-0
+                   font-semibold text-left whitespace-nowrap overflow-hidden
+                   h-12
+                   transition-all duration-200 ease-in-out hover:shadow-lg
+                   text-sm tracking-wide uppercase letter-spacing-wide"
+          style={{
+            width: colWidths["favorite"],
+            minWidth: MIN_COLUMN_WIDTH,
+            boxSizing: "border-box",
+          }}
+        />
         {TABLE_HEADERS.map(({ key, label }, index) =>
           hiddenCols[key] ? null : (
             <th
               key={`header-${key}`}
               scope="col"
-              aria-colindex={index + 1}
+              aria-colindex={index + 2}
               className="z-20 group
                    bg-primary
                    border-r border-border-light last:border-r-0
@@ -194,6 +212,14 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
       </tr>
 
       <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-secondary">
+        <th
+          className="border-b-2 border-border text-left whitespace-nowrap p-2"
+          style={{
+            width: colWidths["favorite"],
+            minWidth: MIN_COLUMN_WIDTH,
+            boxSizing: "border-box",
+          }}
+        />
         {TABLE_HEADERS.map(({ key, label }) => {
           return hiddenCols[key] ? null : (
             <th

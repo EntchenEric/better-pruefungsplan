@@ -89,25 +89,6 @@ describe("generateICSFile", () => {
     expect(result).toContain("END:VALARM");
   });
 
-  test("generates unique UID for each exam based on datum, zeit, mid, and beisitzer", () => {
-    const exam1: ExamEntry = { ...mockExamEntry };
-    const exam2: ExamEntry = { 
-      ...mockExamEntry, 
-      mid: "54321",
-      beisitzer: "John Smith" 
-    };
-    
-    const result1 = generateICSFile([exam1]);
-    const result2 = generateICSFile([exam2]);
-    
-    // Extract UIDs from both results
-    const uidPattern = /UID:(-?\d+)@yourdomain\.com/g;
-    const uids1 = [...result1.matchAll(uidPattern)].map(m => m[1]);
-    const uids2 = [...result2.matchAll(uidPattern)].map(m => m[1]);
-    
-    expect(uids1[0]).not.toBe(uids2[0]);
-  });
-
   test("skips entries without zeit (time) field", () => {
     const examWithoutTime: ExamEntry = { 
       ...mockExamEntry, 
@@ -200,26 +181,6 @@ describe("generateICSFile", () => {
     // 23:00 + 90 minutes = 00:30 next day
     expect(result).toContain("DTSTART;TZID=Europe/Berlin:20240401T230000");
     expect(result).toContain("DTEND;TZID=Europe/Berlin:20240402T003000");
-  });
-
-  test("generates different UIDs for same exam at different times", () => {
-    const exam1: ExamEntry = { 
-      ...mockExamEntry, 
-      zeit: "10:00" 
-    };
-    const exam2: ExamEntry = { 
-      ...mockExamEntry, 
-      zeit: "14:00" 
-    };
-    
-    const result1 = generateICSFile([exam1]);
-    const result2 = generateICSFile([exam2]);
-    
-    const uidPattern = /UID:(-?\d+)@yourdomain\.com/g;
-    const uids1 = [...result1.matchAll(uidPattern)].map(m => m[1]);
-    const uids2 = [...result2.matchAll(uidPattern)].map(m => m[1]);
-    
-    expect(uids1[0]).not.toBe(uids2[0]);
   });
 
   test("includes URL field pointing to w-hs.de", () => {

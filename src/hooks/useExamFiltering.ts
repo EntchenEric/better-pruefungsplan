@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ExamEntry, ColumnFilters } from "@//types/exam";
+import { ExamEntry, ColumnFilters, FavoriteRows } from "@//types/exam";
 import { COURSES, SEMESTERS, TABLE_HEADERS } from "@//config/tableConfig";
 
 /**
@@ -9,6 +9,7 @@ import { COURSES, SEMESTERS, TABLE_HEADERS } from "@//config/tableConfig";
  * @param columnFilters The columnfilters.
  * @param selectedCourse the selected course.
  * @param selectedSemester the selected semester.
+ * @param favoritedRows The rows that are favorited.
  * @returns The exam entries filtered by other props.
  */
 export const useExamFiltering = (
@@ -17,26 +18,31 @@ export const useExamFiltering = (
   columnFilters: ColumnFilters,
   selectedCourse: string | undefined,
   selectedSemester: string | undefined,
+  favoritedRows: FavoriteRows,
 ) => {
   const filteredEntries = useMemo(() => {
     let filtered = entries;
 
     if (globalSearch.trim()) {
       const lowerGlobal = globalSearch.toLowerCase();
-      filtered = filtered.filter((entry) =>
-        Object.values(entry).some((v) =>
-          v?.toLowerCase().includes(lowerGlobal),
-        ),
+      filtered = filtered.filter(
+        (entry) =>
+          (favoritedRows && favoritedRows[entry["mid"]]) ||
+          Object.values(entry).some((v) =>
+            v?.toLowerCase().includes(lowerGlobal),
+          ),
       );
     }
 
-    filtered = filtered.filter((entry) =>
-      TABLE_HEADERS.every(({ key }) => {
-        const filterVal = columnFilters[key]?.trim().toLowerCase();
-        if (!filterVal) return true;
-        const entryVal = (entry[key] || "").toLowerCase();
-        return entryVal.includes(filterVal);
-      }),
+    filtered = filtered.filter(
+      (entry) =>
+        (favoritedRows && favoritedRows[entry["mid"]]) ||
+        TABLE_HEADERS.every(({ key }) => {
+          const filterVal = columnFilters[key]?.trim().toLowerCase();
+          if (!filterVal) return true;
+          const entryVal = (entry[key] || "").toLowerCase();
+          return entryVal.includes(filterVal);
+        }),
     );
 
     if (selectedCourse && COURSES.some((c) => c.key === selectedCourse)) {
@@ -44,7 +50,7 @@ export const useExamFiltering = (
         const val = String(
           entry[selectedCourse as keyof ExamEntry] ?? "",
         ).trim();
-        return val.length > 0;
+        return (favoritedRows && favoritedRows[entry["mid"]]) || val.length > 0;
       });
     }
 
@@ -56,12 +62,14 @@ export const useExamFiltering = (
             selectedSemester,
         );
       } else {
-        filtered = filtered.filter((entry) =>
-          COURSES.some(
-            (c) =>
-              String(entry[c.key as keyof ExamEntry] ?? "") ===
-              selectedSemester,
-          ),
+        filtered = filtered.filter(
+          (entry) =>
+            (favoritedRows && favoritedRows[entry["mid"]]) ||
+            COURSES.some(
+              (c) =>
+                String(entry[c.key as keyof ExamEntry] ?? "") ===
+                selectedSemester,
+            ),
         );
       }
     }

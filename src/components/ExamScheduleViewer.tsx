@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ExamEntry } from "@//types/exam";
 import { useExamFiltering } from "@//hooks/useExamFiltering";
 import { useUrlSync } from "@//hooks/useUrlSync";
@@ -43,12 +43,14 @@ const ExamScheduleViewer = () => {
     colWidths,
     selectedCourse,
     selectedSemester,
+    favoritedRows,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
     handleColumnWidthChange,
     setSelectedCourse,
     setSelectedSemester,
+    setFavoritedRows,
   } = useUrlSync();
 
   useEffect(() => {
@@ -79,6 +81,20 @@ const ExamScheduleViewer = () => {
     fetchAndParseData().then(() => {});
   }, []);
 
+  const toggleFavorite = useCallback(
+    (mid: string) => {
+      setFavoritedRows((current) => {
+        if (current[mid]) {
+          const next = { ...current };
+          delete next[mid];
+          return next;
+        }
+        return { ...current, [mid]: true };
+      });
+    },
+    [setFavoritedRows],
+  );
+
   /**
    * The entries filtered according to the filters.
    */
@@ -88,6 +104,7 @@ const ExamScheduleViewer = () => {
     columnFilters,
     selectedCourse,
     selectedSemester,
+    favoritedRows,
   );
 
   return (
@@ -122,6 +139,8 @@ const ExamScheduleViewer = () => {
               entries={filteredEntries}
               hiddenCols={hiddenCols}
               colWidths={colWidths}
+              favoritedRows={favoritedRows}
+              toggleFavorite={toggleFavorite}
             />
           </table>
         </div>

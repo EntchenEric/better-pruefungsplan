@@ -65,7 +65,7 @@ const ENTRIES: Entry[] = [
 describe("useExamFiltering", () => {
   test("no filters => returns all entries", () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, undefined, undefined),
+      useExamFiltering(ENTRIES as any, "", {}, undefined, undefined, {}),
     );
     expect(result.current).toHaveLength(ENTRIES.length);
   });
@@ -74,7 +74,7 @@ describe("useExamFiltering", () => {
     // With surrounding spaces, the hook does NOT trim for matching -> no result
     const { result, rerender } = renderHook(
       ({ search }) =>
-        useExamFiltering(ENTRIES as any, search, {}, undefined, undefined),
+        useExamFiltering(ENTRIES as any, search, {}, undefined, undefined, {}),
       { initialProps: { search: "  soft  " } },
     );
     expect(result.current.map((e) => e.modul)).toEqual([]);
@@ -103,6 +103,7 @@ describe("useExamFiltering", () => {
         filters as any,
         undefined,
         undefined,
+        {}
       ),
     );
     expect(result.current.map((e) => e.modul)).toEqual(["Mathematics"]);
@@ -117,6 +118,7 @@ describe("useExamFiltering", () => {
         filters as any,
         undefined,
         undefined,
+        {}
       ),
     );
     expect(result.current.map((e) => e.modul)).toEqual(["algorithms"]);
@@ -131,6 +133,7 @@ describe("useExamFiltering", () => {
         filters as any,
         undefined,
         undefined,
+        {}
       ),
     );
     expect(result.current).toHaveLength(ENTRIES.length);
@@ -139,7 +142,7 @@ describe("useExamFiltering", () => {
   test("selectedCourse only: filters to entries with non-empty value in that course column", () => {
     // AI selected => entries whose modul are Mathematics and algorithms
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, "AI", undefined),
+      useExamFiltering(ENTRIES as any, "", {}, "AI", undefined, {}),
     );
     expect(result.current.map((e) => e.modul)).toEqual([
       "Mathematics",
@@ -149,14 +152,14 @@ describe("useExamFiltering", () => {
 
   test("selectedCourse invalid => ignored", () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, "INVALID", undefined),
+      useExamFiltering(ENTRIES as any, "", {}, "INVALID", undefined, {}),
     );
     expect(result.current).toHaveLength(ENTRIES.length);
   });
 
   test("selectedSemester only (no course): entries where any course column equals the semester", () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, undefined, "WS23"),
+      useExamFiltering(ENTRIES as any, "", {}, undefined, "WS23", {}),
     );
     expect(result.current.map((e) => e.modul)).toEqual([
       "Mathematics",
@@ -166,21 +169,21 @@ describe("useExamFiltering", () => {
 
   test("selectedSemester invalid => ignored", () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, undefined, "BAD"),
+      useExamFiltering(ENTRIES as any, "", {}, undefined, "BAD", {}),
     );
     expect(result.current).toHaveLength(ENTRIES.length);
   });
 
   test("selectedCourse + selectedSemester: exact equality on the course column", () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, "AI", "SS24"),
+      useExamFiltering(ENTRIES as any, "", {}, "AI", "SS24", {}),
     );
     expect(result.current.map((e) => e.modul)).toEqual(["algorithms"]);
   });
 
   test('selectedSemester valid + course invalid behaves like "no course" case', () => {
     const { result } = renderHook(() =>
-      useExamFiltering(ENTRIES as any, "", {}, "CS", "WS23"),
+      useExamFiltering(ENTRIES as any, "", {}, "CS", "WS23", {}),
     );
     expect(result.current.map((e) => e.modul)).toEqual([
       "Mathematics",
@@ -196,6 +199,7 @@ describe("useExamFiltering", () => {
         { modul: "algo" } as any,
         "AI",
         "SS24",
+        {}
       ),
     );
     expect(result.current.map((e) => e.modul)).toEqual(["algorithms"]);
@@ -210,6 +214,7 @@ describe("useExamFiltering", () => {
           filters as any,
           course,
           semester,
+          {}
         ),
       {
         initialProps: {

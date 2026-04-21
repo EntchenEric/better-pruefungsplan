@@ -1,6 +1,12 @@
 import React from "react";
-import { ExamEntry, ColumnWidths, ColumnVisibility } from "@//types/exam";
+import {
+  ExamEntry,
+  ColumnWidths,
+  ColumnVisibility,
+  FavoriteRows,
+} from "@//types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@//config/tableConfig";
+import { FaRegStar, FaStar } from "react-icons/fa";
 import moment from "moment";
 moment.locale("de");
 
@@ -20,6 +26,10 @@ interface ExamTableBodyProps {
    * The widths of the Columns in the Exam Schedule Table.
    */
   colWidths: ColumnWidths;
+
+  favoritedRows: FavoriteRows;
+
+  toggleFavorite: (row: string) => void;
 }
 
 /**
@@ -72,6 +82,8 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
   entries,
   hiddenCols,
   colWidths,
+  favoritedRows,
+  toggleFavorite,
 }) => {
   if (entries.length === 0) {
     return (
@@ -103,6 +115,33 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
             idx % 2 === 0 ? "bg-secondary" : "bg-secondary-200"
           } cursor-default transition-colors hover:bg-primary-100 focus:outline-none focus:bg-primary-200`}
         >
+          <td
+            key={`${entry.mid}-favorite`}
+            data-label={"favorite"}
+            className="p-2 text-sm text-secondary-text whitespace-nowrap overflow-hidden text-ellipsis"
+            style={{
+              width: colWidths["favorite"],
+              minWidth: MIN_COLUMN_WIDTH,
+              boxSizing: "border-box",
+            }}
+            title={"Favorisieren"}
+          >
+            <button
+              onClick={() => toggleFavorite(entry["mid"])}
+              aria-label={
+                favoritedRows[entry["mid"]]
+                  ? "Von Favoriten entfernen"
+                  : "Zu Favoriten hinzufügen"
+              }
+              className="p-1 hover:bg-primary-100 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              {favoritedRows[entry["mid"]] ? (
+                <FaStar className="w-4 h-4 text-yellow-500" />
+              ) : (
+                <FaRegStar className="w-4 h-4" />
+              )}
+            </button>
+          </td>
           {TABLE_HEADERS.map(({ key }) =>
             hiddenCols[key] ? null : (
               <td
