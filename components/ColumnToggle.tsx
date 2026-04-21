@@ -27,7 +27,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
             htmlFor={`toggle-${key}`}
             className={`flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border-2 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md ${
               hiddenCols[key]
-                ? "text-black-muted bg-secondary-100 border-secondary-300 hover:bg-secondary-200 hover:border-secondary-400"
+                ? "text-theme-muted bg-secondary-100 border-secondary-300 hover:bg-secondary-200 hover:border-secondary-400"
                 : "text-primary-700 bg-primary-50 border-primary-200 hover:bg-primary-100 hover:border-primary-300 shadow-primary-100"
             }`}
           >

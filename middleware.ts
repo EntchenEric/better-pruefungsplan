@@ -3,10 +3,18 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const nonce = crypto.randomUUID().replace(/-/g, '');
+  const isDev = process.env.NODE_ENV === 'development';
+
+  const scriptSrc = [
+    `'self'`,
+    `'nonce-${nonce}'`,
+    `'strict-dynamic'`,
+    ...(isDev ? [`'unsafe-eval'`] : []),
+  ].join(' ');
 
   const csp = [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `script-src ${scriptSrc}`,
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     `img-src 'self' data: https:`,
     `font-src 'self' https://fonts.gstatic.com`,

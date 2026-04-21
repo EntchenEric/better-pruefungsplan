@@ -22,9 +22,13 @@ const ExamScheduleViewer = () => {
     globalSearch,
     columnFilters,
     hiddenCols,
+    studiengang,
+    degree,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
+    handleStudiengangChange,
+    handleDegreeChange,
   } = useUrlSync();
 
   const fetchAndParseData = useCallback(async () => {
@@ -80,7 +84,7 @@ const ExamScheduleViewer = () => {
     fetchAndParseData();
   }, [fetchAndParseData]);
 
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters);
+  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, studiengang, degree);
 
   const sortedEntries = React.useMemo(() => {
     if (!sort.direction) return filteredEntries;
@@ -100,6 +104,10 @@ const ExamScheduleViewer = () => {
           onToggleColumn={handleToggleColumnVisibility}
           globalSearch={globalSearch}
           onGlobalSearchChange={handleGlobalSearchChange}
+          studiengang={studiengang}
+          onStudiengangChange={handleStudiengangChange}
+          degree={degree}
+          onDegreeChange={handleDegreeChange}
         />
       </div>
 
@@ -134,31 +142,31 @@ const ExamScheduleViewer = () => {
               ))}
             </div>
           ) : (
-            <>
-              <div className="sticky top-0 z-20 bg-theme-sticky shadow-sm border-b border-theme-light">
-                <ExamTableHeader
-                  hiddenCols={hiddenCols}
-                  colWidths={DEFAULT_COLUMN_WIDTHS}
-                  columnFilters={columnFilters}
-                  onColumnFilterChange={handleColumnFilterChange}
-                  sort={sort}
-                  onSort={handleSort}
-                />
-              </div>
-              <div className="max-h-[60vh] overflow-y-auto">
-                <table
-                  className="w-full min-w-[900px] border-collapse table-fixed"
-                  role="grid"
-                  aria-label="Prüfungsplan Tabelle"
-                >
-                  <ExamTableBody
-                    entries={sortedEntries}
+            <div className="max-h-[60vh] overflow-y-auto">
+              <table
+                className="w-full min-w-[900px] border-collapse table-fixed"
+                role="grid"
+                aria-label="Prüfungsplan Tabelle"
+              >
+                <thead className="sticky top-0 z-20 bg-theme-sticky shadow-sm">
+                  <ExamTableHeader
                     hiddenCols={hiddenCols}
                     colWidths={DEFAULT_COLUMN_WIDTHS}
+                    columnFilters={columnFilters}
+                    onColumnFilterChange={handleColumnFilterChange}
+                    sort={sort}
+                    onSort={handleSort}
                   />
-                </table>
-              </div>
-            </>
+                </thead>
+                <tbody>
+                  <ExamTableBody
+                  entries={sortedEntries}
+                  hiddenCols={hiddenCols}
+                  colWidths={DEFAULT_COLUMN_WIDTHS}
+                />
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 
@@ -168,14 +176,14 @@ const ExamScheduleViewer = () => {
           </div>
         )}
 
-        <div className="mt-4 text-center space-y-2">
+        <div className="mt-4 flex justify-center gap-3">
           <button
             onClick={fetchAndParseData}
             disabled={loading}
             className="text-sm bg-theme-alt hover:bg-primary-700 hover:text-primary-100 border border-primary-400 px-4 py-1.5 rounded
                       transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Prü&shy;fungsplan laden
+            Prüfungsplan laden
           </button>
 
           <button

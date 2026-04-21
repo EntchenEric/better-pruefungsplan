@@ -2,19 +2,52 @@ import { PdfDocument } from "pdf-tables-parser";
 import { Buffer } from "buffer";
 import { ExamEntry } from "@/types/exam";
 
-export const mapRowToEntry = (row: string[]): ExamEntry | null => {
-  if (row.length < 8) return null;
+// Column headers from the actual WHS PDF, in order
+const PDF_COLUMNS = [
+  "mid", "kuerzel", "po", "lp", "datum", "zeit",
+  "pruefungsform", "pruefungsdauer", "modul",
+  "erstpruefer", "zweitpruefer", "b_m", "beisitzer",
+  "pi_ba", "ti_ba", "mi_ba", "wi_ba", "id_ba",
+  "pi_ba_dual", "ti_ba_dual", "mi_ba_dual", "wi_ba_dual",
+  "pi_ma", "ti_ma", "mi_ma", "wi_ma", "is_ma",
+] as const;
+
+export const mapRowToEntry = (cols: string[]): ExamEntry | null => {
+  if (cols.length < 8) return null;
+
+  const get = (idx: number, fallback = ""): string => {
+    const val = cols[idx]?.trim();
+    return val || fallback;
+  };
+
   return {
-    mid: row[0]?.trim() || "",
-    kuerzel: row[1]?.trim() || "",
-    po: row[2]?.trim() || "",
-    lp: row[3]?.trim() || "",
-    datum: row[4]?.trim() || "",
-    zeit: row[5]?.trim() || "",
-    pruefungsform: row[6]?.trim() || "",
-    pruefungsdauer: row[7]?.trim() || "",
-    modul: row[8]?.trim() || "",
-    pruefer: row[9]?.trim() || "",
+    mid: get(0),
+    kuerzel: get(1),
+    po: get(2),
+    lp: get(3),
+    datum: get(4),
+    zeit: get(5),
+    pruefungsform: get(6),
+    pruefungsdauer: get(7),
+    modul: get(8),
+    erstpruefer: get(9),
+    zweitpruefer: get(10),
+    b_m: get(11),
+    beisitzer: get(12),
+    pi_ba: get(13),
+    ti_ba: get(14),
+    mi_ba: get(15),
+    wi_ba: get(16),
+    id_ba: get(17),
+    pi_ba_dual: get(18),
+    ti_ba_dual: get(19),
+    mi_ba_dual: get(20),
+    wi_ba_dual: get(21),
+    pi_ma: get(22),
+    ti_ma: get(23),
+    mi_ma: get(24),
+    wi_ma: get(25),
+    is_ma: get(26),
   };
 };
 
@@ -25,32 +58,17 @@ export const normalizeRow = (rowData: string[] | string): string[] => {
   return rowData.trim().split(/\s{2,}|\t+/);
 };
 
-export const parseExamSchedulePDF = async (): Promise<ExamEntry[]> => {
-  const response = await fetch("/pruefungsplan.pdf");
-  const arrayBuffer = await response.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  const pdfDoc = new PdfDocument({
-    hasTitles: true,
-    threshold: 1.5,
-    maxStrLength: 100,
-    ignoreTexts: [],
-  });
-
-  await pdfDoc.load(buffer);
-
-  const pages = pdfDoc.pages.slice(0, 3);
+function extractEntries(pdfDoc: PdfDocument, maxPages?: number): ExamEntry[] {
+  const pages = maxPages ? pdfDoc.pages.slice(0, maxPages) : pdfDoc.pages;
   const allEntries: ExamEntry[] = [];
+  const headerKeywords = new Set(["mid", "MID", "kuerzel", "Kürzel", "kürzel"]);
 
   pages.forEach((page) => {
     page.tables.forEach((table) => {
       table.data.forEach((row) => {
         const cols = normalizeRow(row.flat());
         const entry = mapRowToEntry(cols);
-        if (
-          entry &&
-          !["mid", "MID", "kuerzel", "Kürzel"].includes(entry.mid.toLowerCase())
-        ) {
+        if (entry && !headerKeywords.has(entry.mid.toLowerCase())) {
           allEntries.push(entry);
         }
       });
@@ -58,6 +76,25 @@ export const parseExamSchedulePDF = async (): Promise<ExamEntry[]> => {
   });
 
   return allEntries;
+}
+
+async function loadPdf(arrayBuffer: ArrayBuffer): Promise<PdfDocument> {
+  const uint8 = new Uint8Array(arrayBuffer);
+  const pdfDoc = new PdfDocument({
+    hasTitles: true,
+    threshold: 1.5,
+    maxStrLength: 100,
+    ignoreTexts: [],
+  });
+  await pdfDoc.load(uint8 as unknown as Buffer);
+  return pdfDoc;
+}
+
+export const parseExamSchedulePDF = async (): Promise<ExamEntry[]> => {
+  const response = await fetch("/pruefungsplan.pdf");
+  const arrayBuffer = await response.arrayBuffer();
+  const pdfDoc = await loadPdf(arrayBuffer);
+  return extractEntries(pdfDoc, 3);
 };
 
 export const fetchExamSchedulePDF = async (url: string): Promise<ExamEntry[]> => {
@@ -66,32 +103,6 @@ export const fetchExamSchedulePDF = async (url: string): Promise<ExamEntry[]> =>
     throw new Error(`Failed to fetch PDF: ${response.statusText}`);
   }
   const arrayBuffer = await response.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  const pdfDoc = new PdfDocument({
-    hasTitles: true,
-    threshold: 1.5,
-    maxStrLength: 100,
-    ignoreTexts: [],
-  });
-
-  await pdfDoc.load(buffer);
-
-  const allEntries: ExamEntry[] = [];
-  pdfDoc.pages.forEach((page) => {
-    page.tables.forEach((table) => {
-      table.data.forEach((row) => {
-        const cols = normalizeRow(row.flat());
-        const entry = mapRowToEntry(cols);
-        if (
-          entry &&
-          !["mid", "MID", "kuerzel", "Kürzel"].includes(entry.mid.toLowerCase())
-        ) {
-          allEntries.push(entry);
-        }
-      });
-    });
-  });
-
-  return allEntries;
+  const pdfDoc = await loadPdf(arrayBuffer);
+  return extractEntries(pdfDoc);
 };

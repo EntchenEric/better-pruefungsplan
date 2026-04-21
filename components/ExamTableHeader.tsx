@@ -45,7 +45,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   onSort,
 }) => {
   return (
-    <thead>
+    <>
       <tr className="bg-primary text-white text-sm select-none
                border-b border-accent-light/20">
         {TABLE_HEADERS.map(({ key, label }) =>
@@ -81,7 +81,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
         )}
       </tr>
 
-      <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-theme border-b-2 border-secondary-400">
+      <tr className="z-10 select-none text-xs font-medium shadow-sm bg-theme border-b-2 border-secondary-400">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
             <th
@@ -125,6 +125,6 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
           )
         )}
       </tr>
-    </thead>
+    </>
   );
 };
