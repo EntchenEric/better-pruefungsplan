@@ -3,13 +3,16 @@ import ExamScheduleViewer from "@/components/ExamScheduleViewer";
 
 export default function Home() {
   return (
-
     <div className="font-sans min-h-screen bg-theme text-theme-primary">
-      <Suspense fallback={<div className="flex justify-center items-center min-h-screen"><div className="text-lg text-theme-primary">Loading...</div></div>}>
+      <Suspense fallback={
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="text-lg text-theme-primary animate-pulse">Laden...</div>
+        </div>
+      }>
         <ExamScheduleViewer />
       </Suspense>
 
-      <div className="mt-12 px-6 py-8 text-center max-w-2xl mx-auto">
+      <footer className="mt-12 px-6 py-8 text-center max-w-2xl mx-auto">
         <div className="bg-theme-alt backdrop-blur-sm rounded-lg shadow-sm border border-theme p-6">
           <p className="text-lg font-medium text-theme-primary mb-4">
             Nicht der aktuelle Prüfungsplan?
@@ -17,11 +20,7 @@ export default function Home() {
 
           <p className="text-base text-theme-secondary mb-6 leading-relaxed">
             Bitte schreibe{" "}
-            <span
-              className="text-primary-500 hover:text-primary-600 font-semibold 
-                        underline underline-offset-2 hover:underline-offset-4
-                        transition-all duration-200 cursor-pointer"
-            >
+            <span className="text-primary-500 hover:text-primary-600 font-semibold underline underline-offset-2 hover:underline-offset-4 transition-all duration-200 cursor-pointer">
               @entcheneric
             </span>
             {" "}auf Discord und ich werde ihn so schnell wie möglich aktualisieren!
@@ -35,7 +34,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }

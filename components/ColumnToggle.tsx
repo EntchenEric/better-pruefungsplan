@@ -12,25 +12,28 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
   onToggleColumn,
 }) => {
   return (
-    <div className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
-      <div className="flex items-center gap-2 text-black-inverse font-medium">
-        <svg className="h-5 w-5 text-black-inverse/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div role="group" aria-label="Column visibility settings" className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
+      <div role="heading" aria-level={3} className="flex items-center gap-2 text-black-inverse font-medium">
+        <svg className="h-5 w-5 text-black-inverse/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z" />
         </svg>
-        <span>Spalten anzeigen:</span>
+        <span id="columns-label">Spalten anzeigen:</span>
       </div>
-      <div className="flex flex-wrap justify-center gap-2">
+      <div role="list" aria-labelledby="columns-label" className="flex flex-wrap justify-center gap-2">
         {TABLE_HEADERS.map(({ key, label }) => (
           <label
             key={`toggle-${key}`}
+            role="listitem"
+            htmlFor={`toggle-${key}`}
             className={`flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border-2 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md ${
               hiddenCols[key]
                 ? "text-black-muted bg-secondary-100 border-secondary-300 hover:bg-secondary-200 hover:border-secondary-400"
                 : "text-primary-700 bg-primary-50 border-primary-200 hover:bg-primary-100 hover:border-primary-300 shadow-primary-100"
             }`}
           >
-            <div className="relative">
+            <div role="checkbox" aria-checked={!hiddenCols[key]} tabIndex={-1}>
               <input
+                id={`toggle-${key}`}
                 type="checkbox"
                 checked={!hiddenCols[key]}
                 onChange={() => onToggleColumn(key)}
@@ -48,7 +51,7 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
                 )}
               </div>
             </div>
-            <span>{label}</span>
+            <span className="ml-1">{label}</span>
           </label>
         ))}
       </div>

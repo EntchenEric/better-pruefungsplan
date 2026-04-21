@@ -1,13 +1,39 @@
 import React from "react";
-import { ColumnFilters, ColumnWidths, ColumnVisibility } from "@/types/exam";
+import { ColumnFilters, ColumnWidths, ColumnVisibility, ExamEntry } from "@/types/exam";
 import { TABLE_HEADERS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
+
+type SortDirection = "asc" | "desc" | null;
+type SortConfig = { key: keyof ExamEntry; direction: SortDirection };
 
 interface ExamTableHeaderProps {
   hiddenCols: ColumnVisibility;
   colWidths: ColumnWidths;
   columnFilters: ColumnFilters;
   onColumnFilterChange: (key: string, value: string) => void;
-  stickyHeaderHeight: number;
+  sort: SortConfig;
+  onSort: (key: keyof ExamEntry) => void;
+}
+
+function SortIcon({ direction }: { direction: SortDirection }) {
+  if (!direction) {
+    return (
+      <svg className="w-3 h-3 text-black-muted/40 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+      </svg>
+    );
+  }
+  if (direction === "asc") {
+    return (
+      <svg className="w-3 h-3 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M7 14l5-5 5 5z" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="w-3 h-3 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M7 10l5 5 5-5z" />
+    </svg>
+  );
 }
 
 export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
@@ -15,57 +41,52 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   colWidths,
   columnFilters,
   onColumnFilterChange,
-  stickyHeaderHeight,
+  sort,
+  onSort,
 }) => {
   return (
     <thead>
-      <tr className="bg-primary text-black-inverse text-sm select-none sticky top-0 
-               z-10 shadow-sm border-b border-accent-light/20">
+      <tr className="bg-primary text-white text-sm select-none
+               border-b border-accent-light/20">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
             <th
               key={`header-${key}`}
               scope="col"
               aria-colindex={TABLE_HEADERS.findIndex((h) => h.key === key) + 1}
-              className="sticky z-20 group
-                   bg-gradient-to-b from-white/5 to-transparent
-                   border-r border-accent-light/10 last:border-r-0
+              aria-sort={sort.key === key ? (sort.direction === "asc" ? "ascending" : sort.direction === "desc" ? "descending" : "none") : undefined}
+              className="group
+                   border-r border-white/10 last:border-r-0
                    font-semibold text-left whitespace-nowrap overflow-hidden
                    h-12 px-4 py-3
-                   transition-all duration-200 ease-in-out
-                   hover:bg-white/10 hover:shadow-lg
-                   text-sm tracking-wide uppercase letter-spacing-wide"
+                   transition-colors duration-150
+                   hover:bg-white/10 cursor-pointer
+                   text-sm tracking-wide uppercase"
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
                 maxWidth: 500,
                 boxSizing: "border-box",
               }}
+              onClick={() => onSort(key)}
             >
               <div className="relative flex items-center h-full">
-                <span className="flex-grow pointer-events-none select-none truncate
-                          text-black-inverse/90 group-hover:text-black-inverse
-                          font-medium tracking-wider
-                          transition-colors duration-200">
+                <span className="flex-grow pointer-events-none select-none truncate font-medium tracking-wider">
                   {label}
                 </span>
-
-                <div className="absolute bottom-0 left-0 w-full h-0.5 
-                         bg-gradient-to-r from-accent-light via-accent to-accent-light/50
-                         transform scale-x-0 group-hover:scale-x-100
-                         transition-transform duration-300 ease-out" />
+                <SortIcon direction={sort.key === key ? sort.direction : null} />
               </div>
             </th>
           )
         )}
       </tr>
 
-      <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-white">
+      <tr className="z-10 select-none text-xs font-medium shadow-sm sticky top-12 bg-theme border-b-2 border-secondary-400">
         {TABLE_HEADERS.map(({ key, label }) =>
           hiddenCols[key] ? null : (
             <th
               key={`filter-${key}`}
-              className="border-b-2 border-secondary-400 text-left whitespace-nowrap p-2"
+              className="text-left whitespace-nowrap p-2"
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
@@ -86,13 +107,13 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                   aria-label={`Filter für ${label}`}
                   spellCheck={false}
                   autoComplete="off"
-                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-secondary-400 rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-secondary-500"
+                  className="w-full pl-7 pr-2 py-1.5 text-xs border border-secondary-400 rounded-md shadow-sm transition-all duration-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 hover:border-secondary-500 bg-theme text-theme-primary"
                 />
                 {columnFilters[key] && (
                   <button
-                    onClick={() => onColumnFilterChange(key, "")}
+                    onClick={(e) => { e.stopPropagation(); onColumnFilterChange(key, ""); }}
                     className="absolute inset-y-0 right-0 pr-2 flex items-center text-black-muted hover:text-error transition-colors"
-                    aria-label={`Clear filter for ${label}`}
+                    aria-label={`Filter für ${label} löschen`}
                   >
                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
