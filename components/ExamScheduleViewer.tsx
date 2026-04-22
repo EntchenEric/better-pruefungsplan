@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { ExamEntry } from "@/types/exam";
-import { DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
+import { ExamEntry, ColumnWidths } from "@/types/exam";
+import { DEFAULT_COLUMN_WIDTHS, MIN_COLUMN_WIDTH } from "@/config/tableConfig";
 import { useExamFiltering } from "@/hooks/useExamFiltering";
 import { useUrlSync } from "@/hooks/useUrlSync";
+import { parsePDFClientSide } from "@/utils/pdfParser";
 import { StickyHeader } from "./StickyHeader";
 import { ExamTableHeader } from "./ExamTableHeader";
 import { ExamTableBody } from "./ExamTableBody";
+
+const WHS_PDF_URL = "https://www.w-hs.de/fileadmin/Oeffentlich/Fachbereich-3/informatik/info-center/bekanntmachungen/pp_2026_ib.pdf";
 
 type SortDirection = "asc" | "desc" | null;
 type SortConfig = { key: keyof ExamEntry; direction: SortDirection };
@@ -40,11 +43,43 @@ const ExamScheduleViewer = () => {
     return cols;
   }, [hiddenCols, studiengang]);
 
-  const fetchAndParseData = useCallback(async () => {
+  const fetchAndParseData = useCallback(async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/pruefungsplan");
+      if (forceRefresh) {
+        // Try client-side PDF fetch first to avoid server IP blocks
+        try {
+          const pdfResponse = await fetch(WHS_PDF_URL, {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            },
+          });
+          if (pdfResponse.ok) {
+            const arrayBuffer = await pdfResponse.arrayBuffer();
+            const data = await parsePDFClientSide(arrayBuffer);
+            if (data.length > 0) {
+              setEntries(data);
+              // Update server cache so other users benefit
+              try {
+                await fetch("/api/pruefungsplan", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ data }),
+                });
+              } catch {
+                // Silently ignore cache update failures
+              }
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (clientError) {
+          console.warn("Client-side PDF fetch failed, falling back to server:", clientError);
+        }
+      }
+
+      const response = await fetch(`/api/pruefungsplan${forceRefresh ? "?refresh=1" : ""}`);
       const result = await response.json();
       if (result.success) {
         setEntries(result.data);
@@ -67,6 +102,56 @@ const ExamScheduleViewer = () => {
       return { key, direction: "asc" };
     });
   }, []);
+
+  // Column widths state with localStorage persistence
+  const [colWidths, setColWidths] = useState<ColumnWidths>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("exam-column-widths");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          return { ...DEFAULT_COLUMN_WIDTHS, ...parsed };
+        }
+      } catch {
+        // ignore invalid stored data
+      }
+    }
+    return DEFAULT_COLUMN_WIDTHS;
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("exam-column-widths", JSON.stringify(colWidths));
+    }
+  }, [colWidths]);
+
+  // Column resize handlers
+  const [resizing, setResizing] = useState<{ colKey: string; startX: number; startWidth: number } | null>(null);
+
+  const handleResizeStart = useCallback((colKey: string, startX: number, startWidth: number) => {
+    setResizing({ colKey, startX, startWidth });
+  }, []);
+
+  useEffect(() => {
+    if (!resizing) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const delta = e.clientX - resizing.startX;
+      const newWidth = Math.max(MIN_COLUMN_WIDTH, resizing.startWidth + delta);
+      setColWidths((prev) => ({ ...prev, [resizing.colKey]: newWidth }));
+    };
+
+    const handleMouseUp = () => {
+      setResizing(null);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [resizing]);
 
   useEffect(() => {
     fetchAndParseData();
@@ -139,18 +224,19 @@ const ExamScheduleViewer = () => {
                 <thead className="sticky top-0 z-20 bg-theme-sticky shadow-sm">
                   <ExamTableHeader
                     hiddenCols={effectiveHiddenCols}
-                    colWidths={DEFAULT_COLUMN_WIDTHS}
+                    colWidths={colWidths}
                     columnFilters={columnFilters}
                     onColumnFilterChange={handleColumnFilterChange}
                     sort={sort}
                     onSort={handleSort}
+                    onResizeStart={handleResizeStart}
                   />
                 </thead>
                 <tbody>
                   <ExamTableBody
                   entries={sortedEntries}
                   hiddenCols={effectiveHiddenCols}
-                  colWidths={DEFAULT_COLUMN_WIDTHS}
+                  colWidths={colWidths}
                 />
                 </tbody>
               </table>
@@ -166,7 +252,7 @@ const ExamScheduleViewer = () => {
 
         <div className="mt-4 flex justify-center">
           <button
-            onClick={fetchAndParseData}
+            onClick={() => fetchAndParseData(true)}
             disabled={loading}
             className="text-sm bg-primary-600 hover:bg-primary-700 hover:text-primary-100 px-4 py-1.5 rounded
                       transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"

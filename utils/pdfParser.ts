@@ -106,3 +106,38 @@ export const fetchExamSchedulePDF = async (url: string): Promise<ExamEntry[]> =>
   const pdfDoc = await loadPdf(arrayBuffer);
   return extractEntries(pdfDoc);
 };
+
+// Client-side PDF parsing using dynamic imports to avoid bundling issues
+// if pdf-tables-parser is Node-only. Falls back to server-side parsing on failure.
+export const parsePDFClientSide = async (arrayBuffer: ArrayBuffer): Promise<ExamEntry[]> => {
+  const [{ PdfDocument }, { Buffer }] = await Promise.all([
+    import("pdf-tables-parser"),
+    import("buffer"),
+  ]);
+
+  const uint8 = new Uint8Array(arrayBuffer);
+  const pdfDoc = new PdfDocument({
+    hasTitles: true,
+    threshold: 1.5,
+    maxStrLength: 100,
+    ignoreTexts: [],
+  });
+  await pdfDoc.load(uint8 as unknown as Buffer);
+
+  const allEntries: ExamEntry[] = [];
+  const headerKeywords = new Set(["mid", "MID", "kuerzel", "Kürzel", "kürzel"]);
+
+  pdfDoc.pages.forEach((page) => {
+    page.tables.forEach((table) => {
+      table.data.forEach((row) => {
+        const cols = normalizeRow(row.flat());
+        const entry = mapRowToEntry(cols);
+        if (entry && !headerKeywords.has(entry.mid.toLowerCase())) {
+          allEntries.push(entry);
+        }
+      });
+    });
+  });
+
+  return allEntries;
+};
