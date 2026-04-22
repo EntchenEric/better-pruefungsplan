@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ExamEntry } from "@/types/exam";
 import { normalizeRow, mapRowToEntry } from "@/utils/pdfParser";
+import { Buffer } from "buffer";
 
-const LOCAL_PDF_URL = "https://www.w-hs.de/downloads/sdl-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDAyNjExMzMsImV4cCI6MTc3MjgxMTEzMywiYXV0aCI6eyJhdXRoZW50aWNhdGlvbk1ldGhvZCI6IlNlY3JldCIsImF1dGhvclVSTDNcIjoiKGFsbG93ZWQpfX0.eKw5w1Q3yG7xY8F2jL9kM3nP4oR6sT7uV8wX9yA0bC1d/PP_2026_IB_-_Aushang.pdf";
+const WHS_PDF_URL = process.env.WHS_PDF_URL || "https://www.w-hs.de/fileadmin/Oeffentlich/Fachbereich-3/informatik/info-center/bekanntmachungen/pp_2026_ib.pdf";
+const LOCAL_PDF_PATH = "/pruefungsplan.pdf";
 
 let cachedData: ExamEntry[] | null = null;
 let cachedAt: number = 0;
@@ -12,7 +14,7 @@ function isCacheValid(): boolean {
   return cachedData !== null && (Date.now() - cachedAt) < CACHE_TTL;
 }
 
-async function fetchAndParsePdf(url: string): Promise<ExamEntry[]> {
+async function parsePdfFromUrl(url: string): Promise<ExamEntry[]> {
   const response = await fetch(url, {
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -20,11 +22,11 @@ async function fetchAndParsePdf(url: string): Promise<ExamEntry[]> {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`);
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
 
   const arrayBuffer = await response.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const uint8 = new Uint8Array(arrayBuffer);
 
   const { PdfDocument } = await import("pdf-tables-parser");
   const pdfDoc = new PdfDocument({
@@ -34,7 +36,7 @@ async function fetchAndParsePdf(url: string): Promise<ExamEntry[]> {
     ignoreTexts: [],
   });
 
-  await pdfDoc.load(buffer);
+  await pdfDoc.load(uint8 as unknown as Buffer);
 
   const allEntries: ExamEntry[] = [];
   pdfDoc.pages.forEach((page) => {
@@ -65,15 +67,39 @@ export async function GET() {
       });
     }
 
-    const data = await fetchAndParsePdf(LOCAL_PDF_URL);
-    cachedData = data;
-    cachedAt = Date.now();
+    // Try remote WHS URL first
+    try {
+      const data = await parsePdfFromUrl(WHS_PDF_URL);
+      cachedData = data;
+      cachedAt = Date.now();
+      return NextResponse.json({
+        success: true,
+        data,
+        cached: false,
+        source: "remote",
+      });
+    } catch (remoteError) {
+      console.warn("Remote PDF fetch failed, trying local:", remoteError);
+    }
 
-    return NextResponse.json({
-      success: true,
-      data,
-      cached: false,
-    });
+    // Fallback to local PDF
+    try {
+      const data = await parsePdfFromUrl(LOCAL_PDF_PATH);
+      cachedData = data;
+      cachedAt = Date.now();
+      return NextResponse.json({
+        success: true,
+        data,
+        cached: false,
+        source: "local",
+      });
+    } catch (localError) {
+      console.error("Local PDF also failed:", localError);
+      return NextResponse.json(
+        { success: false, error: "Prüfungsplan konnte weder remote noch lokal geladen werden" },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Error in GET /api/pruefungsplan:", message);
@@ -96,7 +122,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = await fetchAndParsePdf(url);
+    const data = await parsePdfFromUrl(url);
     cachedData = data;
     cachedAt = Date.now();
 

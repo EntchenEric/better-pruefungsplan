@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ExamEntry } from "@/types/exam";
 import { DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
 import { useExamFiltering } from "@/hooks/useExamFiltering";
@@ -22,10 +22,23 @@ const ExamScheduleViewer = () => {
     globalSearch,
     columnFilters,
     hiddenCols,
+    studiengang,
+    degree,
     handleGlobalSearchChange,
     handleColumnFilterChange,
     handleToggleColumnVisibility,
+    handleStudiengangChange,
+    handleDegreeChange,
   } = useUrlSync();
+
+  // Auto-show studiengang column when a specific studiengang is selected
+  const effectiveHiddenCols = useMemo(() => {
+    const cols = { ...hiddenCols };
+    if (studiengang !== "all") {
+      cols[studiengang] = false;
+    }
+    return cols;
+  }, [hiddenCols, studiengang]);
 
   const fetchAndParseData = useCallback(async () => {
     setLoading(true);
@@ -45,27 +58,6 @@ const ExamScheduleViewer = () => {
     }
   }, []);
 
-  const handleFetchWHS = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("/api/pruefungsplan/fetch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      const result = await response.json();
-      if (result.success) {
-        setEntries(result.data);
-      } else {
-        setError(result.error || "Fehler beim Laden von der WHS");
-      }
-    } catch {
-      setError("Netzwerkfehler — WHS-Daten konnten nicht geladen werden");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   const handleSort = useCallback((key: keyof ExamEntry) => {
     setSort((prev) => {
       if (prev.key === key) {
@@ -80,7 +72,7 @@ const ExamScheduleViewer = () => {
     fetchAndParseData();
   }, [fetchAndParseData]);
 
-  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters);
+  const filteredEntries = useExamFiltering(entries, globalSearch, columnFilters, studiengang, degree);
 
   const sortedEntries = React.useMemo(() => {
     if (!sort.direction) return filteredEntries;
@@ -100,6 +92,10 @@ const ExamScheduleViewer = () => {
           onToggleColumn={handleToggleColumnVisibility}
           globalSearch={globalSearch}
           onGlobalSearchChange={handleGlobalSearchChange}
+          studiengang={studiengang}
+          onStudiengangChange={handleStudiengangChange}
+          degree={degree}
+          onDegreeChange={handleDegreeChange}
         />
       </div>
 
@@ -134,31 +130,31 @@ const ExamScheduleViewer = () => {
               ))}
             </div>
           ) : (
-            <>
-              <div className="sticky top-0 z-20 bg-theme-sticky shadow-sm border-b border-theme-light">
-                <ExamTableHeader
-                  hiddenCols={hiddenCols}
-                  colWidths={DEFAULT_COLUMN_WIDTHS}
-                  columnFilters={columnFilters}
-                  onColumnFilterChange={handleColumnFilterChange}
-                  sort={sort}
-                  onSort={handleSort}
-                />
-              </div>
-              <div className="max-h-[60vh] overflow-y-auto">
-                <table
-                  className="w-full min-w-[900px] border-collapse table-fixed"
-                  role="grid"
-                  aria-label="Prüfungsplan Tabelle"
-                >
-                  <ExamTableBody
-                    entries={sortedEntries}
-                    hiddenCols={hiddenCols}
+            <div className="max-h-[60vh] overflow-y-auto">
+              <table
+                className="w-full min-w-[900px] border-collapse table-fixed"
+                role="grid"
+                aria-label="Prüfungsplan Tabelle"
+              >
+                <thead className="sticky top-0 z-20 bg-theme-sticky shadow-sm">
+                  <ExamTableHeader
+                    hiddenCols={effectiveHiddenCols}
                     colWidths={DEFAULT_COLUMN_WIDTHS}
+                    columnFilters={columnFilters}
+                    onColumnFilterChange={handleColumnFilterChange}
+                    sort={sort}
+                    onSort={handleSort}
                   />
-                </table>
-              </div>
-            </>
+                </thead>
+                <tbody>
+                  <ExamTableBody
+                  entries={sortedEntries}
+                  hiddenCols={effectiveHiddenCols}
+                  colWidths={DEFAULT_COLUMN_WIDTHS}
+                />
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 
@@ -168,23 +164,14 @@ const ExamScheduleViewer = () => {
           </div>
         )}
 
-        <div className="mt-4 text-center space-y-2">
+        <div className="mt-4 flex justify-center">
           <button
             onClick={fetchAndParseData}
-            disabled={loading}
-            className="text-sm bg-theme-alt hover:bg-primary-700 hover:text-primary-100 border border-primary-400 px-4 py-1.5 rounded
-                      transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Prü&shy;fungsplan laden
-          </button>
-
-          <button
-            onClick={handleFetchWHS}
             disabled={loading}
             className="text-sm bg-primary-600 hover:bg-primary-700 hover:text-primary-100 px-4 py-1.5 rounded
                       transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Daten von WHS laden
+            Neu laden
           </button>
         </div>
       </div>

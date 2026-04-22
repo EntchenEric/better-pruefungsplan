@@ -15,30 +15,28 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
 }) => {
   if (entries.length === 0) {
     return (
-      <tbody>
-        <tr>
-          <td
-            colSpan={
-              TABLE_HEADERS.length -
-              Object.values(hiddenCols).filter(Boolean).length
-            }
-            className="p-8 text-center"
-          >
-            <div className="flex flex-col items-center gap-2 text-theme-muted">
-              <svg className="w-12 h-12 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-lg font-medium">Keine Einträge gefunden</p>
-              <p className="text-sm">Versuche andere Suchbegriffe oder Filter</p>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      <tr>
+        <td
+          colSpan={
+            TABLE_HEADERS.length -
+            Object.values(hiddenCols).filter(Boolean).length
+          }
+          className="p-8 text-center"
+        >
+          <div className="flex flex-col items-center gap-2 text-theme-muted">
+            <svg className="w-12 h-12 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-lg font-medium">Keine Einträge gefunden</p>
+            <p className="text-sm">Versuche andere Suchbegriffe oder Filter</p>
+          </div>
+        </td>
+      </tr>
     );
   }
 
   return (
-    <tbody>
+    <>
       {entries.map((entry, idx) => (
         <tr
           key={`${entry.mid}-${entry.kuerzel}-${idx}`}
@@ -67,6 +65,6 @@ export const ExamTableBody: React.FC<ExamTableBodyProps> = ({
           )}
         </tr>
       ))}
-    </tbody>
+    </>
   );
 };

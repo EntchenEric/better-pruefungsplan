@@ -4,11 +4,28 @@ export interface ExamEntry {
   po: string;
   lp: string;
   datum: string;
-  zeit?: string;
+  zeit: string;
   pruefungsform: string;
-  pruefungsdauer?: string;
+  pruefungsdauer: string;
   modul: string;
-  pruefer: string;
+  erstpruefer: string;
+  zweitpruefer: string;
+  b_m: string;
+  beisitzer: string;
+  pi_ba: string;
+  ti_ba: string;
+  mi_ba: string;
+  wi_ba: string;
+  id_ba: string;
+  pi_ba_dual: string;
+  ti_ba_dual: string;
+  mi_ba_dual: string;
+  wi_ba_dual: string;
+  pi_ma: string;
+  ti_ma: string;
+  mi_ma: string;
+  wi_ma: string;
+  is_ma: string;
 }
 
 export interface TableHeader {
@@ -33,3 +50,20 @@ export interface ResizeInfo {
   colKey: string | null;
   startWidth: number;
 }
+
+export const STUDIENGAENGE: { key: keyof ExamEntry; label: string; gruppe: "ba" | "ma" }[] = [
+  { key: "pi_ba", label: "PI Bachelor", gruppe: "ba" },
+  { key: "ti_ba", label: "TI Bachelor", gruppe: "ba" },
+  { key: "mi_ba", label: "MI Bachelor", gruppe: "ba" },
+  { key: "wi_ba", label: "WI Bachelor", gruppe: "ba" },
+  { key: "id_ba", label: "ID Bachelor", gruppe: "ba" },
+  { key: "pi_ba_dual", label: "PI BA dual", gruppe: "ba" },
+  { key: "ti_ba_dual", label: "TI BA dual", gruppe: "ba" },
+  { key: "mi_ba_dual", label: "MI BA dual", gruppe: "ba" },
+  { key: "wi_ba_dual", label: "WI BA dual", gruppe: "ba" },
+  { key: "pi_ma", label: "PI Master", gruppe: "ma" },
+  { key: "ti_ma", label: "TI Master", gruppe: "ma" },
+  { key: "mi_ma", label: "MI Master", gruppe: "ma" },
+  { key: "wi_ma", label: "WI Master", gruppe: "ma" },
+  { key: "is_ma", label: "IS Master", gruppe: "ma" },
+];

@@ -4,13 +4,18 @@ import React from "react";
 import { ColumnToggle } from "./ColumnToggle";
 import { GlobalSearch } from "./GlobalSearch";
 import { ShareUrlButton } from "./ShareUrlButton";
-import { ColumnVisibility } from "@/types/exam";
+import { ColumnVisibility, STUDIENGAENGE } from "@/types/exam";
+import { StudiengangFilter, DegreeFilter } from "@/hooks/useExamFiltering";
 
 interface StickyHeaderProps {
   hiddenCols: ColumnVisibility;
   onToggleColumn: (key: string) => void;
   globalSearch: string;
   onGlobalSearchChange: (value: string) => void;
+  studiengang: StudiengangFilter;
+  onStudiengangChange: (value: StudiengangFilter) => void;
+  degree: DegreeFilter;
+  onDegreeChange: (value: DegreeFilter) => void;
 }
 
 export const StickyHeader: React.FC<StickyHeaderProps> = ({
@@ -18,6 +23,10 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
   onToggleColumn,
   globalSearch,
   onGlobalSearchChange,
+  studiengang,
+  onStudiengangChange,
+  degree,
+  onDegreeChange,
 }) => {
   const [isDark, setIsDark] = React.useState(false);
 
@@ -34,6 +43,12 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
     document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
     localStorage.setItem("theme", next ? "dark" : "light");
   };
+
+  const degreeOptions: { value: DegreeFilter; label: string }[] = [
+    { value: "all", label: "Alle" },
+    { value: "ba", label: "Bachelor" },
+    { value: "ma", label: "Master" },
+  ];
 
   return (
     <header role="banner" className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary-600 to-primary shadow-lg border-b-2 border-primary-700">
@@ -67,6 +82,45 @@ export const StickyHeader: React.FC<StickyHeaderProps> = ({
                 globalSearch={globalSearch}
                 onGlobalSearchChange={onGlobalSearchChange}
               />
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={studiengang}
+                  onChange={(e) => onStudiengangChange(e.target.value as StudiengangFilter)}
+                  className="flex-1 bg-white/20 border border-white/30 text-white text-sm rounded-lg px-3 py-2 backdrop-blur-sm focus:outline-none focus:border-white/50 appearance-none cursor-pointer"
+                  aria-label="Studiengang filtern"
+                >
+                  <option value="all" className="text-gray-900">Alle Studiengänge</option>
+                  <optgroup label="Bachelor" className="text-gray-900">
+                    {STUDIENGAENGE.filter(s => s.gruppe === "ba").map(s => (
+                      <option key={s.key} value={s.key} className="text-gray-900">{s.label}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Master" className="text-gray-900">
+                    {STUDIENGAENGE.filter(s => s.gruppe === "ma").map(s => (
+                      <option key={s.key} value={s.key} className="text-gray-900">{s.label}</option>
+                    ))}
+                  </optgroup>
+                </select>
+
+                <div className="flex rounded-lg overflow-hidden border border-white/30">
+                  {degreeOptions.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => onDegreeChange(opt.value)}
+                      className={`px-3 py-2 text-sm font-medium transition-colors ${
+                        degree === opt.value
+                          ? "bg-white text-primary-700"
+                          : "bg-white/10 text-white hover:bg-white/20"
+                      }`}
+                      aria-label={`${opt.label} Prüfungen anzeigen`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="flex items-center gap-2">
                 <ShareUrlButton />
                 <button
