@@ -114,6 +114,8 @@ export const DEFAULT_HIDDEN_COLUMNS = [
   "mid",
   "lp",
   "beisitzer",
+  "erstpruefer",
+  "zweitpruefer",
   "pi_ba",
   "ti_ba",
   "mi_ba",

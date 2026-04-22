@@ -57,9 +57,12 @@ async function parsePdfFromUrl(url: string): Promise<ExamEntry[]> {
   return allEntries;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    if (isCacheValid()) {
+    const url = new URL(request.url);
+    const forceRefresh = url.searchParams.get("refresh") === "1";
+
+    if (!forceRefresh && isCacheValid()) {
       return NextResponse.json({
         success: true,
         data: cachedData,
@@ -113,11 +116,25 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+
+    // Client sent parsed data to update server cache
+    if (body.data && Array.isArray(body.data)) {
+      cachedData = body.data as ExamEntry[];
+      cachedAt = Date.now();
+      return NextResponse.json({
+        success: true,
+        data: cachedData,
+        count: cachedData.length,
+        cached: false,
+        source: "client",
+      });
+    }
+
     const { url } = body;
 
     if (!url || typeof url !== "string") {
       return NextResponse.json(
-        { success: false, error: "URL ist erforderlich" },
+        { success: false, error: "URL ist erforderlich oder data muss ein Array sein" },
         { status: 400 }
       );
     }

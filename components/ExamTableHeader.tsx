@@ -12,6 +12,7 @@ interface ExamTableHeaderProps {
   onColumnFilterChange: (key: string, value: string) => void;
   sort: SortConfig;
   onSort: (key: keyof ExamEntry) => void;
+  onResizeStart: (colKey: string, startX: number, startWidth: number) => void;
 }
 
 function SortIcon({ direction }: { direction: SortDirection }) {
@@ -43,6 +44,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
   onColumnFilterChange,
   sort,
   onSort,
+  onResizeStart,
 }) => {
   return (
     <>
@@ -61,7 +63,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                    h-12 px-4 py-3
                    transition-colors duration-150
                    hover:bg-white/10 cursor-pointer
-                   text-sm tracking-wide uppercase"
+                   text-sm tracking-wide uppercase relative"
               style={{
                 width: colWidths[key],
                 minWidth: MIN_COLUMN_WIDTH,
@@ -76,6 +78,18 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 </span>
                 <SortIcon direction={sort.key === key ? sort.direction : null} />
               </div>
+              <div
+                className="absolute right-0 top-0 bottom-0 w-2 cursor-col-resize hover:bg-white/30 active:bg-white/50 transition-colors z-10"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  const rect = (e.target as HTMLElement).parentElement?.getBoundingClientRect();
+                  if (rect) {
+                    onResizeStart(key, e.clientX, rect.width);
+                  }
+                }}
+                title="Spaltenbreite anpassen"
+              />
             </th>
           )
         )}
