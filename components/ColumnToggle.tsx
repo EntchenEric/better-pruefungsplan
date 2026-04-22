@@ -1,6 +1,6 @@
 import React from "react";
 import { ColumnVisibility } from "@/types/exam";
-import { TABLE_HEADERS } from "@/config/tableConfig";
+import { TOGGLE_HEADERS } from "@/config/tableConfig";
 
 interface ColumnToggleProps {
   hiddenCols: ColumnVisibility;
@@ -13,14 +13,14 @@ export const ColumnToggle: React.FC<ColumnToggleProps> = ({
 }) => {
   return (
     <div role="group" aria-label="Column visibility settings" className="mb-6 flex flex-col items-center gap-4 text-sm select-none">
-      <div role="heading" aria-level={3} className="flex items-center gap-2 text-black-inverse font-medium">
-        <svg className="h-5 w-5 text-black-inverse/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <div role="heading" aria-level={3} className="flex items-center gap-2 text-white font-medium">
+        <svg className="h-5 w-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z" />
         </svg>
         <span id="columns-label">Spalten anzeigen:</span>
       </div>
       <div role="list" aria-labelledby="columns-label" className="flex flex-wrap justify-center gap-2">
-        {TABLE_HEADERS.map(({ key, label }) => (
+        {TOGGLE_HEADERS.map(({ key, label }) => (
           <label
             key={`toggle-${key}`}
             role="listitem"

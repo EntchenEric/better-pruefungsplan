@@ -17,7 +17,7 @@ interface ExamTableHeaderProps {
 function SortIcon({ direction }: { direction: SortDirection }) {
   if (!direction) {
     return (
-      <svg className="w-3 h-3 text-black-muted/40 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-3 h-3 text-theme-muted/40 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
       </svg>
     );
@@ -112,7 +112,7 @@ export const ExamTableHeader: React.FC<ExamTableHeaderProps> = ({
                 {columnFilters[key] && (
                   <button
                     onClick={(e) => { e.stopPropagation(); onColumnFilterChange(key, ""); }}
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-black-muted hover:text-error transition-colors"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-theme-muted hover:text-error transition-colors"
                     aria-label={`Filter für ${label} löschen`}
                   >
                     <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

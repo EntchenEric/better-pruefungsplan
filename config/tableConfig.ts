@@ -1,8 +1,48 @@
 import { TableHeader, ColumnWidths } from "@/types/exam";
 
-export const TABLE_HEADERS: TableHeader[] = [
-  { key: "mid", label: "MID" },
+// Core exam columns (always visible in column toggle)
+export const CORE_HEADERS: TableHeader[] = [
   { key: "kuerzel", label: "Kürzel" },
+  { key: "po", label: "PO" },
+  { key: "datum", label: "Datum" },
+  { key: "zeit", label: "Zeit" },
+  { key: "pruefungsform", label: "Form" },
+  { key: "pruefungsdauer", label: "Dauer" },
+  { key: "modul", label: "Modul" },
+  { key: "erstpruefer", label: "Erstprüfer" },
+  { key: "zweitpruefer", label: "Zweitprüfer" },
+  { key: "b_m", label: "B/M" },
+];
+
+// Studiengang columns (auto-shown when studiengang is selected)
+export const STUDIENGAENG_HEADERS: TableHeader[] = [
+  { key: "pi_ba", label: "PI BA" },
+  { key: "ti_ba", label: "TI BA" },
+  { key: "mi_ba", label: "MI BA" },
+  { key: "wi_ba", label: "WI BA" },
+  { key: "id_ba", label: "ID BA" },
+  { key: "pi_ba_dual", label: "PI BA dual" },
+  { key: "ti_ba_dual", label: "TI BA dual" },
+  { key: "mi_ba_dual", label: "MI BA dual" },
+  { key: "wi_ba_dual", label: "WI BA dual" },
+  { key: "pi_ma", label: "PI MA" },
+  { key: "ti_ma", label: "TI MA" },
+  { key: "mi_ma", label: "MI MA" },
+  { key: "wi_ma", label: "WI MA" },
+  { key: "is_ma", label: "IS MA" },
+];
+
+// Rarely needed columns (hidden by default, available in toggle)
+export const EXTRA_HEADERS: TableHeader[] = [
+  { key: "mid", label: "MID" },
+  { key: "lp", label: "LP" },
+  { key: "beisitzer", label: "Beisitzer" },
+];
+
+// All headers combined (for table rendering)
+export const TABLE_HEADERS: TableHeader[] = [
+  ...CORE_HEADERS.slice(0, 1), // kuerzel first
+  { key: "mid", label: "MID" },
   { key: "po", label: "PO" },
   { key: "lp", label: "LP" },
   { key: "datum", label: "Datum" },
@@ -28,6 +68,12 @@ export const TABLE_HEADERS: TableHeader[] = [
   { key: "mi_ma", label: "MI MA" },
   { key: "wi_ma", label: "WI MA" },
   { key: "is_ma", label: "IS MA" },
+];
+
+// Columns shown in the toggle UI (core + extra, not studiengang)
+export const TOGGLE_HEADERS: TableHeader[] = [
+  ...CORE_HEADERS,
+  ...EXTRA_HEADERS,
 ];
 
 export const MIN_COLUMN_WIDTH = 60;
@@ -63,13 +109,10 @@ export const DEFAULT_COLUMN_WIDTHS: ColumnWidths = {
   is_ma: 70,
 };
 
-// Hide studiengang-specific columns by default; show core exam info
+// Hide studiengang + extra columns by default
 export const DEFAULT_HIDDEN_COLUMNS = [
   "mid",
   "lp",
-  "pruefungsform",
-  "modul",
-  "zweitpruefer",
   "beisitzer",
   "pi_ba",
   "ti_ba",

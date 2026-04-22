@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ExamEntry } from "@/types/exam";
 import { DEFAULT_COLUMN_WIDTHS } from "@/config/tableConfig";
 import { useExamFiltering } from "@/hooks/useExamFiltering";
@@ -31,6 +31,15 @@ const ExamScheduleViewer = () => {
     handleDegreeChange,
   } = useUrlSync();
 
+  // Auto-show studiengang column when a specific studiengang is selected
+  const effectiveHiddenCols = useMemo(() => {
+    const cols = { ...hiddenCols };
+    if (studiengang !== "all") {
+      cols[studiengang] = false;
+    }
+    return cols;
+  }, [hiddenCols, studiengang]);
+
   const fetchAndParseData = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -44,27 +53,6 @@ const ExamScheduleViewer = () => {
       }
     } catch {
       setError("Netzwerkfehler — Prüfungsplan konnte nicht geladen werden");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const handleFetchWHS = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("/api/pruefungsplan/fetch", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      });
-      const result = await response.json();
-      if (result.success) {
-        setEntries(result.data);
-      } else {
-        setError(result.error || "Fehler beim Laden von der WHS");
-      }
-    } catch {
-      setError("Netzwerkfehler — WHS-Daten konnten nicht geladen werden");
     } finally {
       setLoading(false);
     }
@@ -150,7 +138,7 @@ const ExamScheduleViewer = () => {
               >
                 <thead className="sticky top-0 z-20 bg-theme-sticky shadow-sm">
                   <ExamTableHeader
-                    hiddenCols={hiddenCols}
+                    hiddenCols={effectiveHiddenCols}
                     colWidths={DEFAULT_COLUMN_WIDTHS}
                     columnFilters={columnFilters}
                     onColumnFilterChange={handleColumnFilterChange}
@@ -161,7 +149,7 @@ const ExamScheduleViewer = () => {
                 <tbody>
                   <ExamTableBody
                   entries={sortedEntries}
-                  hiddenCols={hiddenCols}
+                  hiddenCols={effectiveHiddenCols}
                   colWidths={DEFAULT_COLUMN_WIDTHS}
                 />
                 </tbody>
@@ -176,23 +164,14 @@ const ExamScheduleViewer = () => {
           </div>
         )}
 
-        <div className="mt-4 flex justify-center gap-3">
+        <div className="mt-4 flex justify-center">
           <button
             onClick={fetchAndParseData}
-            disabled={loading}
-            className="text-sm bg-theme-alt hover:bg-primary-700 hover:text-primary-100 border border-primary-400 px-4 py-1.5 rounded
-                      transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Prüfungsplan laden
-          </button>
-
-          <button
-            onClick={handleFetchWHS}
             disabled={loading}
             className="text-sm bg-primary-600 hover:bg-primary-700 hover:text-primary-100 px-4 py-1.5 rounded
                       transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Daten von WHS laden
+            Neu laden
           </button>
         </div>
       </div>
